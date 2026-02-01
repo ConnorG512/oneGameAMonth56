@@ -18,10 +18,10 @@ auto SDL::Renderer::CreateRenderer(SDL_Window* window, const char* driver) noexc
 SDL::Renderer::Renderer(SDL_Window* window)
   : renderer_{CreateRenderer(window, nullptr)} {}
 
-auto SDL::Renderer::ptr() noexcept -> SDL_Renderer* 
+auto SDL::Renderer::ref() noexcept -> SDL_Renderer& 
 {
   assert(renderer_.get() != nullptr);
-  return renderer_.get();
+  return *renderer_.get();
 }
 
 auto SDL::Renderer::clearScreen() noexcept -> void 
