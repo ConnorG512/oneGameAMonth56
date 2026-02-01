@@ -1,12 +1,5 @@
-#include <memory>
-
 #include "sdl/init.hpp"
 #include "sdl/window-renderer/window-randerer.hpp"
-
-#include <SDL3/SDL.h>
-#include <SDL3/SDL_video.h>
-#include <stdexcept>
-#include <format>
 
 auto main() -> int 
 {
