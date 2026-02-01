@@ -3,7 +3,6 @@
 #include <cassert>
 #include <filesystem>
 #include <print>
-#include <SDL3/SDL_render.h>
 
 auto SDL::Bitmap::CreateBitmap(const char* image_path) noexcept 
   -> std::unique_ptr<SDL_Surface, decltype(&SDL_DestroySurface)>
@@ -23,23 +22,25 @@ auto SDL::Bitmap::CreateBitmap(const char* image_path) noexcept
   };
 }
 
-SDL::Bitmap::Bitmap(const char* image_path, SDL_Renderer* renderer)
-    : image_{CreateBitmap(image_path)}
-    , renderer_{renderer} 
-{
-  assert(renderer_ != nullptr);
-}
+SDL::Bitmap::Bitmap(SDL_Renderer& renderer, std::pair<int, int> wh)
+    : texture_{
+      renderer, 
+        SDL_PixelFormat::SDL_PIXELFORMAT_RGBA32, 
+        SDL_TextureAccess::SDL_TEXTUREACCESS_STATIC,
+        wh
+    }
+    , image_{CreateBitmap("assets/image/default.bmp")}
+    , renderer_{renderer} {}
 
 auto SDL::Bitmap::render(
     SDL_Renderer& renderer,
-    SDL_Texture& texture,
     const std::optional<SDL_FRect*> source_rectangle,
     const std::optional<SDL_FRect*> dest_rectangle
 ) noexcept -> void
 {
   SDL_RenderTexture(
       &renderer, 
-      &texture, 
+      texture_.ptr(), 
       source_rectangle.value_or(nullptr), 
       dest_rectangle.value_or(nullptr) 
   );
