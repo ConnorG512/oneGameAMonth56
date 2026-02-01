@@ -1,7 +1,9 @@
 #pragma once 
 
-#include <memory>
 #include "SDL3/SDL_surface.h"
+
+#include <memory>
+#include <optional>
 
 class SDL_Renderer;
 
@@ -18,5 +20,10 @@ class Bitmap
   
   public:
     Bitmap(const char* image_path = "assets/image/default.bmp", SDL_Renderer* renderer = nullptr);
+    auto render(
+        SDL_Renderer* renderer,
+        const std::optional<SDL_FRect*> source_rectangle,
+        const std::optional<SDL_FRect*> dest_rectangle
+    ) noexcept -> void;
 };
 }
