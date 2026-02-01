@@ -1,5 +1,7 @@
 #include <memory>
 
+#include "sdl/init.hpp"
+
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_video.h>
 #include <stdexcept>
@@ -7,8 +9,7 @@
 
 auto main() -> int 
 {
-  if(!SDL_Init(SDL_INIT_VIDEO))
-    throw std::runtime_error("Failed to initisalise SDL video!");
+  SDL::Init init{};
 
   std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> game_window { 
     SDL_CreateWindow("Game Window", 1600, 900, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL), &SDL_DestroyWindow};
@@ -37,8 +38,6 @@ auto main() -> int
     SDL_RenderPresent(game_renderer.get());
   }
   
-  
-  SDL_Quit();
   return 0;
 }
 
