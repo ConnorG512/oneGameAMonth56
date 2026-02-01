@@ -12,6 +12,7 @@ set(SOURCE_FILES
   src/sdl/window-renderer/window.cpp
   src/sdl/window-renderer/renderer.cpp
   src/sdl/bitmap.cpp
+  src/sdl/texture.cpp
 )
 
 add_executable(${EXEC_NAME} ${SOURCE_FILES})
