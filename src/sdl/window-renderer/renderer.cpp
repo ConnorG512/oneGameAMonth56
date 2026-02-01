@@ -34,3 +34,8 @@ auto SDL::Renderer::present() noexcept -> void
   SDL_RenderPresent(renderer_.get());
 }
 
+auto SDL::Renderer::drawColorFloat(
+  float red, float green, float blue, float alpha) noexcept -> void
+{
+  SDL_SetRenderDrawColorFloat(renderer_.get(), red, green, blue, alpha);
+}
