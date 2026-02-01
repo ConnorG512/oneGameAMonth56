@@ -31,15 +31,15 @@ SDL::Bitmap::Bitmap(const char* image_path, SDL_Renderer* renderer)
 }
 
 auto SDL::Bitmap::render(
-    SDL_Renderer* renderer,
+    SDL_Renderer& renderer,
+    SDL_Texture& texture,
     const std::optional<SDL_FRect*> source_rectangle,
     const std::optional<SDL_FRect*> dest_rectangle
 ) noexcept -> void
 {
-  assert(renderer != nullptr);
   SDL_RenderTexture(
-      renderer, 
-      nullptr, 
+      &renderer, 
+      &texture, 
       source_rectangle.value_or(nullptr), 
       dest_rectangle.value_or(nullptr) 
   );

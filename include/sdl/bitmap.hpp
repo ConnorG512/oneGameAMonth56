@@ -6,6 +6,7 @@
 #include <optional>
 
 class SDL_Renderer;
+class SDL_Texture;
 
 namespace SDL 
 {
@@ -21,7 +22,8 @@ class Bitmap
   public:
     Bitmap(const char* image_path = "assets/image/default.bmp", SDL_Renderer* renderer = nullptr);
     auto render(
-        SDL_Renderer* renderer,
+        SDL_Renderer& renderer,
+        SDL_Texture& texture,
         const std::optional<SDL_FRect*> source_rectangle,
         const std::optional<SDL_FRect*> dest_rectangle
     ) noexcept -> void;
