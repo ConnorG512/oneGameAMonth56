@@ -11,12 +11,7 @@ auto main() -> int
 {
   SDL::Init init{};
 
-  std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> game_window { 
-    SDL_CreateWindow("Game Window", 1600, 900, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL), &SDL_DestroyWindow};
 
-  if(game_window == nullptr)
-    throw std::runtime_error(std::format("Failed to create game window!, {}.", SDL_GetError()).c_str());
-  
   std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)> game_renderer {
     SDL_CreateRenderer(game_window.get(), nullptr), &SDL_DestroyRenderer}; 
 
