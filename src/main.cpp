@@ -7,7 +7,7 @@ auto main() -> int
   SDL::Init init{};
   SDL::WindowRenderer display{};
   
-  SDL::Bitmap image{"assets/image/default.bmp", display.game_renderer.ptr()};
+  SDL::Bitmap image{display.game_renderer.ref()};
 
   // Game loop
   bool finished {false};
