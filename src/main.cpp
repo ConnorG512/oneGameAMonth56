@@ -9,8 +9,8 @@ auto main() -> int
 {
   SDL::Init init{};
   SDL::WindowRenderer display{};
-
-  Gameplay::Player player({0.0, 0.0, 32.0, 32.0}, display.game_renderer.ref(), "assets/image/default.bmp");
+  const auto window_size {display.game_window.WindowSize()};
+  Gameplay::Player player({static_cast<float>(window_size.first / 2), static_cast<float>(window_size.second / 2), 32.0, 32.0}, display.game_renderer.ref(), "assets/image/player.bmp");
 
   // Game loop
   bool finished{false};
