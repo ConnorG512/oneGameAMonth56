@@ -1,4 +1,4 @@
-#include "sdl/texture.hpp"
+#include "sdl/image/texture.hpp"
 
 #include <SDL3/SDL_render.h>
 #include <cassert>

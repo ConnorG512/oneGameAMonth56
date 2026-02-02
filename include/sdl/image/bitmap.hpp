@@ -1,6 +1,6 @@
 #pragma once 
 
-#include "sdl/texture.hpp"
+#include "sdl/image/texture.hpp"
 
 #include <SDL3/SDL_surface.h>
 #include <SDL3/SDL_render.h>
@@ -25,7 +25,6 @@ class Bitmap
   public:
     Bitmap(SDL_Renderer& renderer, std::pair<int,int>wh = {32,32});
     auto render(
-        SDL_Renderer& renderer,
         const std::optional<SDL_FRect*> source_rectangle,
         const std::optional<SDL_FRect*> dest_rectangle
     ) noexcept -> void;

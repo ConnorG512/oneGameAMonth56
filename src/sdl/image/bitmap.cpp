@@ -1,4 +1,4 @@
-#include "sdl/bitmap.hpp"
+#include "sdl/image/bitmap.hpp"
 
 #include <cassert>
 #include <filesystem>
@@ -33,13 +33,12 @@ SDL::Bitmap::Bitmap(SDL_Renderer& renderer, std::pair<int, int> wh)
     , renderer_{renderer} {}
 
 auto SDL::Bitmap::render(
-    SDL_Renderer& renderer,
     const std::optional<SDL_FRect*> source_rectangle,
     const std::optional<SDL_FRect*> dest_rectangle
 ) noexcept -> void
 {
   SDL_RenderTexture(
-      &renderer, 
+      &renderer_, 
       texture_.ptr(), 
       source_rectangle.value_or(nullptr), 
       dest_rectangle.value_or(nullptr) 
