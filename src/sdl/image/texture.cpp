@@ -1,6 +1,7 @@
 #include "sdl/image/texture.hpp"
 
 #include <SDL3/SDL_render.h>
+#include <SDL3_image/SDL_image.h>
 #include <cassert>
 #include <print>
 
@@ -9,11 +10,7 @@ SDL::Texture::Texture(SDL_Renderer &renderer, const char *image_path) : texture_
 auto SDL::Texture::CreateTexture(SDL_Renderer &renderer, const char *image_path) noexcept
     -> std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)>
 {
-  std::unique_ptr<SDL_Surface, decltype(&SDL_DestroySurface)> surface{SDL_LoadBMP(image_path), &SDL_DestroySurface};
-  if (surface == nullptr)
-    std::println(stderr, "Failed to create Surface! Error: [{}].", SDL_GetError());
-
-  SDL_Texture *texture{SDL_CreateTextureFromSurface(&renderer, surface.get())};
+  SDL_Texture *texture{IMG_LoadTexture(&renderer, image_path)};
   if (texture == nullptr)
     std::println(stderr, "Failed to create texture! Error: [{}].", SDL_GetError());
 
