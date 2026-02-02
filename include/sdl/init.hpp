@@ -1,11 +1,11 @@
 #pragma once
 
-namespace SDL 
+namespace SDL
 {
 class Init
 {
-  public:
-    Init();
-    ~Init();
+public:
+  Init();
+  ~Init();
 };
-}
+} // namespace SDL
