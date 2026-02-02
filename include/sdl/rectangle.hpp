@@ -12,9 +12,7 @@ class Rectangle
   public:
   Rectangle(float x = 0.0, float y = 0.0, float w = 32.0, float h = 32.0);
 
-  auto cref() const noexcept -> const SDL_FRect&
-  {
-    return rect_;
-  }
+  auto cref() const noexcept -> const SDL_FRect&;
+  auto ref() noexcept -> SDL_FRect&;
 };
 }
