@@ -18,6 +18,7 @@
         pkg-config
 
         sdl3
+        sdl3-image
 
         gef
         strace
