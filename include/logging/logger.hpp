@@ -5,7 +5,7 @@
 
 class Logger 
 {
-  std::fstream logfile_{"debug.log"};
+  std::fstream logfile_{"./debug.log", std::ios::out | std::ios::trunc};
   bool active_ {true};
 
   public:
@@ -17,5 +17,5 @@ class Logger
       debug, 
       error,
     };
-    auto writeToLog(LogType type, std::string& message) noexcept -> void;
+    auto writeToLog(LogType type, const std::string& message) noexcept -> void;
 };

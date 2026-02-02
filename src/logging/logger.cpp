@@ -3,16 +3,19 @@
 #include <cassert>
 #include <format>
 #include <print>
+#include <filesystem>
 
 Logger::Logger(const std::string& path, const std::string& file_name, bool active)
-  : logfile_{std::format("{}{}", path, file_name)} 
+  : logfile_{std::format("{}/{}", path, file_name), std::ios::out | std::ios::trunc} 
   , active_{active}
 {
-  std::println(stdout, "logfile active: {}.", active_);
-  std::println(stdout, "Logfile created at location: [{}{}].", path, file_name);
+  if(logfile_.is_open())
+    writeToLog(LogType::info, "Log created.");
+  else 
+    std::println(stderr, "Failed to create log file!");
 }
 
-auto Logger::writeToLog(LogType type, std::string& message) noexcept -> void
+auto Logger::writeToLog(LogType type, const std::string& message) noexcept -> void
 {
   if (!active_)
     return;
