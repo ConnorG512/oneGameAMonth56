@@ -1,7 +1,7 @@
 #include "game/player.hpp"
 
 Gameplay::Player::Player(
-      std::array<float,4>& xywh,
+      const std::array<float,4>& xywh,
       SDL_Renderer& renderer,
       const char* image_path
     )
