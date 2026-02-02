@@ -10,7 +10,13 @@ auto main() -> int
   SDL::Init init{};
   SDL::WindowRenderer display{};
   const auto window_size {display.game_window.WindowSize()};
-  Gameplay::Player player({static_cast<float>(window_size.first / 2), static_cast<float>(window_size.second / 2), 32.0, 32.0}, display.game_renderer.ref(), "assets/image/player.bmp");
+
+  Gameplay::Player player({
+      static_cast<float>(window_size.first / 2 - 16), 
+      static_cast<float>(window_size.second / 2 - 16), 32.0, 32.0}, 
+      display.game_renderer.ref(), 
+      "assets/image/player.png"
+      );
 
   // Game loop
   bool finished{false};
@@ -30,7 +36,7 @@ auto main() -> int
     display.game_renderer.drawColorFloat(0, 0, 0);
     display.game_renderer.renderTexture(
         player.texture_.ref(), 
-        &player.collision_.ref(), 
+        nullptr, 
         &player.collision_.ref()
     );
     display.game_renderer.present();
