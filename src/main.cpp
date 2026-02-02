@@ -1,23 +1,23 @@
+#include "sdl/image/texture.hpp"
 #include "sdl/init.hpp"
 #include "sdl/window-renderer/window-randerer.hpp"
-#include "sdl/image/texture.hpp"
 
-auto main() -> int 
+auto main() -> int
 {
   SDL::Init init{};
   SDL::WindowRenderer display{};
-  
-  SDL::Texture image {display.game_renderer.ref(), "assets/image/default.bmp"};
+
+  SDL::Texture image{display.game_renderer.ref(), "assets/image/default.bmp"};
 
   // Game loop
-  bool finished {false};
-  while (!finished) 
+  bool finished{false};
+  while (!finished)
   {
     SDL_Event event;
 
-    while (SDL_PollEvent(&event)) 
+    while (SDL_PollEvent(&event))
     {
-      if(event.type == SDL_EVENT_QUIT)
+      if (event.type == SDL_EVENT_QUIT)
       {
         finished = true;
       }
@@ -28,7 +28,6 @@ auto main() -> int
     display.game_renderer.renderTexture(image.ref(), nullptr, nullptr);
     display.game_renderer.present();
   }
-  
+
   return 0;
 }
-

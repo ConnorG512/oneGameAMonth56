@@ -2,7 +2,7 @@
 
 #include <cassert>
 
-auto SDL::Window::ptr() noexcept -> SDL_Window* 
+auto SDL::Window::ptr() noexcept -> SDL_Window *
 {
   assert(window_.get() != nullptr);
   return window_.get();
