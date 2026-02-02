@@ -18,10 +18,10 @@ auto SDL::Renderer::CreateRenderer(SDL_Window* window, const char* driver) noexc
 SDL::Renderer::Renderer(SDL_Window* window)
   : renderer_{CreateRenderer(window, nullptr)} {}
 
-auto SDL::Renderer::ptr() noexcept -> SDL_Renderer* 
+auto SDL::Renderer::ref() noexcept -> SDL_Renderer& 
 {
   assert(renderer_.get() != nullptr);
-  return renderer_.get();
+  return *renderer_.get();
 }
 
 auto SDL::Renderer::clearScreen() noexcept -> void 
@@ -39,4 +39,12 @@ auto SDL::Renderer::drawColorFloat(
 {
   assert( red >= 0 && green >= 0 && blue >= 0 && alpha >= 0);
   SDL_SetRenderDrawColorFloat(renderer_.get(), red, green, blue, alpha);
+}
+auto SDL::Renderer::renderTexture(
+    SDL_Texture& texture, 
+    SDL_FRect *source_rect,
+    SDL_FRect *dest_rect
+    ) -> void
+{
+  SDL_RenderTexture(renderer_.get(), &texture, source_rect, dest_rect);
 }

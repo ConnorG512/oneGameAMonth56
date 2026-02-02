@@ -20,11 +20,16 @@ namespace SDL
     public: 
       Renderer(SDL_Window* window);
 
-      auto ptr() noexcept -> SDL_Renderer*;
+      auto ref() noexcept -> SDL_Renderer&;
       auto clearScreen() noexcept -> void;
       auto drawColorFloat(
           float red = 0, float green = 0, float blue = 0, float alpha = SDL_ALPHA_OPAQUE_FLOAT
       ) noexcept -> void;
       auto present() noexcept -> void;
+      auto renderTexture(
+          SDL_Texture& texture, 
+          SDL_FRect *source_rect,
+          SDL_FRect *dest_rect
+          ) -> void;
   };
 }

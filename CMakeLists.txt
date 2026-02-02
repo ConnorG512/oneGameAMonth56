@@ -1,16 +1,17 @@
 cmake_minimum_required(VERSION 3.28)
-project(OneGameAMoth56 CXX)
+project(OneGameAMonth56 CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(EXEC_NAME oneGameAMoth)
+set(EXEC_NAME oneGameAMonth)
 
 set(SOURCE_FILES 
   src/main.cpp
   src/sdl/init.cpp
   src/sdl/window-renderer/window.cpp
   src/sdl/window-renderer/renderer.cpp
+  src/sdl/image/texture.cpp
 )
 
 add_executable(${EXEC_NAME} ${SOURCE_FILES})
@@ -35,7 +36,6 @@ find_package(SDL3 REQUIRED)
 target_link_libraries(${EXEC_NAME} PRIVATE
   SDL3::SDL3
 )
-
 
 target_include_directories(${EXEC_NAME} PRIVATE "${CMAKE_SOURCE_DIR}/include")
 
