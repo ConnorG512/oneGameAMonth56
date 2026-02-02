@@ -2,11 +2,13 @@
 #include "sdl/init.hpp"
 #include "sdl/window-renderer/window-randerer.hpp"
 #include "game/player.hpp"
+#include "logging/logger.hpp"
 
 #include <array>
 
 auto main() -> int
 {
+  Logger log{std::getenv("PWD"), "/debug.log", true};
   SDL::Init init{};
   SDL::WindowRenderer display{};
   const auto window_size {display.game_window.WindowSize()};
