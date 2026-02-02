@@ -30,7 +30,11 @@ auto main() -> int
     display.game_renderer.clearScreen();
     display.game_renderer.drawColorFloat(0.5, 0.5, 0.5);
     display.game_renderer.renderTexture(image.ref(), nullptr, nullptr);
-    display.game_renderer.renderTexture(player.texture_.ref(), &player.collision_.ref(), &player.collision_.ref());
+    display.game_renderer.renderTexture(
+        player.texture_.ref(), 
+        &player.collision_.ref(), 
+        &player.collision_.ref()
+    );
     display.game_renderer.present();
   }
 
