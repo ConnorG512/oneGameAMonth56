@@ -6,7 +6,7 @@
 class Logger 
 {
   std::fstream logfile_{"debug.log"};
-  bool active_ {true}
+  bool active_ {true};
 
   public:
     Logger(const std::string& path, const std::string& file_name = "debug.log", bool active = false);
