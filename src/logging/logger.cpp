@@ -30,7 +30,6 @@ auto Logger::writeToLog(LogType type, std::string& message) noexcept -> void
       case LogType::error:
         prepend = "ERROR:";
       break;
-      default:
   }
 
   assert(prepend != nullptr);
