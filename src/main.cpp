@@ -10,7 +10,6 @@ auto main() -> int
   SDL::Init init{};
   SDL::WindowRenderer display{};
 
-  SDL::Texture image{display.game_renderer.ref(), "assets/image/default.bmp"};
   Gameplay::Player player({0.0, 0.0, 32.0, 32.0}, display.game_renderer.ref(), "assets/image/default.bmp");
 
   // Game loop
@@ -28,8 +27,7 @@ auto main() -> int
     }
 
     display.game_renderer.clearScreen();
-    display.game_renderer.drawColorFloat(0.5, 0.5, 0.5);
-    display.game_renderer.renderTexture(image.ref(), nullptr, nullptr);
+    display.game_renderer.drawColorFloat(0, 0, 0);
     display.game_renderer.renderTexture(
         player.texture_.ref(), 
         &player.collision_.ref(), 
