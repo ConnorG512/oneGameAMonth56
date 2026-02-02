@@ -40,3 +40,11 @@ auto SDL::Renderer::drawColorFloat(
   assert( red >= 0 && green >= 0 && blue >= 0 && alpha >= 0);
   SDL_SetRenderDrawColorFloat(renderer_.get(), red, green, blue, alpha);
 }
+auto SDL::Renderer::renderTexture(
+    SDL_Texture& texture, 
+    SDL_FRect *source_rect,
+    SDL_FRect *dest_rect
+    ) -> void
+{
+  SDL_RenderTexture(renderer_.get(), &texture, source_rect, dest_rect);
+}

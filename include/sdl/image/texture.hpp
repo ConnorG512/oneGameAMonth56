@@ -12,20 +12,13 @@ class Texture
     {nullptr, &SDL_DestroyTexture}; 
   
   auto CreateTexture(
-      SDL_Renderer& renderer, 
-      SDL_PixelFormat format, 
-      SDL_TextureAccess access, 
-      std::pair<int, int> wh) 
+      SDL_Renderer& renderer, const char* image_path)
     noexcept -> std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)>;
   
   public:
     Texture(
-      SDL_Renderer& renderer, 
-      SDL_PixelFormat format, 
-      SDL_TextureAccess access, 
-      std::pair<int, int> wh)
-    : texture_{CreateTexture(renderer, format, access, wh)} {}
+      SDL_Renderer& renderer, const char* image_path);
 
-    auto ptr() -> SDL_Texture*;
+    auto ref() -> SDL_Texture&;
 };
 }

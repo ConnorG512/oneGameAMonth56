@@ -1,13 +1,13 @@
 #include "sdl/init.hpp"
 #include "sdl/window-renderer/window-randerer.hpp"
-#include "sdl/bitmap.hpp"
+#include "sdl/image/texture.hpp"
 
 auto main() -> int 
 {
   SDL::Init init{};
   SDL::WindowRenderer display{};
   
-  SDL::Bitmap image{display.game_renderer.ref()};
+  SDL::Texture image {display.game_renderer.ref(), "assets/image/default.bmp"};
 
   // Game loop
   bool finished {false};
@@ -25,7 +25,7 @@ auto main() -> int
 
     display.game_renderer.clearScreen();
     display.game_renderer.drawColorFloat(0.5, 0.5, 0.5);
-    
+    display.game_renderer.renderTexture(image.ref(), nullptr, nullptr);
     display.game_renderer.present();
   }
   

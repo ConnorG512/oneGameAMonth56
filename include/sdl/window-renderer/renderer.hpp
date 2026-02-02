@@ -26,5 +26,10 @@ namespace SDL
           float red = 0, float green = 0, float blue = 0, float alpha = SDL_ALPHA_OPAQUE_FLOAT
       ) noexcept -> void;
       auto present() noexcept -> void;
+      auto renderTexture(
+          SDL_Texture& texture, 
+          SDL_FRect *source_rect,
+          SDL_FRect *dest_rect
+          ) -> void;
   };
 }
