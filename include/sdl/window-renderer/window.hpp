@@ -2,6 +2,7 @@
 
 #include <SDL3/SDL_video.h>
 #include <memory>
+#include <utility>
 
 namespace SDL
 {
@@ -12,5 +13,6 @@ class Window
 
 public:
   auto ptr() noexcept -> SDL_Window *;
+  auto WindowSize() noexcept -> std::pair<int, int>; 
 };
 } // namespace SDL
