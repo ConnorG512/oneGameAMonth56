@@ -13,6 +13,7 @@ set(SOURCE_FILES
   src/sdl/window-renderer/renderer.cpp
   src/sdl/image/texture.cpp
   src/sdl/rectangle.cpp
+  src/sdl/input/mouse.cpp
   src/logging/logger.cpp
   src/game/player.cpp
 )
