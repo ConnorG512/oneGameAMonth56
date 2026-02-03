@@ -10,6 +10,7 @@
 #include <array>
 #include <print>
 #include <cmath>
+#include <format>
 
 auto main() -> int
 {
@@ -21,9 +22,15 @@ auto main() -> int
   };
 
   SDL::Init init{};
+  log.writeToLog(File::Logger::LogType::debug, std::format("SDLInit Address: [{}].", reinterpret_cast<void*>(&init)));
+  
   SDL::WindowRenderer display{};
   const auto window_size {display.game_window.WindowSize()};
+  log.writeToLog(File::Logger::LogType::debug, std::format("display Address: [{}].", reinterpret_cast<void*>(&display)));
+  log.writeToLog(File::Logger::LogType::info, std::format("screen size: [{}*{}].", window_size.first, window_size.second));
   
+  
+
   SDL::Mouse mouse {};
 
   Gameplay::Player player({
