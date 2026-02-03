@@ -6,6 +6,7 @@
 #include "file-output/binary/binary.hpp"
 #include "sdl/input/mouse.hpp"
 #include "utils/angle.hpp"
+#include "lua/lua.hpp"
 
 #include <array>
 #include <print>
@@ -20,7 +21,10 @@ auto main() -> int
     {'C','G','E','S','A','V', 'E', 0x00},
     log 
   };
-
+  
+  LuaInstance lua_instance {};
+  log.writeAddress("lua", static_cast<void*>(&lua_instance));
+  
   SDL::Init init{};
   log.writeAddress("init", static_cast<void*>(&init));
   SDL::WindowRenderer display{};
