@@ -7,6 +7,7 @@
 
 #include <array>
 #include <print>
+#include <cmath>
 
 auto main() -> int
 {
@@ -39,7 +40,10 @@ auto main() -> int
     }
     
     const auto mouse_xy {mouse.GetCursorPosition()};
-    std::println(stdout, "mouse pos {}:{}", mouse_xy.first, mouse_xy.second);
+    const auto atan_result {
+      std::atan2(player.collision_.cref().y - mouse_xy.second, player.collision_.cref().x - mouse_xy.first)};
+    
+    std::println("Atan result: {}", atan_result);
 
     display.game_renderer.clearScreen();
     display.game_renderer.drawColorFloat(0, 0, 0);
