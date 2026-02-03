@@ -11,10 +11,13 @@ namespace File {class Logger;}
 class LuaInstance 
 {
   std::unique_ptr<lua_State, decltype(&lua_close)> lua_ {luaL_newstate(), &lua_close}; 
+  std::optional<std::reference_wrapper<File::Logger>> logger_ {std::nullopt};
   
   public: 
     LuaInstance(std::optional<std::reference_wrapper<File::Logger>> logger = std::nullopt);
 
+    auto execFile(const char* file_name) noexcept -> void;
+    
     auto cref() const noexcept -> const lua_State&;
     auto ref() noexcept -> lua_State&;
 };

@@ -3,11 +3,12 @@
 #include <cassert>
 
 LuaInstance::LuaInstance(std::optional<std::reference_wrapper<File::Logger>> logger)
+  : logger_ {logger}
 {
   luaL_openlibs(lua_.get());
   
-  if(logger.has_value())
-    logger->get().writeToLog(File::Logger::LogType::info, "Lua setup complete.");
+  if(logger_.has_value())
+    logger_->get().writeToLog(File::Logger::LogType::info, "Lua setup complete.");
 }
 
 auto LuaInstance::cref() const noexcept -> const lua_State&
@@ -20,4 +21,14 @@ auto LuaInstance::ref() noexcept -> lua_State&
 {
   assert(lua_ != nullptr);
   return *lua_;
+}
+
+auto LuaInstance::execFile(const char* file_name) noexcept -> void
+{
+  const auto result {luaL_dofile(lua_.get(), file_name)};
+  if(result != LUA_OK)
+  {
+    if(logger_.has_value())
+      logger_->get().writeToLog(File::Logger::LogType::error, "(lua.cpp) Failed to find lua file!");
+  }
 }
