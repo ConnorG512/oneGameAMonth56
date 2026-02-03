@@ -1,5 +1,8 @@
 display = {
-  resolution = 1024
+  resolution = {
+    x = 1024,
+    y = 1024
+  }
 }
 
 config = {
