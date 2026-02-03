@@ -42,3 +42,8 @@ auto File::Logger::writeToLog(LogType type, const std::string& message) noexcept
 
   std::println(logfile_, "{} {}", GetPrepend(type), message);
 }
+
+auto File::Logger::writeAddress(std::string_view object_name, void* address) -> void
+{
+  std::println(logfile_, "{} Object {} written to address: [{}].",GetPrepend(File::Logger::LogType::debug), object_name, address);
+}

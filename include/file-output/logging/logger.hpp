@@ -20,5 +20,6 @@ class Logger
       error,
     };
     auto writeToLog(LogType type, const std::string& message) noexcept -> void;
+    auto writeAddress(std::string_view object_name, void* address) -> void;
 };
 }
