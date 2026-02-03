@@ -23,5 +23,6 @@ public:
       -> void;
   auto present() noexcept -> void;
   auto renderTexture(SDL_Texture &texture, SDL_FRect *source_rect, SDL_FRect *dest_rect) -> void;
+  auto renderTextureRotate(SDL_Texture &texture, const SDL_FRect* source_rect, const SDL_FRect* dest_rect, double angle, const SDL_FPoint* center_point, SDL_FlipMode flipmode) -> void
 };
 } // namespace SDL
