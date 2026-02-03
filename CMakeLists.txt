@@ -39,11 +39,21 @@ endif()
 
 find_package(SDL3 REQUIRED)
 find_package(SDL3_image REQUIRED)
+find_package(PkgConfig REQUIRED)
+
+pkg_check_modules(LUA_PKG REQUIRED
+  lua
+)
+
 target_link_libraries(${EXEC_NAME} PRIVATE
   SDL3::SDL3
   SDL3_image::SDL3_image
+  ${LUA_PKG_LIBRARIES}
 )
 
-target_include_directories(${EXEC_NAME} PRIVATE "${CMAKE_SOURCE_DIR}/include")
+target_include_directories(${EXEC_NAME} PRIVATE 
+  "${CMAKE_SOURCE_DIR}/include"
+  ${LUA_PKG_INCLUDE_DIRS}
+)
 
 install(TARGETS ${EXEC_NAME} RUNTIME DESTINATION bin)
