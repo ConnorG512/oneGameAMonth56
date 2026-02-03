@@ -19,6 +19,8 @@
 
         sdl3
         sdl3-image
+        
+        lua
 
         gef
         strace
