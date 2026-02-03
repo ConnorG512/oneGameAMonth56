@@ -17,6 +17,7 @@ set(SOURCE_FILES
   src/file-output/logging/logger.cpp
   src/file-output/binary/binary.cpp
   src/game/player.cpp
+  src/lua/lua.cpp
 )
 
 add_executable(${EXEC_NAME} ${SOURCE_FILES})
