@@ -3,8 +3,12 @@
 #include "sdl/window-renderer/window-randerer.hpp"
 #include "game/player.hpp"
 #include "logging/logger.hpp"
+#include "sdl/input/mouse.hpp"
+#include "utils/angle.hpp"
 
 #include <array>
+#include <print>
+#include <cmath>
 
 auto main() -> int
 {
@@ -12,6 +16,8 @@ auto main() -> int
   SDL::Init init{};
   SDL::WindowRenderer display{};
   const auto window_size {display.game_window.WindowSize()};
+  
+  SDL::Mouse mouse {};
 
   Gameplay::Player player({
       static_cast<float>(window_size.first / 2 - 16), 
@@ -33,6 +39,11 @@ auto main() -> int
         finished = true;
       }
     }
+    
+    const auto mouse_xy {mouse.GetCursorPosition()};
+    
+    std::println("Atan result: {}", 
+        Utils::Angle::CaclulateAngleBetweenTwoObjects(mouse_xy, {player.collision_.cref().x, player.collision_.cref().y}));
 
     display.game_renderer.clearScreen();
     display.game_renderer.drawColorFloat(0, 0, 0);
