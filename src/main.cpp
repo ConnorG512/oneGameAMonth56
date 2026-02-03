@@ -2,7 +2,7 @@
 #include "sdl/init.hpp"
 #include "sdl/window-renderer/window-randerer.hpp"
 #include "game/player.hpp"
-#include "logging/logger.hpp"
+#include "file-output/logging/logger.hpp"
 #include "sdl/input/mouse.hpp"
 #include "utils/angle.hpp"
 
