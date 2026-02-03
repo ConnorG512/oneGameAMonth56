@@ -3,6 +3,8 @@
 #include <fstream>
 #include <string>
 
+namespace File 
+{
 class Logger 
 {
   std::fstream logfile_{"./debug.log", std::ios::out | std::ios::trunc};
@@ -19,3 +21,4 @@ class Logger
     };
     auto writeToLog(LogType type, const std::string& message) noexcept -> void;
 };
+}

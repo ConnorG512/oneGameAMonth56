@@ -12,7 +12,7 @@
 
 auto main() -> int
 {
-  Logger log{std::getenv("PWD"), "/debug.log", true};
+  File::Logger log{std::getenv("PWD"), "/debug.log", true};
   SDL::Init init{};
   SDL::WindowRenderer display{};
   const auto window_size {display.game_window.WindowSize()};
