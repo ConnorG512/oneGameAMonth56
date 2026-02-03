@@ -14,7 +14,8 @@ set(SOURCE_FILES
   src/sdl/image/texture.cpp
   src/sdl/rectangle.cpp
   src/sdl/input/mouse.cpp
-  src/logging/logger.cpp
+  src/file-output/logging/logger.cpp
+  src/file-output/binary/binary.cpp
   src/game/player.cpp
 )
 

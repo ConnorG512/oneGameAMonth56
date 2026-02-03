@@ -1,11 +1,11 @@
-#include "logging/logger.hpp"
+#include "file-output/logging/logger.hpp"
 
 #include <cassert>
 #include <format>
 #include <print>
 #include <filesystem>
 
-Logger::Logger(const std::string& path, const std::string& file_name, bool active)
+File::Logger::Logger(const std::string& path, const std::string& file_name, bool active)
   : logfile_{std::format("{}/{}", path, file_name), std::ios::out | std::ios::trunc} 
   , active_{active}
 {
@@ -15,7 +15,7 @@ Logger::Logger(const std::string& path, const std::string& file_name, bool activ
     std::println(stderr, "Failed to create log file!");
 }
 
-auto Logger::writeToLog(LogType type, const std::string& message) noexcept -> void
+auto File::Logger::writeToLog(LogType type, const std::string& message) noexcept -> void
 {
   if (!active_)
     return;
