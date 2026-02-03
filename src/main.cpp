@@ -23,8 +23,9 @@ auto main() -> int
   };
   
   LuaInstance lua_instance {log};
+  lua_instance.execFile("config.lua");
   log.writeAddress("lua", static_cast<void*>(&lua_instance));
-  
+
   SDL::Init init{};
   log.writeAddress("init", static_cast<void*>(&init));
   SDL::WindowRenderer display{};
