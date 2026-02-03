@@ -29,6 +29,10 @@ auto LuaInstance::execFile(const char* file_name) noexcept -> void
   if(result != LUA_OK)
   {
     if(logger_.has_value())
-      logger_->get().writeToLog(File::Logger::LogType::error, "(lua.cpp) Failed to find lua file!");
+    {
+      const auto error {lua_tostring(lua_.get(), -1)};
+      logger_->get().writeToLog(
+          File::Logger::LogType::error, std::format("(lua.cpp) Failed to find lua file! [{}]", error));
+    }
   }
 }
