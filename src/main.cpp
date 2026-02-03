@@ -22,7 +22,7 @@ auto main() -> int
     log 
   };
   
-  LuaInstance lua_instance {};
+  LuaInstance lua_instance {log};
   log.writeAddress("lua", static_cast<void*>(&lua_instance));
   
   SDL::Init init{};
