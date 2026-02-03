@@ -47,11 +47,8 @@ auto main() -> int
 
     display.game_renderer.clearScreen();
     display.game_renderer.drawColorFloat(0, 0, 0);
-    display.game_renderer.renderTexture(
-        player.texture_.ref(), 
-        nullptr, 
-        &player.collision_.ref()
-    );
+    display.game_renderer.renderTextureRotate(player.texture_.ref(), nullptr, &player.collision_.ref(), 
+        Utils::Angle::CaclulateAngleBetweenTwoObjectsDegree(mouse_xy, {player.collision_.cref().x, player.collision_.cref().y}) + 90.0, nullptr, SDL_FLIP_NONE);
     display.game_renderer.present();
   }
 
