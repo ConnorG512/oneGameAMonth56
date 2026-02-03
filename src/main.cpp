@@ -3,6 +3,7 @@
 #include "sdl/window-renderer/window-randerer.hpp"
 #include "game/player.hpp"
 #include "file-output/logging/logger.hpp"
+#include "file-output/binary/binary.hpp"
 #include "sdl/input/mouse.hpp"
 #include "utils/angle.hpp"
 
@@ -13,6 +14,12 @@
 auto main() -> int
 {
   File::Logger log{std::getenv("PWD"), "/debug.log", true};
+  File::Binary save_file {
+    "game.sav",
+    {'C','G','E','S','A','V', 'E', 0x00},
+    log 
+  };
+
   SDL::Init init{};
   SDL::WindowRenderer display{};
   const auto window_size {display.game_window.WindowSize()};

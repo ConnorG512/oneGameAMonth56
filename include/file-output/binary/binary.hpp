@@ -14,6 +14,6 @@ namespace File
     std::fstream file_;
     
     public:
-      constexpr Binary(const char* file_name, std::array<uint8_t, 8> magic, std::optional<File::Logger> &logger);
+      Binary(const char* file_name, std::array<uint8_t, 8> magic, std::optional<std::reference_wrapper<File::Logger>> logger);
   };
 }
