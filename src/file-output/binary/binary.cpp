@@ -14,7 +14,7 @@ File::Binary::Binary(const char* file_name, std::array<uint8_t, 8> magic, std::o
     logger.value().get().writeToLog(File::Logger::LogType::error, "Path for binary file does not exist!");
 
   if(file_.is_open())
-    std::print(file_, "{}", magic);
+    file_.write(reinterpret_cast<const char*>(magic.data()), magic.size());
   else if (logger.has_value())
     logger.value().get().writeToLog(File::Logger::LogType::debug, "Binary file not open!");
 }
