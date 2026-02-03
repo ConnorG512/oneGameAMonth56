@@ -4,6 +4,7 @@
 #include "game/player.hpp"
 #include "logging/logger.hpp"
 #include "sdl/input/mouse.hpp"
+#include "utils/angle.hpp"
 
 #include <array>
 #include <print>
@@ -40,10 +41,9 @@ auto main() -> int
     }
     
     const auto mouse_xy {mouse.GetCursorPosition()};
-    const auto atan_result {
-      std::atan2(player.collision_.cref().y - mouse_xy.second, player.collision_.cref().x - mouse_xy.first)};
     
-    std::println("Atan result: {}", atan_result);
+    std::println("Atan result: {}", 
+        Utils::Angle::CaclulateAngleBetweenTwoObjects(mouse_xy, {player.collision_.cref().x, player.collision_.cref().y}));
 
     display.game_renderer.clearScreen();
     display.game_renderer.drawColorFloat(0, 0, 0);
