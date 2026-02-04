@@ -11,6 +11,7 @@ set(SOURCE_FILES
   src/sdl/init.cpp
   src/sdl/window-renderer/window.cpp
   src/sdl/window-renderer/renderer.cpp
+  src/sdl/window-renderer/window-renderer.cpp
   src/sdl/image/texture.cpp
   src/sdl/rectangle.cpp
   src/sdl/input/mouse.cpp
