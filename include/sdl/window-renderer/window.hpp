@@ -12,6 +12,7 @@ class Window
       SDL_CreateWindow("Game Window", 1024, 1024, SDL_WINDOW_OPENGL), &SDL_DestroyWindow};
 
 public:
+  Window() = default;
   Window(const char* title, const std::pair<int,int>& xy);
 
   auto ptr() noexcept -> SDL_Window *;
