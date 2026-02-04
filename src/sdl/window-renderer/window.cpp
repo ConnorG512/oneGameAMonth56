@@ -16,4 +16,4 @@ auto SDL::Window::WindowSize() noexcept -> std::pair<int, int>
 }
 
 SDL::Window::Window(const char* title, const std::pair<int,int>& xy)
-  : window_{SDL_CreateWindow(title, xy.first, xy.second, SDL_WINDOW_OPENGL), &SDL_DestroyWindow}
+  : window_{SDL_CreateWindow(title, xy.first, xy.second, SDL_WINDOW_OPENGL), &SDL_DestroyWindow} {}
