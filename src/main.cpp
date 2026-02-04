@@ -1,6 +1,6 @@
 #include "sdl/image/texture.hpp"
 #include "sdl/init.hpp"
-#include "sdl/window-renderer/window-randerer.hpp"
+#include "sdl/window-renderer/window-renderer.hpp"
 #include "game/player.hpp"
 #include "file-output/logging/logger.hpp"
 #include "file-output/binary/binary.hpp"
