@@ -1,6 +1,6 @@
 #include "sdl/image/texture.hpp"
 #include "sdl/init.hpp"
-#include "sdl/window-renderer/window-randerer.hpp"
+#include "sdl/window-renderer/window-renderer.hpp"
 #include "game/player.hpp"
 #include "file-output/logging/logger.hpp"
 #include "file-output/binary/binary.hpp"
@@ -29,7 +29,14 @@ auto main() -> int
 
   SDL::Init init{};
   log.writeAddress("init", static_cast<void*>(&init));
-  SDL::WindowRenderer display{};
+
+  SDL::WindowRenderer display{
+    "Game window",
+    {
+      std::get<double>(lua_instance.GetLuaValue(std::array<const char*, 4>{"AppConfiguration", "Display", "Resolution", "x"})),
+      std::get<double>(lua_instance.GetLuaValue(std::array<const char*, 4>{"AppConfiguration", "Display", "Resolution", "y"}))
+    }
+  };
 
   const auto window_size {display.game_window.WindowSize()};
   log.writeToLog(File::Logger::LogType::info, std::format("screen size: [{}*{}].", window_size.first, window_size.second));

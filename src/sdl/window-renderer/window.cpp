@@ -14,3 +14,6 @@ auto SDL::Window::WindowSize() noexcept -> std::pair<int, int>
   SDL_GetWindowSize(window_.get(), &w, &h);
   return {w,h};
 }
+
+SDL::Window::Window(const char* title, const std::pair<int,int>& xy)
+  : window_{SDL_CreateWindow(title, xy.first, xy.second, SDL_WINDOW_OPENGL), &SDL_DestroyWindow} {}
