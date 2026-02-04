@@ -32,8 +32,8 @@ auto main() -> int
   SDL::WindowRenderer display{
     "Game window",
     {
-      std::get<double>(lua_instance.GetLuaValue(std::array<const char*, 3>{"Display", "Resolution", "x"})),
-      std::get<double>(lua_instance.GetLuaValue(std::array<const char*, 3>{"Display", "Resolution", "y"}))
+      std::get<double>(lua_instance.GetLuaValue(std::array<const char*, 4>{"AppConfiguration", "Display", "Resolution", "x"})),
+      std::get<double>(lua_instance.GetLuaValue(std::array<const char*, 4>{"AppConfiguration", "Display", "Resolution", "y"}))
     }
   };
 
