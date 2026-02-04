@@ -29,7 +29,13 @@ auto main() -> int
 
   SDL::Init init{};
   log.writeAddress("init", static_cast<void*>(&init));
-  SDL::WindowRenderer display{};
+  SDL::WindowRenderer display{
+    "Game window",
+    {
+      std::get<double>(lua_instance.GetLuaValue(std::array<const char*, 3>{"Display", "Resolution", "x"})),
+      std::get<double>(lua_instance.GetLuaValue(std::array<const char*, 3>{"Display", "Resolution", "y"}))
+    }
+  };
 
   const auto window_size {display.game_window.WindowSize()};
   log.writeToLog(File::Logger::LogType::info, std::format("screen size: [{}*{}].", window_size.first, window_size.second));
