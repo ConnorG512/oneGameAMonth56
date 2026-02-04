@@ -27,15 +27,12 @@ auto LuaInstance::ref() noexcept -> lua_State&
 auto LuaInstance::execFile(const char* file_name) noexcept -> void
 {
   const auto result {luaL_dofile(lua_.get(), file_name)};
-  if(result != LUA_OK)
+  if(result != LUA_OK && logger_.has_value())
   {
-    if(logger_.has_value())
-    {
-      const auto error {lua_tostring(lua_.get(), -1)};
-      logger_->get().writeToLog(
-          File::Logger::LogType::error, std::format("(lua.cpp) Failed to find lua file! [{}]", error));
-      popStack();
-    }
+    const auto error {lua_tostring(lua_.get(), -1)};
+    logger_->get().writeToLog(
+        File::Logger::LogType::error, std::format("(lua.cpp) Failed to find lua file! [{}]", error));
+    popStack();
   }
 }
 
