@@ -26,11 +26,6 @@ auto main() -> int
   LuaInstance lua_instance {log};
   lua_instance.execFile("config.lua");
   log.writeAddress("lua", static_cast<void*>(&lua_instance));
-  
-  log.writeToLog(File::Logger::LogType::info, 
-      std::format("Screen resolution read from config: {}{}", 
-        std::get<double>(lua_instance.GetLuaValue(std::array<const char*, 4>{"AppConfiguration", "Display", "Resolution", "x"})), 
-        std::get<double>(lua_instance.GetLuaValue(std::array<const char*, 4>{"AppConfiguration", "Display", "Resolution", "y"}))));
 
   SDL::Init init{};
   log.writeAddress("init", static_cast<void*>(&init));
