@@ -12,6 +12,7 @@
 #include <print>
 #include <cmath>
 #include <format>
+#include <array>
 
 auto main() -> int
 {
@@ -25,11 +26,15 @@ auto main() -> int
   LuaInstance lua_instance {log};
   lua_instance.execFile("config.lua");
   log.writeAddress("lua", static_cast<void*>(&lua_instance));
+  
+  log.writeToLog(File::Logger::LogType::info, 
+      std::format("Screen resolution read from config: {}{}", 
+        std::get<double>(lua_instance.GetLuaValue(std::array<const char*, 4>{"AppConfiguration", "Display", "Resolution", "x"})), 
+        std::get<double>(lua_instance.GetLuaValue(std::array<const char*, 4>{"AppConfiguration", "Display", "Resolution", "y"}))));
 
   SDL::Init init{};
   log.writeAddress("init", static_cast<void*>(&init));
   SDL::WindowRenderer display{};
-  log.writeAddress("display", static_cast<void*>(&display));
 
   const auto window_size {display.game_window.WindowSize()};
   log.writeToLog(File::Logger::LogType::info, std::format("screen size: [{}*{}].", window_size.first, window_size.second));
