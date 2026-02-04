@@ -5,6 +5,10 @@
 #include <lua.hpp>
 #include <memory>
 #include <optional>
+#include <cstddef>
+#include <span>
+#include <format>
+#include <variant>
 
 namespace File {class Logger;}
 
@@ -22,4 +26,7 @@ class LuaInstance
     
     auto cref() const noexcept -> const lua_State&;
     auto ref() noexcept -> lua_State&;
+    
+    auto GetLuaValue(const std::span<const char*> key_path) noexcept 
+      -> std::variant<double, std::string, bool, std::monostate>;
 };
