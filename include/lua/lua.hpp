@@ -27,6 +27,6 @@ class LuaInstance
     auto cref() const noexcept -> const lua_State&;
     auto ref() noexcept -> lua_State&;
     
-    auto GetLuaValue(const std::span<const char*> key_path) noexcept 
+    auto GetLuaValue(const std::span<const char* const> key_path) noexcept 
       -> std::variant<double, std::string, bool, std::monostate>;
 };

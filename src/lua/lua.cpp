@@ -2,6 +2,7 @@
 
 #include <cassert>
 #include <format>
+#include <ranges>
 
 LuaInstance::LuaInstance(std::optional<std::reference_wrapper<File::Logger>> logger)
   : logger_ {logger}
@@ -38,14 +39,19 @@ auto LuaInstance::execFile(const char* file_name) noexcept -> void
   }
 }
 
-auto LuaInstance::GetLuaValue(const std::span<const char*> key_path) noexcept 
+auto LuaInstance::GetLuaValue(const std::span<const char* const> key_path) noexcept 
   -> std::variant<double, std::string, bool, std::monostate>
 {
   if(key_path.size() == 1)
     lua_getglobal(lua_.get(), key_path[0]);
   
-  for(const auto& key : key_path)
+  for(const auto& [index, key] : key_path | std::views::enumerate)
   {
+    if(index == 0)
+    {
+      lua_getglobal(lua_.get(), key);
+      continue;
+    }
     lua_getfield(lua_.get(), -1, key);
   }
   
