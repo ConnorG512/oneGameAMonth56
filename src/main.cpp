@@ -29,6 +29,7 @@ auto main() -> int
 
   SDL::Init init{};
   log.writeAddress("init", static_cast<void*>(&init));
+
   SDL::WindowRenderer display{
     "Game window",
     {
