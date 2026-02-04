@@ -14,6 +14,7 @@ set(SOURCE_FILES
   src/sdl/window-renderer/window-renderer.cpp
   src/sdl/image/texture.cpp
   src/sdl/rectangle.cpp
+  src/sdl/event-handler.cpp
   src/sdl/input/mouse.cpp
   src/file-output/logging/logger.cpp
   src/file-output/binary/binary.cpp
