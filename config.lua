@@ -1,10 +1,11 @@
-display = {
-  resolution = {
-    x = 1024,
-    y = 1024
+AppConfiguration = {
+  Display = {
+    Resolution = {
+      x = 1024,
+      y = 1024
+    }
   }
-}
-
-config = {
-  use_debug = true
+  Logger = {
+    enable = true;
+  }
 }
