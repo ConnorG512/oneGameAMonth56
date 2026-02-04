@@ -5,6 +5,7 @@
 #include "file-output/logging/logger.hpp"
 #include "file-output/binary/binary.hpp"
 #include "sdl/input/mouse.hpp"
+#include "sdl/event-handler.hpp"
 #include "utils/angle.hpp"
 #include "lua/lua.hpp"
 
@@ -29,12 +30,16 @@ auto main() -> int
 
   SDL::Init init{};
   log.writeAddress("init", static_cast<void*>(&init));
+  
+  SDL::EventHandler event_handler {log};
 
   SDL::WindowRenderer display{
     "Game window",
     {
-      std::get<double>(lua_instance.GetLuaValue(std::array<const char*, 4>{"AppConfiguration", "Display", "Resolution", "x"})),
-      std::get<double>(lua_instance.GetLuaValue(std::array<const char*, 4>{"AppConfiguration", "Display", "Resolution", "y"}))
+      std::get<double>(lua_instance.GetLuaValue(std::array<const char*, 4>
+            {"AppConfiguration", "Display", "Resolution", "x"})),
+      std::get<double>(lua_instance.GetLuaValue(std::array<const char*, 4>
+            {"AppConfiguration", "Display", "Resolution", "y"}))
     }
   };
 
@@ -58,10 +63,11 @@ auto main() -> int
 
     while (SDL_PollEvent(&event))
     {
-      if (event.type == SDL_EVENT_QUIT)
-      {
+      if(event_handler.PollEvent(SDL_EVENT_QUIT))
         finished = true;
-      }
+      
+      if(event_handler.PollEvent(SDL_EVENT_MOUSE_BUTTON_DOWN))
+        std::println(stdout, "Mouse clicked!");
     }
     
     const auto mouse_xy {mouse.GetCursorPosition()};
