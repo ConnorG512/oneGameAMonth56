@@ -42,9 +42,6 @@ auto LuaInstance::execFile(const char* file_name) noexcept -> void
 auto LuaInstance::GetLuaValue(const std::span<const char* const> key_path) noexcept 
   -> std::variant<double, std::string, bool, std::monostate>
 {
-  if(key_path.size() == 1)
-    lua_getglobal(lua_.get(), key_path[0]);
-  
   for(const auto& [index, key] : key_path | std::views::enumerate)
   {
     if(index == 0)
