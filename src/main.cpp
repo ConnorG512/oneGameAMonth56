@@ -65,9 +65,6 @@ auto main() -> int
     }
     
     const auto mouse_xy {mouse.GetCursorPosition()};
-    
-    std::println("Atan result: {}", 
-        Utils::Angle::CaclulateAngleBetweenTwoObjectsDegree(mouse_xy, {player.collision_.cref().x, player.collision_.cref().y}));
 
     display.game_renderer.clearScreen();
     display.game_renderer.drawColorFloat(0, 0, 0);
