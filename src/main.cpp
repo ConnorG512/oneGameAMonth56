@@ -5,6 +5,7 @@
 #include "file-output/logging/logger.hpp"
 #include "file-output/binary/binary.hpp"
 #include "sdl/input/mouse.hpp"
+#include "sdl/event-handler.hpp"
 #include "utils/angle.hpp"
 #include "lua/lua.hpp"
 
@@ -29,12 +30,16 @@ auto main() -> int
 
   SDL::Init init{};
   log.writeAddress("init", static_cast<void*>(&init));
+  
+  SDL::EventHandler event_handler {log};
 
   SDL::WindowRenderer display{
     "Game window",
     {
-      std::get<double>(lua_instance.GetLuaValue(std::array<const char*, 4>{"AppConfiguration", "Display", "Resolution", "x"})),
-      std::get<double>(lua_instance.GetLuaValue(std::array<const char*, 4>{"AppConfiguration", "Display", "Resolution", "y"}))
+      std::get<double>(lua_instance.GetLuaValue(std::array<const char*, 4>
+            {"AppConfiguration", "Display", "Resolution", "x"})),
+      std::get<double>(lua_instance.GetLuaValue(std::array<const char*, 4>
+            {"AppConfiguration", "Display", "Resolution", "y"}))
     }
   };
 
@@ -51,25 +56,17 @@ auto main() -> int
       );
 
   // Game loop
-  bool finished{false};
-  while (!finished)
+  while (event_handler.isGameRunning())
   {
-    SDL_Event event;
+    event_handler.PollEvent();
 
-    while (SDL_PollEvent(&event))
-    {
-      if (event.type == SDL_EVENT_QUIT)
-      {
-        finished = true;
-      }
-    }
-    
     const auto mouse_xy {mouse.GetCursorPosition()};
 
     display.game_renderer.clearScreen();
     display.game_renderer.drawColorFloat(0, 0, 0);
     display.game_renderer.renderTextureRotate(player.texture_.ref(), nullptr, &player.collision_.ref(), 
-        Utils::Angle::CaclulateAngleBetweenTwoObjectsDegree(mouse_xy, {player.collision_.cref().x, player.collision_.cref().y}) + Utils::Angle::texture_offset<double>, nullptr, SDL_FLIP_NONE);
+        Utils::Angle::CaclulateAngleBetweenTwoObjectsDegree(
+          mouse_xy, {player.collision_.cref().x, player.collision_.cref().y}) + Utils::Angle::texture_offset<double>, nullptr, SDL_FLIP_NONE);
     display.game_renderer.present();
   }
 
