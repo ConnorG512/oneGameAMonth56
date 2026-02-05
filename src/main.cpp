@@ -58,7 +58,6 @@ auto main() -> int
   // Game loop
   while (event_handler.isGameRunning())
   {
-    
     event_handler.PollEvent();
 
     const auto mouse_xy {mouse.GetCursorPosition()};
