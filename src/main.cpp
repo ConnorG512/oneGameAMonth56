@@ -56,26 +56,18 @@ auto main() -> int
       );
 
   // Game loop
-  bool finished{false};
-  while (!finished)
+  while (event_handler.isGameRunning())
   {
-    SDL_Event event;
-
-    while (SDL_PollEvent(&event))
-    {
-      if(event_handler.PollEvent(SDL_EVENT_QUIT))
-        finished = true;
-      
-      if(event_handler.PollEvent(SDL_EVENT_MOUSE_BUTTON_DOWN))
-        std::println(stdout, "Mouse clicked!");
-    }
     
+    event_handler.PollEvent();
+
     const auto mouse_xy {mouse.GetCursorPosition()};
 
     display.game_renderer.clearScreen();
     display.game_renderer.drawColorFloat(0, 0, 0);
     display.game_renderer.renderTextureRotate(player.texture_.ref(), nullptr, &player.collision_.ref(), 
-        Utils::Angle::CaclulateAngleBetweenTwoObjectsDegree(mouse_xy, {player.collision_.cref().x, player.collision_.cref().y}) + Utils::Angle::texture_offset<double>, nullptr, SDL_FLIP_NONE);
+        Utils::Angle::CaclulateAngleBetweenTwoObjectsDegree(
+          mouse_xy, {player.collision_.cref().x, player.collision_.cref().y}) + Utils::Angle::texture_offset<double>, nullptr, SDL_FLIP_NONE);
     display.game_renderer.present();
   }
 

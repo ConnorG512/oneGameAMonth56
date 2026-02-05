@@ -9,11 +9,13 @@ namespace SDL
 {
   class EventHandler 
   {
-    SDL_Event event_;
     File::Logger &logger_;
+    bool game_running_ {true};
 
     public:
       EventHandler(File::Logger &logger);
-      auto PollEvent(uint32_t sdl_event) noexcept -> bool;
+      
+      auto PollEvent() noexcept -> void;
+      auto isGameRunning() const noexcept -> bool;
   };
 }

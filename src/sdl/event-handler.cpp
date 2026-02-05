@@ -2,6 +2,7 @@
 #include "file-output/logging/logger.hpp"
 
 #include <format>
+#include <SDL3/SDL.h>
 
 SDL::EventHandler::EventHandler(File::Logger &logger)
   : logger_{logger} 
@@ -9,14 +10,18 @@ SDL::EventHandler::EventHandler(File::Logger &logger)
   logger_.writeAddress("Event Handler", this);
 }
 
-auto SDL::EventHandler::PollEvent(uint32_t sdl_event) noexcept -> bool
+auto SDL::EventHandler::PollEvent() noexcept -> void
 {
-  const bool event_hit {event_.type == sdl_event};
-  if (event_hit)
+  SDL_Event event;
+  
+  while(SDL_PollEvent(&event))
   {
-    logger_.writeToLog(File::Logger::LogType::debug, std::format("Event hit {}", sdl_event));
-    return true;
+    if(event.type == SDL_EVENT_QUIT)
+      game_running_ = false;
   }
-  else 
-    return false;
+}
+
+auto SDL::EventHandler::isGameRunning() const noexcept -> bool
+{
+  return game_running_;
 }
