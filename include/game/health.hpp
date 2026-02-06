@@ -32,10 +32,14 @@ namespace Gameplay
         if(type == ModifyType::reduce)
         {
           current_ -= amount;
+          if (current_ < 0)
+            current_ = 0;
         }
         else if (type == ModifyType::increase)
         {
           current_ += amount;
+          if (current_ > max_)
+            current_ = max_;
         }
         return current_;
       }
