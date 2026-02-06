@@ -13,7 +13,7 @@ namespace Gameplay
 
     public:
       
-      HealthComponent<T>(T current, T max)
+      HealthComponent(T current, T max)
         : current_{current}
         , max_{max} {}
 
