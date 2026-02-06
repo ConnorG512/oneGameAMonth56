@@ -1,18 +1,20 @@
 #pragma once
 
-#include "sdl/image/texture.hpp"
-#include "game/health.hpp"
+#include "game/game-entity.hpp"
 
 class LuaInstance;
 namespace SDL {class Renderer;}
 
 namespace Gameplay 
 {
-  class Enemy 
+  class Enemy : public GameEntity
   {
     public:
-      SDL::Texture texture_;
-
-      Enemy(SDL_Renderer &renderer, const char* sprite_path);
+      Enemy(
+        const std::array<float,4>& xywh,
+        SDL_Renderer& renderer,
+        const LuaInstance& lua_instance,
+        const char* image_path
+      );
   };
 }
