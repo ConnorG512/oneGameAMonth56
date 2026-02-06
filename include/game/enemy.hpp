@@ -1,15 +1,16 @@
-#pragma once 
+#pragma once
 
 #include "game/game-entity.hpp"
 
-#include <array>
+class LuaInstance;
+namespace SDL {class Renderer;}
 
-namespace Gameplay
+namespace Gameplay 
 {
-  class Player : public GameEntity
+  class Enemy : public GameEntity
   {
     public:
-      Player(
+      Enemy(
         const std::array<float,4>& xywh,
         SDL_Renderer& renderer,
         LuaInstance& lua_instance,

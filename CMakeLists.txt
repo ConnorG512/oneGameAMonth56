@@ -18,7 +18,9 @@ set(SOURCE_FILES
   src/sdl/input/mouse.cpp
   src/file-output/logging/logger.cpp
   src/file-output/binary/binary.cpp
+  src/game/game-entity.cpp
   src/game/player.cpp
+  src/game/enemy.cpp
   src/lua/lua.cpp
 )
 

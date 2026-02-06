@@ -2,6 +2,7 @@
 #include "sdl/init.hpp"
 #include "sdl/window-renderer/window-renderer.hpp"
 #include "game/player.hpp"
+#include "game/enemy.hpp"
 #include "file-output/logging/logger.hpp"
 #include "file-output/binary/binary.hpp"
 #include "sdl/input/mouse.hpp"
@@ -25,8 +26,10 @@ auto main() -> int
   };
   
   LuaInstance lua_instance {log};
-  lua_instance.execFile("config.lua");
-  log.writeAddress("lua", static_cast<void*>(&lua_instance));
+  for(const auto& file : { "config.lua", "gamescript/player.lua" })
+  {
+    lua_instance.execFile(file);
+  }
 
   SDL::Init init{};
   log.writeAddress("init", static_cast<void*>(&init));
@@ -36,9 +39,9 @@ auto main() -> int
   SDL::WindowRenderer display{
     "Game window",
     {
-      std::get<double>(lua_instance.GetLuaValue(std::array<const char*, 4>
+      std::get<double>(lua_instance.GetLuaValue(std::array
             {"AppConfiguration", "Display", "Resolution", "x"})),
-      std::get<double>(lua_instance.GetLuaValue(std::array<const char*, 4>
+      std::get<double>(lua_instance.GetLuaValue(std::array
             {"AppConfiguration", "Display", "Resolution", "y"}))
     }
   };
@@ -52,7 +55,16 @@ auto main() -> int
       static_cast<float>(window_size.first / 2 - 16), 
       static_cast<float>(window_size.second / 2 - 16), 32.0, 32.0}, 
       display.game_renderer.ref(), 
+      lua_instance,
       "assets/image/player.png"
+      );
+
+  Gameplay::Enemy enemy({
+      static_cast<float>(window_size.first / 2 - 16), 
+      static_cast<float>(window_size.second / 4 - 16), 32.0, 32.0}, 
+      display.game_renderer.ref(), 
+      lua_instance,
+      "assets/image/default.png"
       );
 
   // Game loop
@@ -64,9 +76,10 @@ auto main() -> int
 
     display.game_renderer.clearScreen();
     display.game_renderer.drawColorFloat(0, 0, 0);
-    display.game_renderer.renderTextureRotate(player.texture_.ref(), nullptr, &player.collision_.ref(), 
+    display.game_renderer.renderTextureRotate(player.texture_.ref(), nullptr, &player.bounds_.ref(), 
         Utils::Angle::CaclulateAngleBetweenTwoObjectsDegree(
-          mouse_xy, {player.collision_.cref().x, player.collision_.cref().y}) + Utils::Angle::texture_offset<double>, nullptr, SDL_FLIP_NONE);
+          mouse_xy, {player.bounds_.cref().x, player.bounds_.cref().y}) + Utils::Angle::texture_offset<double>, nullptr, SDL_FLIP_NONE);
+    display.game_renderer.renderTexture(enemy.texture_.ref(), nullptr, &enemy.bounds_.ref());
     display.game_renderer.present();
   }
 
