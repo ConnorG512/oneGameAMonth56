@@ -30,8 +30,6 @@ auto main() -> int
     lua_instance.execFile(file);
   }
 
-  log.writeAddress("lua", static_cast<void*>(&lua_instance));
-
   SDL::Init init{};
   log.writeAddress("init", static_cast<void*>(&init));
   

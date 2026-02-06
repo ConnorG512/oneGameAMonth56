@@ -10,7 +10,10 @@ LuaInstance::LuaInstance(std::optional<std::reference_wrapper<File::Logger>> log
   luaL_openlibs(lua_.get());
   
   if(logger_.has_value())
+  {
+    logger_->get().writeAddress("Lua Instance", this);
     logger_->get().writeToLog(File::Logger::LogType::info, "Lua setup complete.");
+  }
 }
 
 auto LuaInstance::cref() const noexcept -> const lua_State&
