@@ -17,7 +17,7 @@ namespace Game
         reduce,
         increase,
       };
-      auto ModifyHealth(ModifyType type, auto amount) noexcept -> T 
+      auto ModifyHealth(ModifyType type, T amount) noexcept -> T 
       {
         if(type == ModifyType::reduce)
         {
