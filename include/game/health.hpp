@@ -2,7 +2,7 @@
 
 #include <concepts>
 
-namespace Game 
+namespace Gameplay
 {
   template <typename T>
   requires std::floating_point<T> || std::integral<T>
@@ -14,7 +14,6 @@ namespace Game
 
     public:
       
-
       enum class ModifyType
       {
         reduce,
