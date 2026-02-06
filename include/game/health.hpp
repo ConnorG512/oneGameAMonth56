@@ -17,8 +17,8 @@ namespace Gameplay
         : current_{current}
         , max_{max} 
         {
-          assert(current_ > max);
-          assert(current_ <= 0);
+          assert(current_ < max);
+          assert(current_ >= 0);
         }
 
       
