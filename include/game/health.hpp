@@ -13,6 +13,8 @@ namespace Gameplay
 
     public:
       
+      HealthComponent() = default;
+
       HealthComponent(T current, T max)
         : current_{current}
         , max_{max} 
