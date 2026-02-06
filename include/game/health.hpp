@@ -15,7 +15,11 @@ namespace Gameplay
       
       HealthComponent(T current, T max)
         : current_{current}
-        , max_{max} {}
+        , max_{max} 
+        {
+          assert(current_ > max);
+          assert(current_ <= 0);
+        }
 
       
       enum class ModifyType
