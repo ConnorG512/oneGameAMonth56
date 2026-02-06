@@ -1,8 +1,11 @@
 #pragma once 
 
+#include <concepts>
+
 namespace Game 
 {
   template <typename T>
+  requires std::floating_point<T> || std::integral<T>
   class HealthComponent 
   {
     T current_ {100};
