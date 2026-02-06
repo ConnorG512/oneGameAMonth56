@@ -36,12 +36,14 @@ auto main() -> int
   SDL::WindowRenderer display{
     "Game window",
     {
-      std::get<double>(lua_instance.GetLuaValue(std::array<const char*, 4>
+      std::get<double>(lua_instance.GetLuaValue(std::array
             {"AppConfiguration", "Display", "Resolution", "x"})),
-      std::get<double>(lua_instance.GetLuaValue(std::array<const char*, 4>
+      std::get<double>(lua_instance.GetLuaValue(std::array
             {"AppConfiguration", "Display", "Resolution", "y"}))
     }
   };
+
+  lua_instance.execFile("gamescript/player.lua");
 
   const auto window_size {display.game_window.WindowSize()};
   log.writeToLog(File::Logger::LogType::info, std::format("screen size: [{}*{}].", window_size.first, window_size.second));
