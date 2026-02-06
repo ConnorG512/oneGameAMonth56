@@ -2,6 +2,7 @@
 #include "sdl/init.hpp"
 #include "sdl/window-renderer/window-renderer.hpp"
 #include "game/player.hpp"
+#include "game/enemy.hpp"
 #include "file-output/logging/logger.hpp"
 #include "file-output/binary/binary.hpp"
 #include "sdl/input/mouse.hpp"
@@ -58,6 +59,14 @@ auto main() -> int
       "assets/image/player.png"
       );
 
+  Gameplay::Enemy enemy({
+      static_cast<float>(window_size.first / 2 - 16), 
+      static_cast<float>(window_size.second / 4 - 16), 32.0, 32.0}, 
+      display.game_renderer.ref(), 
+      lua_instance,
+      "assets/image/default.png"
+      );
+
   // Game loop
   while (event_handler.isGameRunning())
   {
@@ -70,6 +79,7 @@ auto main() -> int
     display.game_renderer.renderTextureRotate(player.texture_.ref(), nullptr, &player.bounds_.ref(), 
         Utils::Angle::CaclulateAngleBetweenTwoObjectsDegree(
           mouse_xy, {player.bounds_.cref().x, player.bounds_.cref().y}) + Utils::Angle::texture_offset<double>, nullptr, SDL_FLIP_NONE);
+    display.game_renderer.renderTexture(enemy.texture_.ref(), nullptr, &enemy.bounds_.ref());
     display.game_renderer.present();
   }
 
