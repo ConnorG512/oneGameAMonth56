@@ -26,10 +26,7 @@ auto main() -> int
   };
   
   LuaInstance lua_instance {log};
-  for(const auto& file : { "config.lua", "gamescript/player.lua" })
-  {
-    lua_instance.execFile(file);
-  }
+  lua_instance.execMultipleFiles(std::array{"config.lua", "gamescript/player.lua"});
 
   SDL::Init init{};
   log.writeAddress("init", static_cast<void*>(&init));
