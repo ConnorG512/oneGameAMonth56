@@ -52,6 +52,7 @@ auto main() -> int
       static_cast<float>(window_size.first / 2 - 16), 
       static_cast<float>(window_size.second / 2 - 16), 32.0, 32.0}, 
       display.game_renderer.ref(), 
+      lua_instance,
       "assets/image/player.png"
       );
 
@@ -64,9 +65,9 @@ auto main() -> int
 
     display.game_renderer.clearScreen();
     display.game_renderer.drawColorFloat(0, 0, 0);
-    display.game_renderer.renderTextureRotate(player.texture_.ref(), nullptr, &player.collision_.ref(), 
+    display.game_renderer.renderTextureRotate(player.texture_.ref(), nullptr, &player.bounds_.ref(), 
         Utils::Angle::CaclulateAngleBetweenTwoObjectsDegree(
-          mouse_xy, {player.collision_.cref().x, player.collision_.cref().y}) + Utils::Angle::texture_offset<double>, nullptr, SDL_FLIP_NONE);
+          mouse_xy, {player.bounds_.cref().x, player.bounds_.cref().y}) + Utils::Angle::texture_offset<double>, nullptr, SDL_FLIP_NONE);
     display.game_renderer.present();
   }
 
