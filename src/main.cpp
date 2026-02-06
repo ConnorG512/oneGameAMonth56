@@ -25,7 +25,11 @@ auto main() -> int
   };
   
   LuaInstance lua_instance {log};
-  lua_instance.execFile("config.lua");
+  for(const auto& file : { "config.lua", "gamescript/player.lua" })
+  {
+    lua_instance.execFile(file);
+  }
+
   log.writeAddress("lua", static_cast<void*>(&lua_instance));
 
   SDL::Init init{};
@@ -42,8 +46,6 @@ auto main() -> int
             {"AppConfiguration", "Display", "Resolution", "y"}))
     }
   };
-
-  lua_instance.execFile("gamescript/player.lua");
 
   const auto window_size {display.game_window.WindowSize()};
   log.writeToLog(File::Logger::LogType::info, std::format("screen size: [{}*{}].", window_size.first, window_size.second));
