@@ -18,7 +18,7 @@ namespace Gameplay
       GameEntity(
         const std::array<float,4>& xywh,
         SDL_Renderer& renderer,
-        const LuaInstance& lua_instance,
+        LuaInstance& lua_instance,
         const char* image_path
       );
   };
