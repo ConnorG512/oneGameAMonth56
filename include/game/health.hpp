@@ -10,9 +10,13 @@ namespace Gameplay
   {
     T current_ {100};
     T max_ {100};
-    
 
     public:
+      
+      HealthComponent<T>(T current, T max)
+        : current_{current}
+        , max_{max} {}
+
       
       enum class ModifyType
       {
