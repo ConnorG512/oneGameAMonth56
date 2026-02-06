@@ -9,11 +9,12 @@ namespace Gameplay
 {
   class GameEntity 
   {
-    protected: 
+    public:
       SDL::Rectangle bounds_ {0.0, 0.0, 32.0, 32.0};
       SDL::Texture texture_;
       HealthComponent<int> health_ {1000, 1500};
 
+    protected: 
       GameEntity(
         const std::array<float,4>& xywh,
         SDL_Renderer& renderer,
