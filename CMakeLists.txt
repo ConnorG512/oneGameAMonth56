@@ -20,6 +20,7 @@ set(SOURCE_FILES
   src/file-output/binary/binary.cpp
   src/game/player.cpp
   src/game/enemy.cpp
+  src/game/projectile.cpp
   src/lua/lua.cpp
 )
 
