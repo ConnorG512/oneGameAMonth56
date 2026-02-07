@@ -1,6 +1,5 @@
 #pragma once 
 
-#include "file-output/logging/logger.hpp"
 
 #include <lua.hpp>
 #include <memory>
@@ -15,14 +14,14 @@ namespace File {class Logger;}
 class LuaInstance 
 {
   std::unique_ptr<lua_State, decltype(&lua_close)> lua_ {luaL_newstate(), &lua_close}; 
-  std::optional<std::reference_wrapper<File::Logger>> logger_ {std::nullopt};
+  File::Logger &logger_; 
 
   auto popStack(int num = 1) noexcept -> void;
   
   public: 
-    LuaInstance(std::optional<std::reference_wrapper<File::Logger>> logger = std::nullopt);
+    LuaInstance(File::Logger& logger);
 
-    auto execFile(const char* file_name) noexcept -> void;
+    auto execFiles(const std::span<const char* const> file_list) noexcept -> void;
     
     auto cref() const noexcept -> const lua_State&;
     auto ref() noexcept -> lua_State&;
