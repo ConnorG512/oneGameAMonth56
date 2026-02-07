@@ -19,7 +19,7 @@ set(SOURCE_FILES
   src/file-output/logging/logger.cpp
   src/file-output/binary/binary.cpp
   src/game/player.cpp
-  #src/game/enemy.cpp
+  src/game/enemy.cpp
   src/lua/lua.cpp
 )
 
