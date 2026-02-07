@@ -3,19 +3,21 @@
 #include <variant>
 #include <type_traits>
 #include <string>
+#include <print>
 
 template<typename Ret, typename T>
 auto CastGetVar(T&& vari) noexcept -> Ret
 {
-  return {std::visit([](auto&& v) -> Ret {
-        if constexpr (std::is_same_v<std::decay_t<decltype(v)>, bool>)
+  return std::visit([](auto&& v) -> Ret {
+        if constexpr (std::is_same_v<std::decay_t<decltype(v)>, Ret>) 
           return v;
-        else if constexpr (std::is_same_v<std::decay_t<decltype(v)>, std::string>)
-          return v;
-        else if constexpr (std::is_floating_point_v<std::decay_t<decltype(v)>>)
+        else if constexpr (std::is_arithmetic_v<std::decay_t<decltype(v)>> && std::is_arithmetic_v<Ret>)
           return static_cast<Ret>(v);
         else 
+        {
+          std::println(stderr, "Error in passing value.");
           return {}; 
-      }, vari)};
+        }
+      }, std::forward<T>(vari));
 }
 
