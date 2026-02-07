@@ -9,8 +9,8 @@
 
 Game::Player::Player(LuaInstance &lua, SDL_Renderer &renderer)
   : bounds_{std::array{
-    CastGetVar<float>(lua.GetLuaValue(std::array{"GameScript", "Player", "pos_x"})),
-    CastGetVar<float>(lua.GetLuaValue(std::array{"GameScript", "Player", "pos_y"})),
-    CastGetVar<float>(lua.GetLuaValue(std::array{"GameScript", "Player", "bounds_w"})),
-    CastGetVar<float>(lua.GetLuaValue(std::array{"GameScript", "Player", "bounds_h"}))}}
-  , texture_ {renderer, CastGetVar<std::string>(lua.GetLuaValue(std::array{"GameScript", "Player", "sprite"})).c_str()} {}
+    CastGetVar<float>(lua.GetLuaValue(std::array{"PlayerValues", "pos_x"})),
+    CastGetVar<float>(lua.GetLuaValue(std::array{"PlayerValues", "pos_y"})),
+    CastGetVar<float>(lua.GetLuaValue(std::array{"PlayerValues", "bounds_w"})),
+    CastGetVar<float>(lua.GetLuaValue(std::array{"PlayerValues", "bounds_h"}))}}
+  , texture_ {renderer, CastGetVar<std::string>(lua.GetLuaValue(std::array{"PlayerValues", "sprite"})).c_str()} {}

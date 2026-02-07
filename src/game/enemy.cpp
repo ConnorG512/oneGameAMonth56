@@ -9,8 +9,8 @@
 
 Game::Enemy::Enemy(LuaInstance &lua, SDL_Renderer &renderer)
   : bounds_{std::array{
-    CastGetVar<float>(lua.GetLuaValue(std::array{"GameScript", "Enemy", "pos_x"})),
-    CastGetVar<float>(lua.GetLuaValue(std::array{"GameScript", "Enemy", "pos_y"})),
-    CastGetVar<float>(lua.GetLuaValue(std::array{"GameScript", "Enemy", "bounds_w"})),
-    CastGetVar<float>(lua.GetLuaValue(std::array{"GameScript", "Enemy", "bounds_h"}))}}
-  , texture_ {renderer, CastGetVar<std::string>(lua.GetLuaValue(std::array{"GameScript", "Enemy", "sprite"})).c_str()} {}
+    CastGetVar<float>(lua.GetLuaValue(std::array{"EnemyValues", "pos_x"})),
+    CastGetVar<float>(lua.GetLuaValue(std::array{"EnemyValues", "pos_y"})),
+    CastGetVar<float>(lua.GetLuaValue(std::array{"EnemyValues", "bounds_w"})),
+    CastGetVar<float>(lua.GetLuaValue(std::array{"EnemyValues", "bounds_h"}))}}
+  , texture_ {renderer, CastGetVar<std::string>(lua.GetLuaValue(std::array{"EnemyValues", "sprite"})).c_str()} {}
