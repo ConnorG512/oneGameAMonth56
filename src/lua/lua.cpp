@@ -4,7 +4,6 @@
 #include <cassert>
 #include <format>
 #include <ranges>
-#include <string_view>
 
 
 LuaInstance::LuaInstance(File::Logger& logger)
