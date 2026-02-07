@@ -4,6 +4,7 @@
 #include <cassert>
 #include <format>
 #include <ranges>
+#include <string_view>
 
 
 LuaInstance::LuaInstance(File::Logger& logger)
@@ -30,21 +31,7 @@ auto LuaInstance::ref() noexcept -> lua_State&
 }
 
 
-auto LuaInstance::execSingleFile(const char* file_name) noexcept -> void
-{
-  const auto result {luaL_dofile(lua_.get(), file_name)};
-  if(result != LUA_OK)
-  {
-    const auto error {lua_tostring(lua_.get(), -1)};
-      logger_.writeToLog(
-          File::Logger::LogType::error, std::format("(lua.cpp) Failed to find lua file! [{}]", error));
-    
-    popStack();
-  }
-}
-
-
-auto LuaInstance::execMultipleFiles(const std::span<const char* const> file_list) noexcept -> void
+auto LuaInstance::execFiles(const std::span<const char* const> file_list) noexcept -> void
 {
   logger_.writeToLog(File::Logger::LogType::debug, "Reading multiple Lua files:");
   for(const auto& path : file_list)

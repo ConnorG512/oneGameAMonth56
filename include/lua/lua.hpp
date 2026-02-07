@@ -21,8 +21,7 @@ class LuaInstance
   public: 
     LuaInstance(File::Logger& logger);
 
-    auto execSingleFile(const char* file_name) noexcept -> void;
-    auto execMultipleFiles(const std::span<const char* const> file_list) noexcept -> void;
+    auto execFiles(const std::span<const char* const> file_list) noexcept -> void;
     
     auto cref() const noexcept -> const lua_State&;
     auto ref() noexcept -> lua_State&;
