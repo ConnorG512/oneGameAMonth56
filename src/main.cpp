@@ -2,6 +2,7 @@
 #include "file-output/logging/logger.hpp"
 #include "game/enemy.hpp"
 #include "game/player.hpp"
+#include "game/projectile.hpp"
 #include "lua/lua.hpp"
 #include "sdl/event-handler.hpp"
 #include "sdl/image/texture.hpp"
@@ -41,6 +42,7 @@ auto main() -> int
 
   Game::Player player{lua_instance, display.game_renderer.ref()};
   Game::Enemy enemy{lua_instance, display.game_renderer.ref()};
+  Game::Projectile projectile{lua_instance, display.game_renderer.ref()};
 
   // Game loop
   while (event_handler.isGameRunning())
@@ -57,6 +59,7 @@ auto main() -> int
                                                   Utils::Angle::texture_offset<double>,
                                               nullptr, SDL_FLIP_NONE);
     display.game_renderer.renderTexture(enemy.texture_.ref(), nullptr, &enemy.bounds_.ref());
+    display.game_renderer.renderTexture(projectile.texture_.ref(), nullptr, &projectile.bounds_.ref());
     display.game_renderer.present();
   }
 
