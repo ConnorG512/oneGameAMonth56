@@ -26,7 +26,7 @@ auto main() -> int
   };
   
   LuaInstance lua_instance {log};
-  lua_instance.execFiles(std::array{"config.lua", "gamescript/player.lua"});
+  lua_instance.execFiles(std::array{"config.lua", "gamescript/player.lua", "gamescript/enemy.lua"});
 
   SDL::Init init{};
   log.writeAddress("init", static_cast<void*>(&init));
@@ -47,22 +47,9 @@ auto main() -> int
   log.writeToLog(File::Logger::LogType::info, std::format("screen size: [{}*{}].", window_size.first, window_size.second));
   
   SDL::Mouse mouse {};
-
-  Gameplay::Player player({
-      static_cast<float>(window_size.first / 2 - 16), 
-      static_cast<float>(window_size.second / 2 - 16), 32.0, 32.0}, 
-      display.game_renderer.ref(), 
-      lua_instance,
-      "assets/image/player.png"
-      );
-
-  Gameplay::Enemy enemy({
-      static_cast<float>(window_size.first / 2 - 16), 
-      static_cast<float>(window_size.second / 4 - 16), 32.0, 32.0}, 
-      display.game_renderer.ref(), 
-      lua_instance,
-      "assets/image/default.png"
-      );
+  
+  Game::Player player{lua_instance, display.game_renderer.ref()};
+  Game::Enemy enemy{lua_instance, display.game_renderer.ref()};
 
   // Game loop
   while (event_handler.isGameRunning())

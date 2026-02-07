@@ -3,7 +3,7 @@
 #include <concepts>
 #include <cassert>
 
-namespace Gameplay
+namespace Game
 {
   template <typename T>
   requires std::floating_point<T> || std::integral<T>

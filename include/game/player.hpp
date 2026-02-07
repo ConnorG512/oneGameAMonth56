@@ -1,19 +1,23 @@
 #pragma once 
 
-#include "game/game-entity.hpp"
+#include "sdl/rectangle.hpp"
+#include "sdl/image/texture.hpp"
+#include "game/health.hpp"
 
-#include <array>
+class LuaInstance;
+namespace File{class Logger;}
+class SDL_Renderer;
 
-namespace Gameplay
+
+namespace Game
 {
-  class Player : public GameEntity
+  class Player 
   {
     public:
-      Player(
-        const std::array<float,4>& xywh,
-        SDL_Renderer& renderer,
-        LuaInstance& lua_instance,
-        const char* image_path
-      );
+      SDL::Rectangle bounds_{};
+      SDL::Texture texture_;
+      Game::HealthComponent<int> health_{};
+      
+      Player(LuaInstance& lua, SDL_Renderer &renderer);
   };
 }
