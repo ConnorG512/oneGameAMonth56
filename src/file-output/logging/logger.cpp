@@ -1,41 +1,40 @@
 #include "file-output/logging/logger.hpp"
 
 #include <cassert>
+#include <filesystem>
 #include <format>
 #include <print>
-#include <filesystem>
 
-namespace 
+namespace
 {
-  auto GetPrepend(File::Logger::LogType type) -> std::string_view
+auto GetPrepend(File::Logger::LogType type) -> std::string_view
+{
+  switch (type)
   {
-    switch (type) 
-    {
-      case File::Logger::LogType::info:
-          return "INFO:";
-        break;
-        case File::Logger::LogType::debug:
-          return "DEBUG:";
-        break;
-        case File::Logger::LogType::error:
-          return "ERROR:";
-        break;
-    }
-    return "N/A:";
+    case File::Logger::LogType::info:
+      return "INFO:";
+      break;
+    case File::Logger::LogType::debug:
+      return "DEBUG:";
+      break;
+    case File::Logger::LogType::error:
+      return "ERROR:";
+      break;
   }
+  return "N/A:";
 }
+} // namespace
 
-File::Logger::Logger(const std::string& path, const std::string& file_name, bool active)
-  : logfile_{std::format("{}/{}", path, file_name), std::ios::out | std::ios::trunc} 
-  , active_{active}
+File::Logger::Logger(const std::string &path, const std::string &file_name, bool active)
+    : logfile_{std::format("{}/{}", path, file_name), std::ios::out | std::ios::trunc}, active_{active}
 {
-  if(logfile_.is_open())
+  if (logfile_.is_open())
     writeToLog(LogType::info, "Log created.");
-  else 
+  else
     std::println(stderr, "Failed to create log file!");
 }
 
-auto File::Logger::writeToLog(LogType type, const std::string& message) noexcept -> void
+auto File::Logger::writeToLog(LogType type, const std::string &message) noexcept -> void
 {
   if (!active_)
     return;
@@ -43,7 +42,8 @@ auto File::Logger::writeToLog(LogType type, const std::string& message) noexcept
   std::println(logfile_, "{} {}", GetPrepend(type), message);
 }
 
-auto File::Logger::writeAddress(std::string_view object_name, void* address) -> void
+auto File::Logger::writeAddress(std::string_view object_name, void *address) -> void
 {
-  std::println(logfile_, "{} Object {} written to address: [{}].",GetPrepend(File::Logger::LogType::debug), object_name, address);
+  std::println(logfile_, "{} Object {} written to address: [{}].", GetPrepend(File::Logger::LogType::debug),
+               object_name, address);
 }

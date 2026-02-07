@@ -37,7 +37,9 @@ auto SDL::Renderer::renderTexture(SDL_Texture &texture, SDL_FRect *source_rect, 
   SDL_RenderTexture(renderer_.get(), &texture, source_rect, dest_rect);
 }
 
-auto SDL::Renderer::renderTextureRotate(SDL_Texture &texture, const SDL_FRect* source_rect, const SDL_FRect* dest_rect, double angle, const SDL_FPoint* center_point, const SDL_FlipMode flipmode) -> void
+auto SDL::Renderer::renderTextureRotate(SDL_Texture &texture, const SDL_FRect *source_rect, const SDL_FRect *dest_rect,
+                                        double angle, const SDL_FPoint *center_point, const SDL_FlipMode flipmode)
+    -> void
 {
   SDL_RenderTextureRotated(renderer_.get(), &texture, source_rect, dest_rect, angle, center_point, flipmode);
 }

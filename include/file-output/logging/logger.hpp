@@ -1,25 +1,25 @@
-#pragma once 
+#pragma once
 
 #include <fstream>
 #include <string>
 
-namespace File 
+namespace File
 {
-class Logger 
+class Logger
 {
   std::fstream logfile_{"./debug.log", std::ios::out | std::ios::trunc};
-  bool active_ {true};
+  bool active_{true};
 
-  public:
-    Logger(const std::string& path, const std::string& file_name = "debug.log", bool active = false);
+public:
+  Logger(const std::string &path, const std::string &file_name = "debug.log", bool active = false);
 
-    enum class LogType 
-    {
-      info, 
-      debug, 
-      error,
-    };
-    auto writeToLog(LogType type, const std::string& message) noexcept -> void;
-    auto writeAddress(std::string_view object_name, void* address) -> void;
+  enum class LogType
+  {
+    info,
+    debug,
+    error,
+  };
+  auto writeToLog(LogType type, const std::string &message) noexcept -> void;
+  auto writeAddress(std::string_view object_name, void *address) -> void;
 };
-}
+} // namespace File

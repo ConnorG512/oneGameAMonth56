@@ -12,6 +12,6 @@ public:
   Renderer game_renderer{game_window.ptr()};
 
   WindowRenderer() = default;
-  WindowRenderer(const char* title, const std::pair<int,int>& xy);
+  WindowRenderer(const char *title, const std::pair<int, int> &xy);
 };
 } // namespace SDL
