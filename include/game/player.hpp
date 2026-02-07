@@ -13,11 +13,11 @@ namespace Game
 {
   class Player 
   {
-    SDL::Rectangle bounds_{};
-    SDL::Texture texture_;
-    Game::HealthComponent<int> health_{};
-
     public:
+      SDL::Rectangle bounds_{};
+      SDL::Texture texture_;
+      Game::HealthComponent<int> health_{};
+      
       Player(LuaInstance& lua, SDL_Renderer &renderer);
   };
 }
