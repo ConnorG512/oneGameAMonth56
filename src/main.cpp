@@ -42,7 +42,7 @@ auto main() -> int
 
   Game::Player player{lua_instance, display.game_renderer.ref()};
   Game::Enemy enemy{lua_instance, display.game_renderer.ref()};
-  Game::Projectile projectile{lua_instance, display.game_renderer.ref()};
+  Game::Projectile projectile{{600.f,600.f}, lua_instance, display.game_renderer.ref()};
 
   // Game loop
   while (event_handler.isGameRunning())

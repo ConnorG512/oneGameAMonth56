@@ -3,6 +3,8 @@
 #include "sdl/image/texture.hpp"
 #include "sdl/rectangle.hpp"
 
+#include <utility>
+
 class LuaInstance;
 class SDL_Renderer;
 
@@ -13,6 +15,6 @@ class Projectile
     SDL::Rectangle bounds_{};
     SDL::Texture texture_;
 
-    Projectile(LuaInstance &lua, SDL_Renderer &renderer);
+    Projectile(std::pair<float, float>xy, LuaInstance &lua, SDL_Renderer &renderer);
 };
 }
