@@ -13,9 +13,9 @@ class Window
 
 public:
   Window() = default;
-  Window(const char* title, const std::pair<int,int>& xy);
+  Window(const char *title, const std::pair<int, int> &xy);
 
   auto ptr() noexcept -> SDL_Window *;
-  auto WindowSize() noexcept -> std::pair<int, int>; 
+  auto WindowSize() noexcept -> std::pair<int, int>;
 };
 } // namespace SDL
