@@ -28,6 +28,10 @@ auto main() -> int
   File::validateFiles(File::lua_files);
 
   File::Binary save_file{"game.sav"};
+  if(save_file.isValidBinary())
+    log.writeToLog(File::Logger::LogType::debug, "Save file magic validated!");
+  else 
+    log.writeToLog(File::Logger::LogType::error, "Save file magic not mathing, possible corruption!");
 
   LuaInstance lua_instance{log};
   lua_instance.execFiles(File::lua_files);
