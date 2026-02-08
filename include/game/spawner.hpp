@@ -5,6 +5,10 @@
 #include <memory>
 #include <functional>
 #include <ranges>
+#include <utility>
+
+class LuaInstance;
+class SDL_Renderer;
 
 namespace Game {
 template <typename T>
@@ -25,13 +29,13 @@ class Spawner
     Spawner(std::function<std::uint32_t()> slot_func)
       : spawn_slots_{CreateSpawner(slot_func)} {}
 
-    auto spawnProjectile() -> void 
+    auto spawnProjectile(const std::pair<float, float> &xy, LuaInstance &lua, SDL_Renderer &renderer) -> void 
     {
-      for(const auto& slot : spawn_slots_)
+      for(auto& slot : spawn_slots_)
       {
         if(slot == nullptr)
         {
-          slot = std::make_unique<T>();
+          slot = std::make_unique<T>(xy, lua, renderer);
           break;
         }
       }
