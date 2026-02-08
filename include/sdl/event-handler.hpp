@@ -19,7 +19,7 @@ class EventHandler
 public:
   EventHandler(File::Logger &logger);
 
-  auto PollEvent(std::function<void()> on_click_func) noexcept -> void;
+  auto PollEvent(std::function<void()> on_click_func = nullptr) noexcept -> void;
   auto isGameRunning() const noexcept -> bool;
 };
 } // namespace SDL
