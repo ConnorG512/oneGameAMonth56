@@ -10,6 +10,8 @@
 #include "sdl/input/mouse.hpp"
 #include "sdl/window-renderer/window-renderer.hpp"
 #include "utils/angle.hpp"
+#include "utils/cast-get.hpp"
+#include "game/spawner.hpp"
 
 #include <array>
 #include <cmath>
@@ -22,7 +24,7 @@ auto main() -> int
   File::Binary save_file{"game.sav", {'C', 'G', 'E', 'S', 'A', 'V', 'E', 0x00}, log};
 
   LuaInstance lua_instance{log};
-  lua_instance.execFiles(std::array{"config.lua", "gamescript/player.lua", "gamescript/enemy.lua", "gamescript/projectile.lua"});
+  lua_instance.execFiles(std::array{"config.lua", "gamescript/player.lua", "gamescript/enemy.lua", "gamescript/projectile.lua", "gamescript/rules.lua"});
 
   SDL::Init init{};
   log.writeAddress("init", static_cast<void *>(&init));
@@ -42,6 +44,8 @@ auto main() -> int
 
   Game::Player player{lua_instance, display.game_renderer.ref()};
   Game::Enemy enemy{lua_instance, display.game_renderer.ref()};
+  Game::Spawner<Game::Projectile>{[&lua_instance](){ return CastGetVar<int>(lua_instance.GetLuaValue(std::array{ "GameRules", "ProjectileSpawner", "max_spawn_slots" }));}};
+
   Game::Projectile projectile{{600.f,600.f}, lua_instance, display.game_renderer.ref()};
 
   // Game loop
