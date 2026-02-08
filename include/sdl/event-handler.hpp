@@ -2,6 +2,7 @@
 
 #include <SDL3/SDL.h>
 #include <cstdint>
+#include <functional>
 
 namespace File
 {
@@ -18,7 +19,7 @@ class EventHandler
 public:
   EventHandler(File::Logger &logger);
 
-  auto PollEvent() noexcept -> void;
+  auto PollEvent(std::function<void()> on_click_func = nullptr) noexcept -> void;
   auto isGameRunning() const noexcept -> bool;
 };
 } // namespace SDL

@@ -7,7 +7,7 @@
 
 SDL::EventHandler::EventHandler(File::Logger &logger) : logger_{logger} { logger_.writeAddress("Event Handler", this); }
 
-auto SDL::EventHandler::PollEvent() noexcept -> void
+auto SDL::EventHandler::PollEvent(std::function<void()> on_click_func) noexcept -> void
 {
   SDL_Event event;
 
@@ -18,7 +18,9 @@ auto SDL::EventHandler::PollEvent() noexcept -> void
 
     if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN)
     {
-      logger_.writeToLog(File::Logger::LogType::info, "Mouse pressed!");
+      if(!on_click_func)
+        return;
+      on_click_func();
     }
   }
 }

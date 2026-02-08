@@ -47,16 +47,14 @@ auto main() -> int
 
   Game::Player player{lua_instance, display.game_renderer.ref()};
   Game::Enemy enemy{lua_instance, display.game_renderer.ref()};
-  Game::Spawner<Game::Projectile>{[&lua_instance](){ return CastGetVar<int>(lua_instance.GetLuaValue(std::array{ "GameRules", "ProjectileSpawner", "max_spawn_slots" }));}};
-
-  Game::Projectile projectile{{600.f,600.f}, lua_instance, display.game_renderer.ref()};
-
+  Game::Spawner<Game::Projectile> proj_spawner {[&lua_instance](){ return CastGetVar<int>(lua_instance.GetLuaValue(std::array{ "GameRules", "ProjectileSpawner", "max_spawn_slots" }));}};
+  
   // Game loop
   while (event_handler.isGameRunning())
   {
-    event_handler.PollEvent();
-
     const auto mouse_xy{mouse.GetCursorPosition()};
+    
+    event_handler.PollEvent([&]{proj_spawner.spawnProjectile(mouse_xy, lua_instance, display.game_renderer.ref());});
 
     display.game_renderer.clearScreen();
     display.game_renderer.drawColorFloat(0, 0, 0);
@@ -66,7 +64,13 @@ auto main() -> int
                                                   Utils::Angle::texture_offset<double>,
                                               nullptr, SDL_FLIP_NONE);
     display.game_renderer.renderTexture(enemy.texture_.ref(), nullptr, &enemy.bounds_.ref());
-    display.game_renderer.renderTexture(projectile.texture_.ref(), nullptr, &projectile.bounds_.ref());
+
+    // Spawned Projectile Render: 
+    for(auto& projectile : proj_spawner.ref())
+    {
+      display.game_renderer.renderTexture(projectile.texture_.ref(), nullptr, &projectile.bounds_.ref());
+    }
+
     display.game_renderer.present();
   }
 
