@@ -12,10 +12,10 @@ namespace Game
     T current_score_ {0};
     T high_score_ {0};
     T score_multiplier_ {1};
-    T max_score_ {std::numeric_limits<T>::max};
+    T max_score_ {std::numeric_limits<T>::max()};
     
     public:
-      Score(T score_multiplier = 1, T max_score = std::numeric_limits<T>::max)
+      Score(T score_multiplier = 1, T max_score = std::numeric_limits<T>::max())
         : score_multiplier_{score_multiplier}
         , max_score_{max_score} {}
       
