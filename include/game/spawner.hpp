@@ -6,6 +6,7 @@
 #include <functional>
 #include <ranges>
 
+namespace Game {
 template <typename T>
 class Spawner 
 {
@@ -36,3 +37,4 @@ class Spawner
         }
       }
 };
+}
