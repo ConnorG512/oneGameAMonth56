@@ -54,6 +54,5 @@ class Spawner
         | std::views::filter([](const auto& slot){ return slot != nullptr; })
         | std::views::transform([](auto& slot) -> T& { return *slot; });
     }
-
 };
 }
