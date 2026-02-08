@@ -2,19 +2,20 @@
 
 #include <array>
 #include <cstdint>
+#include <functional>
 #include <fstream>
+#include <span>
 
-namespace File
+namespace File 
 {
-class Logger;
+  class Binary 
+  {
+    std::ofstream file_{"./default.bin", std::ios::out | std::ios::binary};
+    std::array<std::uint8_t, 8> magic_ {'C','G','E','B','I','N', 0x00};
 
-class Binary
-{
-  const char *file_name_{nullptr};
-  std::fstream file_;
+    public:
+      Binary(const char* file_name);
 
-public:
-  Binary(const char *file_name, std::array<uint8_t, 8> magic,
-         std::optional<std::reference_wrapper<File::Logger>> logger);
-};
-} // namespace File
+      auto writeToFile(const std::span<const uint8_t> bytes) noexcept -> void;
+  };
+}
