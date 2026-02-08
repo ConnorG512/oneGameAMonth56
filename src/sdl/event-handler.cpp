@@ -7,7 +7,7 @@
 
 SDL::EventHandler::EventHandler(File::Logger &logger) : logger_{logger} { logger_.writeAddress("Event Handler", this); }
 
-auto SDL::EventHandler::PollEvent() noexcept -> void
+auto SDL::EventHandler::PollEvent(std::function<void()> on_click_func) noexcept -> void
 {
   SDL_Event event;
 
