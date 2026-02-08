@@ -9,6 +9,7 @@ namespace File
   ({
     "config.lua",
     "gamescript/enemy.lua",
+    "gamescript/player.lua",
     "gamescript/projectile.lua",
     "gamescript/rules.lua"
   });
