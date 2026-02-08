@@ -10,7 +10,7 @@ namespace Game {
 template <typename T>
 class Spawner 
 {
-  std::vector<std::unique_ptr<T>> spawn_slots{nullptr};
+  std::vector<std::unique_ptr<T>> spawn_slots_{};
   
   auto CreateSpawner(std::function<std::uint32_t()> slot_func) -> 
     std::vector<std::unique_ptr<T>>
@@ -22,19 +22,19 @@ class Spawner
   }
 
   public:    
-      Spawner(std::function<std::uint32_t()> slot_func)
-        : spawn_slots{CreateSpawner(slot_func)} {}
+    Spawner(std::function<std::uint32_t()> slot_func)
+      : spawn_slots_{CreateSpawner(slot_func)} {}
 
-      auto spawnProjectile() -> void 
+    auto spawnProjectile() -> void 
+    {
+      for(const auto& slot : spawn_slots_)
       {
-        for(const auto& slot : spawn_slots)
+        if(slot == nullptr)
         {
-          if(slot == nullptr)
-          {
-            slot = std::make_unique<T>();
-            break;
-          }
+          slot = std::make_unique<T>();
+          break;
         }
       }
+    }
 };
 }
