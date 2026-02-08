@@ -26,7 +26,7 @@ auto main() -> int
  
   File::validateFiles(File::lua_files);
 
-  File::Binary save_file{"game.sav", {'C', 'G', 'E', 'S', 'A', 'V', 'E', 0x00}, log};
+  File::Binary save_file{"game.sav"};
 
   LuaInstance lua_instance{log};
   lua_instance.execFiles(File::lua_files);
