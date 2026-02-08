@@ -13,6 +13,6 @@ namespace File
     "gamescript/rules.lua"
   });
 
-  auto validateFiles(std::span<const char*> required_files) -> void;
+  auto validateFiles(const std::span<const char* const> required_files) -> void;
 }  
 

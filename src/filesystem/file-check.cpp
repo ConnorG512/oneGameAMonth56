@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include <format>
 
-auto File::validateFiles(std::span<const char*> required_files) -> void
+auto File::validateFiles(const std::span<const char* const> required_files) -> void
 {
   for(const auto& [index, path] : required_files | std::views::enumerate)
   {
