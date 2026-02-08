@@ -41,14 +41,19 @@ class Spawner
       }
     }
 
-    auto ref() noexcept -> std::vector<T>&
+    auto ref() noexcept -> auto 
     {
-      return spawn_slots_ | std::views::filter([](auto& spawn){ return spawn != nullptr;});
+      return spawn_slots_ 
+        | std::views::filter([](const auto& slot){ return slot != nullptr; })
+        | std::views::transform([](auto& slot) -> T& { return *slot; });
+    }
+    
+    auto cref() const noexcept -> auto 
+    {
+      return spawn_slots_ 
+        | std::views::filter([](const auto& slot){ return slot != nullptr; })
+        | std::views::transform([](auto& slot) -> T& { return *slot; });
     }
 
-    auto cref() const noexcept -> const std::vector<T>&
-    {
-      return spawn_slots_ | std::views::filter([](auto& spawn){ return spawn != nullptr;});
-    }
 };
 }
