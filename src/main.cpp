@@ -85,7 +85,6 @@ auto main() -> int
 
   Game::Serialize<int> save_object 
   {
-    .player_name = {"Player"},
     .high_score = current_score.getHighScore(),
     .times_played = 1,
   };
