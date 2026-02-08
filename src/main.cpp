@@ -14,6 +14,7 @@
 #include "game/spawner.hpp"
 #include "game/scoring.hpp"
 #include "filesystem/file-check.hpp"
+#include "game/save-object.hpp"
 
 #include <array>
 #include <cmath>
@@ -81,10 +82,15 @@ auto main() -> int
     display.game_renderer.present();
   }
   
-  const auto high_score_to_save{current_score.getHighScore()};
-  
+
+  Game::Serialize<int> save_object 
+  {
+    .player_name = {"Player"},
+    .high_score = current_score.getHighScore(),
+    .times_played = 1,
+  };
   save_file.writeToFile(
-      {reinterpret_cast<const std::uint8_t*>(&high_score_to_save), sizeof(high_score_to_save)});
+      {reinterpret_cast<const std::uint8_t*>(&save_object), sizeof(save_object)});
 
   return 0;
 }
