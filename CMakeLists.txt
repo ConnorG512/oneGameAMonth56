@@ -22,6 +22,7 @@ set(SOURCE_FILES
   src/game/enemy.cpp
   src/game/projectile.cpp
   src/lua/lua.cpp
+  src/filesystem/file-check.cpp
 )
 
 add_executable(${EXEC_NAME} ${SOURCE_FILES})
