@@ -12,6 +12,7 @@
 #include "utils/angle.hpp"
 #include "utils/cast-get.hpp"
 #include "game/spawner.hpp"
+#include "filesystem/file-check.hpp"
 
 #include <array>
 #include <cmath>
@@ -21,6 +22,9 @@
 auto main() -> int
 {
   File::Logger log{std::getenv("PWD"), "/debug.log", true};
+ 
+  File::validateFiles(File::lua_files);
+
   File::Binary save_file{"game.sav", {'C', 'G', 'E', 'S', 'A', 'V', 'E', 0x00}, log};
 
   LuaInstance lua_instance{log};
@@ -28,7 +32,6 @@ auto main() -> int
 
   SDL::Init init{};
   log.writeAddress("init", static_cast<void *>(&init));
-
   SDL::EventHandler event_handler{log};
 
   SDL::WindowRenderer display{
