@@ -15,10 +15,8 @@ namespace Game
     T max_score_ {std::numeric_limits<T>::max};
     
     public:
-      Score(T current_score, T high_score, T score_multiplier, T max_score = std::numeric_limits<T>::max)
-        : current_score_{current_score}
-        , high_score_{high_score}
-        , score_multiplier_{score_multiplier}
+      Score(T score_multiplier = 1, T max_score = std::numeric_limits<T>::max)
+        : score_multiplier_{score_multiplier}
         , max_score_{max_score} {}
       
       auto increaseScore(T amount)
