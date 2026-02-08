@@ -22,7 +22,7 @@ auto main() -> int
   File::Binary save_file{"game.sav", {'C', 'G', 'E', 'S', 'A', 'V', 'E', 0x00}, log};
 
   LuaInstance lua_instance{log};
-  lua_instance.execFiles(std::array{"config.lua", "gamescript/player.lua", "gamescript/enemy.lua", "gamescript/projectile.lua"});
+  lua_instance.execFiles(std::array{"config.lua", "gamescript/player.lua", "gamescript/enemy.lua", "gamescript/projectile.lua", "gamescript/rules.lua"});
 
   SDL::Init init{};
   log.writeAddress("init", static_cast<void *>(&init));
