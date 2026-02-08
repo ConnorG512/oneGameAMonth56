@@ -12,6 +12,7 @@
 #include "utils/angle.hpp"
 #include "utils/cast-get.hpp"
 #include "game/spawner.hpp"
+#include "game/scoring.hpp"
 #include "filesystem/file-check.hpp"
 
 #include <array>
@@ -44,7 +45,8 @@ auto main() -> int
                  std::format("screen size: [{}*{}].", window_size.first, window_size.second));
 
   SDL::Mouse mouse{};
-
+  
+  Game::Score<int> current_score{};
   Game::Player player{lua_instance, display.game_renderer.ref()};
   Game::Enemy enemy{lua_instance, display.game_renderer.ref()};
   Game::Spawner<Game::Projectile> proj_spawner {[&lua_instance](){ return CastGetVar<int>(lua_instance.GetLuaValue(std::array{ "GameRules", "ProjectileSpawner", "max_spawn_slots" }));}};
