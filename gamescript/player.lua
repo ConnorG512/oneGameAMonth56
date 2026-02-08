@@ -4,6 +4,6 @@ PlayerValues = {
   max_health = 1800,
   bounds_w = 32,
   bounds_h = 32,
-  pos_x = 150,
-  pos_y = 150,
+  pos_x = 1024 / 2 - 16,
+  pos_y = 1024 / 2 - 16,
 }
