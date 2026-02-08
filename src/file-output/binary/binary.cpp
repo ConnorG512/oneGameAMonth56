@@ -9,7 +9,7 @@ File::Binary::Binary(const char *file_name)
   writeToFile(magic_);
 }
 
-auto File::Binary::writeToFile(std::span<uint8_t> bytes) noexcept -> void
+auto File::Binary::writeToFile(const std::span<const uint8_t> bytes) noexcept -> void
 {
   file_.write(reinterpret_cast<const char*>(bytes.data()), bytes.size());
 }

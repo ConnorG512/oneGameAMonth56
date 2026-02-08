@@ -16,6 +16,6 @@ namespace File
     public:
       Binary(const char* file_name);
 
-      auto writeToFile(std::span<uint8_t> bytes) noexcept -> void;
+      auto writeToFile(const std::span<const uint8_t> bytes) noexcept -> void;
   };
 }

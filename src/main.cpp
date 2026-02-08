@@ -19,6 +19,7 @@
 #include <cmath>
 #include <format>
 #include <print>
+#include <cstdint>
 
 auto main() -> int
 {
@@ -75,6 +76,11 @@ auto main() -> int
 
     display.game_renderer.present();
   }
+  
+  const auto high_score_to_save{current_score.getHighScore()};
+  
+  save_file.writeToFile(
+      {reinterpret_cast<const std::uint8_t*>(&high_score_to_save), sizeof(high_score_to_save)});
 
   return 0;
 }
