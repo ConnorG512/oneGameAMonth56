@@ -18,7 +18,9 @@ auto SDL::EventHandler::PollEvent(std::function<void()> on_click_func) noexcept 
 
     if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN)
     {
-      logger_.writeToLog(File::Logger::LogType::info, "Mouse pressed!");
+      if(!on_click_func)
+        return;
+      on_click_func();
     }
   }
 }
