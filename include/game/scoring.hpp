@@ -3,7 +3,7 @@
 #include <concepts>
 #include <limits>
 
-namespace Scoring 
+namespace Game 
 {
   template <typename T>
   requires std::integral<T> && (!std::same_as<T, bool>)
