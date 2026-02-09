@@ -1,19 +1,13 @@
-#pragma once 
+#pragma once
 
 #include <array>
 #include <span>
 
 namespace File
 {
-  [[maybe_unused]] constexpr auto lua_files = std::to_array<const char*>
-  ({
-    "config.lua",
-    "gamescript/enemy.lua",
-    "gamescript/player.lua",
-    "gamescript/projectile.lua",
-    "gamescript/rules.lua"
-  });
+[[maybe_unused]] constexpr auto lua_files =
+    std::to_array<const char *>({"config.lua", "gamescript/enemy.lua", "gamescript/player.lua",
+                                 "gamescript/projectile.lua", "gamescript/rules.lua"});
 
-  auto validateFiles(const std::span<const char* const> required_files) -> void;
-}  
-
+auto validateFiles(const std::span<const char *const> required_files) -> void;
+} // namespace File

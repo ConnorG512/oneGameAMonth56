@@ -1,58 +1,54 @@
-#pragma once 
+#pragma once
 
-#include <vector>
 #include <cstdint>
-#include <memory>
 #include <functional>
+#include <memory>
 #include <ranges>
 #include <utility>
+#include <vector>
 
 class LuaInstance;
 class SDL_Renderer;
 
-namespace Game {
-template <typename T>
-class Spawner 
+namespace Game
+{
+template <typename T> class Spawner
 {
   std::vector<std::unique_ptr<T>> spawn_slots_{};
-  
-  auto CreateSpawner(std::function<std::uint32_t()> slot_func) -> 
-    std::vector<std::unique_ptr<T>>
+
+  auto CreateSpawner(std::function<std::uint32_t()> slot_func) -> std::vector<std::unique_ptr<T>>
   {
     const auto slot_size = (slot_func) ? slot_func() : 5;
-    std::vector<std::unique_ptr<T>> spawn_slots (slot_size);
+    std::vector<std::unique_ptr<T>> spawn_slots(slot_size);
 
     return spawn_slots;
   }
 
-  public:    
-    Spawner(std::function<std::uint32_t()> slot_func)
-      : spawn_slots_{CreateSpawner(slot_func)} {}
+public:
+  Spawner(std::function<std::uint32_t()> slot_func) : spawn_slots_{CreateSpawner(slot_func)} {}
 
-    auto spawnProjectile(const std::pair<float, float> &xy, LuaInstance &lua, SDL_Renderer &renderer) -> void 
+  auto spawnProjectile(const std::pair<float, float> &xy, LuaInstance &lua, SDL_Renderer &renderer) -> void
+  {
+    for (auto &slot : spawn_slots_)
     {
-      for(auto& slot : spawn_slots_)
+      if (slot == nullptr)
       {
-        if(slot == nullptr)
-        {
-          slot = std::make_unique<T>(xy, lua, renderer);
-          break;
-        }
+        slot = std::make_unique<T>(xy, lua, renderer);
+        break;
       }
     }
+  }
 
-    auto ref() noexcept -> auto 
-    {
-      return spawn_slots_ 
-        | std::views::filter([](const auto& slot){ return slot != nullptr; })
-        | std::views::transform([](auto& slot) -> T& { return *slot; });
-    }
-    
-    auto cref() const noexcept -> auto 
-    {
-      return spawn_slots_ 
-        | std::views::filter([](const auto& slot){ return slot != nullptr; })
-        | std::views::transform([](auto& slot) -> T& { return *slot; });
-    }
+  auto ref() noexcept -> auto
+  {
+    return spawn_slots_ | std::views::filter([](const auto &slot) { return slot != nullptr; }) |
+           std::views::transform([](auto &slot) -> T & { return *slot; });
+  }
+
+  auto cref() const noexcept -> auto
+  {
+    return spawn_slots_ | std::views::filter([](const auto &slot) { return slot != nullptr; }) |
+           std::views::transform([](auto &slot) -> T & { return *slot; });
+  }
 };
-}
+} // namespace Game
