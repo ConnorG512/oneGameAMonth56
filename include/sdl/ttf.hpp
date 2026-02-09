@@ -6,9 +6,8 @@ namespace SDL
 {
   class Ttf 
   {
-    Ttf();
-    ~Ttf();
-
     public:
+      Ttf();
+      ~Ttf();
   };
 }
