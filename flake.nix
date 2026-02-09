@@ -12,14 +12,8 @@
   {
     devShells.x86_64-linux.default = pkgs.mkShell {
       packages = with pkgs; [ 
-        ccls 
-        cmake 
-        ninja
-        pkg-config
-
-        sdl3
-        sdl3-image
-        
+        sdl3.dev
+        sdl3-image.dev
         lua
 
         gef
