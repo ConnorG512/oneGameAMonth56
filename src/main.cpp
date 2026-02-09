@@ -92,7 +92,6 @@ auto main() -> int
     auto texture_ref {*texture};
     SDL_DestroySurface(surface);
     SDL_FRect dstRect {100, 100, 200, 80};
-    display.game_renderer.renderTexture(texture_ref, nullptr, &dstRect);
     SDL_DestroyTexture(texture);
 
 
@@ -103,6 +102,9 @@ auto main() -> int
                                                   Utils::Angle::texture_offset<double>,
                                               nullptr, SDL_FLIP_NONE);
     display.game_renderer.renderTexture(enemy.texture_.ref(), nullptr, &enemy.bounds_.ref());
+    
+    //ttf
+    display.game_renderer.renderTexture(texture_ref, nullptr, &dstRect);
 
     // Spawned Projectile Render:
     for (auto &projectile : proj_spawner.ref())
