@@ -15,6 +15,7 @@
 #include "sdl/window-renderer/window-renderer.hpp"
 #include "utils/angle.hpp"
 #include "utils/cast-get.hpp"
+#include "sdl/ttf.hpp"
 
 #include <array>
 #include <format>
@@ -41,6 +42,9 @@ auto main() -> int
 
   SDL::Init init{};
   log.writeAddress("init", static_cast<void *>(&init));
+
+  SDL::Ttf ttf{};
+
   SDL::EventHandler event_handler{log};
 
   SDL::WindowRenderer display{
