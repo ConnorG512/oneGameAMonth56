@@ -82,14 +82,11 @@ auto main() -> int
     display.game_renderer.present();
   }
   
-
   Game::Serialize<int> save_object 
   {
     .high_score = current_score.getHighScore(),
     .times_played = 1,
   };
-  save_file.writeToFile(
-      {reinterpret_cast<const std::uint8_t*>(&save_object), sizeof(save_object)});
 
   return 0;
 }
