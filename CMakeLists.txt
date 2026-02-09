@@ -9,6 +9,7 @@ set(EXEC_NAME oneGameAMonth)
 set(SOURCE_FILES 
   src/main.cpp
   src/sdl/init.cpp
+  src/sdl/ttf.cpp
   src/sdl/window-renderer/window.cpp
   src/sdl/window-renderer/renderer.cpp
   src/sdl/window-renderer/window-renderer.cpp
