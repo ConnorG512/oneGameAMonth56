@@ -1,6 +1,5 @@
 #include "sdl/ttf.hpp"
 
-#include <SDL3_ttf/SDL_ttf.h>
 #include <stdexcept>
 
 SDL::Ttf::Ttf() 
@@ -13,3 +12,4 @@ SDL::Ttf::~Ttf()
 {
   TTF_Quit();
 }
+
