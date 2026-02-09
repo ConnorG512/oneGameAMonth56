@@ -37,5 +37,26 @@
         echo "Entering One Game A Month #56 shell!"
       '';
     };
+
+    debug = pkgs.stdenv.mkDerivation (finalAttrs: {
+      pname = "oneGameAMonth";
+      version = "debug";
+      src = ./.;
+
+      dontStrip = true;
+
+      nativeBuildInputs = with pkgs; [
+        cmake 
+        ninja
+        pkg-config
+        
+      ];
+      buildInputs = with pkgs; [
+        sdl3
+        sdl3-image
+        
+        lua
+      ];
+    });
   };
 }
