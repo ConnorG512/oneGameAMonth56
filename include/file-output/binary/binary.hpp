@@ -16,7 +16,14 @@ namespace File
     public:
       Binary(const char* file_name);
 
-      auto writeToFile(const std::span<const uint8_t> bytes) noexcept -> void;
       auto isValidBinary() noexcept -> bool;
+
+      template <typename T>
+      auto writeSerialDataToFile(const T& serial_struct) noexcept -> void
+      {
+        file_.seekp(magic_.size(),  std::ios::beg);
+        
+        file_.write(reinterpret_cast<const char*>(&serial_struct), sizeof(serial_struct));
+      }
   };
 }

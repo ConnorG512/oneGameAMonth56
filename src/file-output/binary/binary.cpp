@@ -9,15 +9,12 @@ File::Binary::Binary(const char *file_name)
   if(!file_.is_open())
   {
     file_.open(file_name, std::ios::out | std::ios::binary);
-    writeToFile(magic_);
     
+    file_.write(reinterpret_cast<const char*>(magic_.data()), magic_.size());
+
     file_.close();
     file_.open(file_name, std::ios::in | std::ios::out | std::ios::binary);
   }
-}
-auto File::Binary::writeToFile(const std::span<const uint8_t> bytes) noexcept -> void
-{
-  file_.write(reinterpret_cast<const char*>(bytes.data()), bytes.size());
 }
     
 auto File::Binary::isValidBinary() noexcept -> bool
