@@ -88,7 +88,7 @@ auto main() -> int
   }
   
   file_data.high_score = current_score.getHighScore();
-  file_data.times_played = file_data.times_played += 1;
+  file_data.times_played += 1;
   save_file.writeSerialDataToFile(file_data);
 
   return 0;
