@@ -12,6 +12,7 @@
   {
     devShells.x86_64-linux.default = pkgs.mkShell {
       packages = with pkgs; [ 
+        clang-tools
         sdl3.dev
         sdl3-image.dev
         sdl3-ttf
