@@ -10,6 +10,7 @@ set(SOURCE_FILES
   src/main.cpp
   src/sdl/init.cpp
   src/sdl/ttf.cpp
+  src/sdl/text.cpp
   src/sdl/window-renderer/window.cpp
   src/sdl/window-renderer/renderer.cpp
   src/sdl/window-renderer/window-renderer.cpp
