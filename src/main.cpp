@@ -1,8 +1,12 @@
 #include "file-output/binary/binary.hpp"
 #include "file-output/logging/logger.hpp"
+#include "filesystem/file-check.hpp"
 #include "game/enemy.hpp"
 #include "game/player.hpp"
 #include "game/projectile.hpp"
+#include "game/save-object.hpp"
+#include "game/scoring.hpp"
+#include "game/spawner.hpp"
 #include "lua/lua.hpp"
 #include "sdl/event-handler.hpp"
 #include "sdl/image/texture.hpp"
@@ -11,10 +15,6 @@
 #include "sdl/window-renderer/window-renderer.hpp"
 #include "utils/angle.hpp"
 #include "utils/cast-get.hpp"
-#include "game/spawner.hpp"
-#include "game/scoring.hpp"
-#include "filesystem/file-check.hpp"
-#include "game/save-object.hpp"
 
 #include <array>
 #include <format>
@@ -22,17 +22,17 @@
 auto main() -> int
 {
   File::Logger log{std::getenv("PWD"), "/debug.log", true};
- 
+
   File::validateFiles(File::lua_files);
-  
+
   File::Binary save_file{"game.sav"};
-  if(save_file.isValidBinary())
+  if (save_file.isValidBinary())
     log.writeToLog(File::Logger::LogType::debug, "Save file magic validated!");
-  else 
+  else
     log.writeToLog(File::Logger::LogType::error, "Save file magic not mathing, possible corruption!");
-  
-  Game::Serialize file_data {save_file.readSerialDataFromFile<Game::Serialize>()};
-  
+
+  Game::Serialize file_data{save_file.readSerialDataFromFile<Game::Serialize>()};
+
   log.writeToLog(File::Logger::LogType::debug, std::format("Read Save data, High Score: {}", file_data.high_score));
   log.writeToLog(File::Logger::LogType::debug, std::format("Read Save data, Times Played: {}", file_data.times_played));
 
@@ -53,18 +53,22 @@ auto main() -> int
                  std::format("screen size: [{}*{}].", window_size.first, window_size.second));
 
   SDL::Mouse mouse{};
-  
+
   Game::Score<int> current_score{};
   Game::Player player{lua_instance, display.game_renderer.ref()};
   Game::Enemy enemy{lua_instance, display.game_renderer.ref()};
-  Game::Spawner<Game::Projectile> proj_spawner {[&lua_instance](){ return CastGetVar<int>(lua_instance.GetLuaValue(std::array{ "GameRules", "ProjectileSpawner", "max_spawn_slots" }));}};
-  
+  Game::Spawner<Game::Projectile> proj_spawner{[&lua_instance]()
+                                               {
+                                                 return CastGetVar<int>(lua_instance.GetLuaValue(
+                                                     std::array{"GameRules", "ProjectileSpawner", "max_spawn_slots"}));
+                                               }};
+
   // Game loop
   while (event_handler.isGameRunning())
   {
     const auto mouse_xy{mouse.GetCursorPosition()};
-    
-    event_handler.PollEvent([&]{proj_spawner.spawnProjectile(mouse_xy, lua_instance, display.game_renderer.ref());});
+
+    event_handler.PollEvent([&] { proj_spawner.spawnProjectile(mouse_xy, lua_instance, display.game_renderer.ref()); });
 
     display.game_renderer.clearScreen();
     display.game_renderer.drawColorFloat(0, 0, 0);
@@ -75,15 +79,15 @@ auto main() -> int
                                               nullptr, SDL_FLIP_NONE);
     display.game_renderer.renderTexture(enemy.texture_.ref(), nullptr, &enemy.bounds_.ref());
 
-    // Spawned Projectile Render: 
-    for(auto& projectile : proj_spawner.ref())
+    // Spawned Projectile Render:
+    for (auto &projectile : proj_spawner.ref())
     {
       display.game_renderer.renderTexture(projectile.texture_.ref(), nullptr, &projectile.bounds_.ref());
     }
 
     display.game_renderer.present();
   }
-  
+
   file_data.high_score = current_score.getHighScore();
   file_data.times_played += 1;
   save_file.writeSerialDataToFile(file_data);
