@@ -27,12 +27,17 @@ auto main() -> int
   File::Logger log{std::getenv("PWD"), "/debug.log", true};
  
   File::validateFiles(File::lua_files);
-
+  
   File::Binary save_file{"game.sav"};
   if(save_file.isValidBinary())
     log.writeToLog(File::Logger::LogType::debug, "Save file magic validated!");
   else 
     log.writeToLog(File::Logger::LogType::error, "Save file magic not mathing, possible corruption!");
+  
+  Game::Serialize file_data {save_file.readSerialDataFromFile<Game::Serialize>()};
+  
+  log.writeToLog(File::Logger::LogType::debug, std::format("Read Save data, High Score: {}", file_data.high_score));
+  log.writeToLog(File::Logger::LogType::debug, std::format("Read Save data, Times Played: {}", file_data.times_played));
 
   LuaInstance lua_instance{log};
   lua_instance.execFiles(File::lua_files);
@@ -82,13 +87,9 @@ auto main() -> int
     display.game_renderer.present();
   }
   
-  Game::Serialize save_object 
-  {
-    .high_score = current_score.getHighScore(),
-    .times_played = 3,
-  };
-
-  save_file.writeSerialDataToFile(save_object);
+  file_data.high_score = current_score.getHighScore();
+  file_data.times_played += 1;
+  save_file.writeSerialDataToFile(file_data);
 
   return 0;
 }

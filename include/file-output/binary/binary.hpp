@@ -25,5 +25,15 @@ namespace File
         
         file_.write(reinterpret_cast<const char*>(&serial_struct), sizeof(serial_struct));
       }
+
+      template <typename T>
+      auto readSerialDataFromFile() -> T
+      {
+        T loaded_data {};
+      
+        file_.seekg(magic_.size(), std::ios::beg);
+        file_.read(reinterpret_cast<char*>(&loaded_data), sizeof(T));
+        return loaded_data;
+      }
   };
 }
