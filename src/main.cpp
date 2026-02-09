@@ -82,10 +82,10 @@ auto main() -> int
     display.game_renderer.present();
   }
   
-  Game::Serialize<int> save_object 
+  Game::Serialize save_object 
   {
     .high_score = current_score.getHighScore(),
-    .times_played = 1,
+    .times_played = 3,
   };
 
   return 0;
