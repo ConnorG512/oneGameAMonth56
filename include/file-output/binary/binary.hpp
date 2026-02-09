@@ -16,7 +16,6 @@ namespace File
     public:
       Binary(const char* file_name);
 
-      auto writeToFile(const std::span<const uint8_t> bytes) noexcept -> void;
       auto isValidBinary() noexcept -> bool;
 
       template <typename T>
