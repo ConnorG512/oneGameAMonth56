@@ -51,16 +51,21 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(LUA_PKG REQUIRED
   lua
 )
+pkg_check_modules(SDL3_TTF_PKG REQUIRED
+  sdl3-ttf
+)
 
 target_link_libraries(${EXEC_NAME} PRIVATE
   SDL3::SDL3
   SDL3_image::SDL3_image
   ${LUA_PKG_LIBRARIES}
+  ${SDL3_TTF_PKG_LIBRARIES}
 )
 
 target_include_directories(${EXEC_NAME} PRIVATE 
   "${CMAKE_SOURCE_DIR}/include"
   ${LUA_PKG_INCLUDE_DIRS}
+  ${SDL3_TTF_PKG_INCLUDE_DIRS}
 )
 
 install(TARGETS ${EXEC_NAME} RUNTIME DESTINATION bin)
