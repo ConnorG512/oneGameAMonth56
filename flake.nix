@@ -14,6 +14,7 @@
       packages = with pkgs; [ 
         sdl3.dev
         sdl3-image.dev
+        sdl3-ttf
         lua
 
         gef
@@ -41,6 +42,7 @@
       buildInputs = with pkgs; [
         sdl3
         sdl3-image
+        sdl3-ttf
         
         lua
       ];
