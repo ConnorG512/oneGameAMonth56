@@ -88,5 +88,7 @@ auto main() -> int
     .times_played = 3,
   };
 
+  save_file.writeSerialDataToFile(save_object);
+
   return 0;
 }
