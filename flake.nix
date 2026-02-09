@@ -12,30 +12,38 @@
   {
     devShells.x86_64-linux.default = pkgs.mkShell {
       packages = with pkgs; [ 
-        ccls 
-        cmake 
-        ninja
-        pkg-config
-
-        sdl3
-        sdl3-image
-        
+        sdl3.dev
+        sdl3-image.dev
         lua
 
         gef
         strace
       ];
 
-      LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [
-        pkgs.libGL
-        pkgs.xorg.libX11
-        pkgs.xorg.libXcursor
-        pkgs.mesa
-      ];
-
       shellHook = ''
         echo "Entering One Game A Month #56 shell!"
       '';
     };
+
+    debug = pkgs.stdenv.mkDerivation (finalAttrs: {
+      pname = "oneGameAMonth";
+      version = "debug";
+      src = ./.;
+
+      dontStrip = true;
+
+      nativeBuildInputs = with pkgs; [
+        cmake 
+        ninja
+        pkg-config
+        
+      ];
+      buildInputs = with pkgs; [
+        sdl3
+        sdl3-image
+        
+        lua
+      ];
+    });
   };
 }

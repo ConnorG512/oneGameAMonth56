@@ -17,10 +17,7 @@
 #include "game/save-object.hpp"
 
 #include <array>
-#include <cmath>
 #include <format>
-#include <print>
-#include <cstdint>
 
 auto main() -> int
 {
