@@ -49,7 +49,7 @@ auto main() -> int
   log.writeAddress("init", static_cast<void *>(&init));
   
   // Ttf
-  auto font {TTF_OpenFont("assets/fonts/Orbitron/static/Orbitron-Regular/ttf", 32)};
+  auto font {TTF_OpenFont("assets/fonts/Orbitron/static/Orbitron-Regular.ttf", 32)};
   if (font == nullptr)
   {
     std::println("Failed to get font! {}", SDL_GetError());
