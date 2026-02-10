@@ -2,7 +2,6 @@
 
 #include <SDL3/SDL_render.h>
 #include <memory>
-#include <utility>
 
 class SDL_Renderer;
 class SDL_Surface;
