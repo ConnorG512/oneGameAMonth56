@@ -20,6 +20,7 @@ class Texture
 
 public:
   Texture(SDL_Renderer &renderer, const char *image_path);
+  Texture(SDL_Renderer &renderer, SDL_Surface &surface);
 
   auto ref() -> SDL_Texture &;
 };

@@ -7,6 +7,11 @@
 
 SDL::Texture::Texture(SDL_Renderer &renderer, const char *image_path) : texture_{CreateTexture(renderer, image_path)} {}
 
+SDL::Texture::Texture(SDL_Renderer &renderer, SDL_Surface &surface)
+    : texture_{CreateTextureFromSurface(renderer, surface)}
+{
+}
+
 auto SDL::Texture::CreateTexture(SDL_Renderer &renderer, const char *image_path) noexcept
     -> std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)>
 {
