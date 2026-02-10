@@ -5,6 +5,7 @@
 
 class SDL_Renderer;
 class SDL_Surface;
+class TTF_Font;
 
 namespace SDL
 {
@@ -15,12 +16,13 @@ class Texture
   auto CreateTexture(SDL_Renderer &renderer, const char *image_path) noexcept
       -> std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)>;
 
-  auto CreateTextureFromSurface(SDL_Renderer &renderer, SDL_Surface &surface)
+  auto CreateTextureFromSurface(SDL_Renderer &renderer, TTF_Font &font, const char *text, size_t len)
       -> std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)>;
 
 public:
   Texture(SDL_Renderer &renderer, const char *image_path);
-  Texture(SDL_Renderer &renderer, SDL_Surface &surface);
+  Texture(SDL_Renderer &renderer, TTF_Font &font, const char *text, size_t len);
+  Texture() = default;
 
   auto ref() -> SDL_Texture &;
 };
