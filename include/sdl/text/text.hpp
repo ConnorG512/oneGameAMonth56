@@ -2,7 +2,7 @@
 
 #include "sdl/image/texture.hpp"
 #include "sdl/rectangle.hpp"
-#include "sdl/ttf.hpp"
+#include "sdl/text/ttf.hpp"
 
 #include <array>
 

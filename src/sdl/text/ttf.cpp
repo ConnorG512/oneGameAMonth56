@@ -1,4 +1,4 @@
-#include "sdl/ttf.hpp"
+#include "sdl/text/ttf.hpp"
 
 #include <SDL3/SDL_error.h>
 #include <SDL3_ttf/SDL_ttf.h>
