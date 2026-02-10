@@ -46,12 +46,3 @@ auto SDL::Renderer::renderTextureRotate(SDL_Texture &texture, const SDL_FRect *s
   SDL_RenderTextureRotated(renderer_.get(), &texture, source_rect, dest_rect, angle, center_point, flipmode);
 }
 
-auto SDL::Renderer::renderTextureFromSurface(SDL_Surface &surface)
-    -> std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)>
-{
-  auto *texture{SDL_CreateTextureFromSurface(renderer_.get(), &surface)};
-  if (texture == nullptr)
-    throw std::runtime_error("Failed to create an SDL texture!");
-
-  return {texture, &SDL_DestroyTexture};
-}

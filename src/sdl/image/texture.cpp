@@ -1,6 +1,5 @@
 #include "sdl/image/texture.hpp"
 
-#include <SDL3/SDL_render.h>
 #include <SDL3_image/SDL_image.h>
 #include <cassert>
 #include <filesystem>
@@ -20,6 +19,16 @@ auto SDL::Texture::CreateTexture(SDL_Renderer &renderer, const char *image_path)
 
   assert(texture != nullptr);
   return std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)>{texture, &SDL_DestroyTexture};
+}
+
+auto SDL::Texture::CreateTextureFromSurface(SDL_Renderer &renderer, SDL_Surface &surface)
+    -> std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)>
+{
+  auto *texture{SDL_CreateTextureFromSurface(&renderer, &surface)};
+  if (texture == nullptr)
+    throw std::runtime_error("Failed to create an SDL texture!");
+
+  return {texture, &SDL_DestroyTexture};
 }
 
 auto SDL::Texture::ref() -> SDL_Texture &

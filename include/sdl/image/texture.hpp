@@ -4,6 +4,9 @@
 #include <memory>
 #include <utility>
 
+class SDL_Renderer;
+class SDL_Surface;
+
 namespace SDL
 {
 class Texture
@@ -11,6 +14,9 @@ class Texture
   std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)> texture_{nullptr, &SDL_DestroyTexture};
 
   auto CreateTexture(SDL_Renderer &renderer, const char *image_path) noexcept
+      -> std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)>;
+
+  auto CreateTextureFromSurface(SDL_Renderer &renderer, SDL_Surface &surface)
       -> std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)>;
 
 public:
