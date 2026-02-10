@@ -59,7 +59,7 @@ auto main() -> int
                  std::format("screen size: [{}*{}].", window_size.first, window_size.second));
 
   SDL::Text score_text{
-      32, {20, 20, 100, 20}, "Player", 12, display.game_renderer.ref()};
+      32, {20, 20, 100, 20}, "Player", 6, display.game_renderer.ref()};
 
   SDL::Mouse mouse{};
 
@@ -76,11 +76,13 @@ auto main() -> int
   while (event_handler.isGameRunning())
   {
     const auto mouse_xy{mouse.GetCursorPosition()};
-
     event_handler.PollEvent([&] { proj_spawner.spawnProjectile(mouse_xy, lua_instance, display.game_renderer.ref()); });
+    
 
+    // Rendering
     display.game_renderer.clearScreen();
     display.game_renderer.drawColorFloat(0, 0, 0);
+    
     display.game_renderer.renderTextureRotate(player.texture_.ref(), nullptr, &player.bounds_.ref(),
                                               Utils::Angle::CaclulateAngleBetweenTwoObjectsDegree(
                                                   mouse_xy, {player.bounds_.cref().x, player.bounds_.cref().y}) +
@@ -88,13 +90,13 @@ auto main() -> int
                                               nullptr, SDL_FLIP_NONE);
     display.game_renderer.renderTexture(enemy.texture_.ref(), nullptr, &enemy.bounds_.ref());
     
-    display.game_renderer.renderTexture(score_text.texture.ref(), nullptr, &score_text.rectangle.ref());
     // Spawned Projectile Render:
     for (auto &projectile : proj_spawner.ref())
     {
       display.game_renderer.renderTexture(projectile.texture_.ref(), nullptr, &projectile.bounds_.ref());
     }
-
+    
+    display.game_renderer.renderTexture(score_text.texture.ref(), nullptr, &score_text.rectangle.ref());
     display.game_renderer.present();
     //SDL_DestroyTexture(texture);
   }
