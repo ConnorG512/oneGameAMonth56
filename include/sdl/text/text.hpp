@@ -12,10 +12,10 @@ namespace SDL
 {
 struct Text
 {
-  SDL::Ttf ttf{nullptr, 32};
-  SDL::Rectangle rectangle{32, 32, 32, 32};
-  SDL::Texture texture;
+  Text(float text_size, std::array<float, 4> bounds_xywh, const char* text, size_t len, SDL_Renderer &renderer);
 
-  Text(const char *font_path, float text_size, std::array<float, 4> bounds_xywh, SDL_Renderer &renderer);
+  SDL::Ttf ttf;
+  SDL::Texture texture;
+  SDL::Rectangle rectangle{32, 32, 32, 32};
 };
 } // namespace SDL
