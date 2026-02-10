@@ -1,12 +1,17 @@
 #include "sdl/image/texture.hpp"
 
-#include <SDL3/SDL_render.h>
 #include <SDL3_image/SDL_image.h>
+#include <SDL3_ttf/SDL_ttf.h>
 #include <cassert>
 #include <filesystem>
 #include <print>
 
 SDL::Texture::Texture(SDL_Renderer &renderer, const char *image_path) : texture_{CreateTexture(renderer, image_path)} {}
+
+SDL::Texture::Texture(SDL_Renderer &renderer, TTF_Font &font, const char *text, size_t len)
+    : texture_{CreateTextureFromSurface(renderer, font, text, len)}
+{
+}
 
 auto SDL::Texture::CreateTexture(SDL_Renderer &renderer, const char *image_path) noexcept
     -> std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)>
@@ -20,6 +25,22 @@ auto SDL::Texture::CreateTexture(SDL_Renderer &renderer, const char *image_path)
 
   assert(texture != nullptr);
   return std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)>{texture, &SDL_DestroyTexture};
+}
+
+auto SDL::Texture::CreateTextureFromSurface(SDL_Renderer &renderer, TTF_Font &font, const char *text, size_t len)
+    -> std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)>
+{
+  std::unique_ptr<SDL_Surface, decltype(&SDL_DestroySurface)> created_text{
+      TTF_RenderText_Blended(&font, text, len, {255, 255, 255, 255}), &SDL_DestroySurface};
+
+  if (created_text == nullptr)
+    throw std::runtime_error("Failed to create text!");
+
+  auto *texture{SDL_CreateTextureFromSurface(&renderer, created_text.get())};
+  if (texture == nullptr)
+    throw std::runtime_error("Failed to create an SDL texture!");
+
+  return {texture, &SDL_DestroyTexture};
 }
 
 auto SDL::Texture::ref() -> SDL_Texture &
