@@ -1,5 +1,6 @@
 #include "sdl/window-renderer/renderer.hpp"
 
+#include <SDL3/SDL_render.h>
 #include <cassert>
 
 auto SDL::Renderer::CreateRenderer(SDL_Window *window, const char *driver) noexcept
@@ -42,4 +43,10 @@ auto SDL::Renderer::renderTextureRotate(SDL_Texture &texture, const SDL_FRect *s
     -> void
 {
   SDL_RenderTextureRotated(renderer_.get(), &texture, source_rect, dest_rect, angle, center_point, flipmode);
+}
+
+auto SDL::Renderer::renderTextureFromSurface(SDL_Surface &surface) noexcept
+    -> std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)>
+{
+  return {SDL_CreateTextureFromSurface(renderer_.get(), &surface), &SDL_DestroyTexture};
 }

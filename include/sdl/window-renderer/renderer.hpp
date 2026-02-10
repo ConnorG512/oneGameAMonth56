@@ -25,5 +25,7 @@ public:
   auto renderTexture(SDL_Texture &texture, SDL_FRect *source_rect, SDL_FRect *dest_rect) -> void;
   auto renderTextureRotate(SDL_Texture &texture, const SDL_FRect *source_rect, const SDL_FRect *dest_rect, double angle,
                            const SDL_FPoint *center_point, SDL_FlipMode flipmode) -> void;
+  auto renderTextureFromSurface(SDL_Surface &surface) noexcept
+      -> std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)>;
 };
 } // namespace SDL
