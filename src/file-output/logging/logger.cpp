@@ -24,8 +24,8 @@ auto GetPrepend(File::Logger::LogType type) -> std::string_view
 }
 } // namespace
 
-File::Logger::Logger(const std::string &file_name, bool log_debug)
-    : logfile_{file_name, std::ios::out | std::ios::trunc}, log_debug_{log_debug}
+File::Logger::Logger(const std::string &file_name, std::function<bool()> use_debug_func)
+    : logfile_{file_name, std::ios::out | std::ios::trunc}, log_debug_{use_debug_func}
 {
   if (logfile_.is_open())
     writeToLog(LogType::info, "Log created.");

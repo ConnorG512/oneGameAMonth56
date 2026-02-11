@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <string>
+#include <functional>
 
 namespace File
 {
@@ -11,7 +12,7 @@ class Logger
   bool log_debug_{true};
 
 public:
-  Logger(const std::string &file_name = "debug.log", bool active = false);
+  Logger(const std::string &file_name, std::function<bool()> use_debug_func);
 
   enum class LogType
   {
