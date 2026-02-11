@@ -26,13 +26,17 @@
         echo "Entering One Game A Month #56 shell!"
       '';
     };
-
+    
     debug = pkgs.stdenv.mkDerivation (finalAttrs: {
       pname = "oneGameAMonth";
       version = "debug";
       src = ./.;
 
       dontStrip = true;
+
+      cmakeFlags = [
+        "-DCMAKE_BUILD_TYPE=Debug"
+      ];
 
       nativeBuildInputs = with pkgs; [
         cmake 
