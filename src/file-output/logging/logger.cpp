@@ -1,7 +1,6 @@
 #include "file-output/logging/logger.hpp"
 
 #include <cassert>
-#include <filesystem>
 #include <format>
 #include <print>
 
@@ -25,9 +24,11 @@ auto GetPrepend(File::Logger::LogType type) -> std::string_view
 }
 } // namespace
 
-File::Logger::Logger(const std::string &path, const std::string &file_name, bool active)
-    : logfile_{std::format("{}/{}", path, file_name), std::ios::out | std::ios::trunc}, active_{active}
+File::Logger::Logger(const std::string &file_name, std::function<bool()> use_debug_func)
+    : logfile_{file_name, std::ios::out | std::ios::trunc}, log_debug_{(use_debug_func == nullptr) ? false : use_debug_func()}
 {
+  writeToLog(File::Logger::LogType::info, std::format("Log file debug mode: {}", log_debug_));
+
   if (logfile_.is_open())
     writeToLog(LogType::info, "Log created.");
   else
@@ -36,14 +37,8 @@ File::Logger::Logger(const std::string &path, const std::string &file_name, bool
 
 auto File::Logger::writeToLog(LogType type, const std::string &message) noexcept -> void
 {
-  if (!active_)
+  if (!log_debug_ && type == LogType::debug)
     return;
 
   std::println(logfile_, "{} {}", GetPrepend(type), message);
-}
-
-auto File::Logger::writeAddress(std::string_view object_name, void *address) -> void
-{
-  std::println(logfile_, "{} Object {} written to address: [{}].", GetPrepend(File::Logger::LogType::debug),
-               object_name, address);
 }

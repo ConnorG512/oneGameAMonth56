@@ -2,16 +2,18 @@
 
 #include <fstream>
 #include <string>
+#include <functional>
 
 namespace File
 {
 class Logger
 {
-  std::fstream logfile_{"./debug.log", std::ios::out | std::ios::trunc};
-  bool active_{true};
+  std::fstream logfile_{"debug.log", std::ios::out | std::ios::trunc};
+  bool log_debug_{true};
 
 public:
-  Logger(const std::string &path, const std::string &file_name = "debug.log", bool active = false);
+  Logger(const std::string &file_name, std::function<bool()> use_debug_func);
+  Logger() = default;
 
   enum class LogType
   {
@@ -20,6 +22,10 @@ public:
     error,
   };
   auto writeToLog(LogType type, const std::string &message) noexcept -> void;
-  auto writeAddress(std::string_view object_name, void *address) -> void;
+
+  template <typename T> auto writeAddress(std::string_view name, T &object) -> void
+  {
+    std::println(logfile_, "MEM: Object {} written to address: [{}].", name, static_cast<void *>(&object));
+  }
 };
 } // namespace File
