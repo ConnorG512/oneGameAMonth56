@@ -16,6 +16,12 @@ public:
   Rectangle(std::pair<float, float> xy, std::pair<float, float> wh);
   Rectangle(std::array<float, 4> xywh);
 
+  enum class Direction
+  {
+    positive,
+    negative,
+  };
+  auto move(Direction dir, float x, float y);
   auto cref() const noexcept -> const SDL_FRect &;
   auto ref() noexcept -> SDL_FRect &;
 };
