@@ -1,7 +1,6 @@
 #include "file-output/logging/logger.hpp"
 
 #include <cassert>
-#include <filesystem>
 #include <format>
 #include <print>
 
