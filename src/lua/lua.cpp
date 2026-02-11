@@ -1,17 +1,11 @@
 #include "lua/lua.hpp"
-#include "file-output/logging/logger.hpp"
 
 #include <cassert>
 #include <format>
 #include <ranges>
+#include <stdexcept>
 
-LuaInstance::LuaInstance(File::Logger &logger) : logger_{logger}
-{
-  luaL_openlibs(lua_.get());
-
-  logger_.writeAddress("Lua Instance", *this);
-  logger_.writeToLog(File::Logger::LogType::info, "Lua setup complete.");
-}
+LuaInstance::LuaInstance() { luaL_openlibs(lua_.get()); }
 
 auto LuaInstance::cref() const noexcept -> const lua_State &
 {
@@ -25,20 +19,13 @@ auto LuaInstance::ref() noexcept -> lua_State &
   return *lua_;
 }
 
-auto LuaInstance::execFiles(const std::span<const char *const> file_list) noexcept -> void
+auto LuaInstance::execFiles(const std::span<const char *const> file_list) -> void
 {
-  logger_.writeToLog(File::Logger::LogType::debug, "Reading multiple Lua files:");
-  for (const auto &path : file_list)
-  {
-    logger_.writeToLog(File::Logger::LogType::debug, std::format("File: {}", path));
-  }
-
   for (const auto &path : file_list)
   {
     const auto result{luaL_dofile(lua_.get(), path)};
     if (result != LUA_OK)
-      logger_.writeToLog(File::Logger::LogType::error,
-                         std::format("Could not load Lua file! [{}].", lua_tostring(lua_.get(), -1)));
+      throw std::runtime_error(std::format("Failed to execute Lua file! {}", path));
   }
 }
 
@@ -74,14 +61,9 @@ auto LuaInstance::GetLuaValue(const std::span<const char *const> key_path) noexc
     popStack(key_path.size());
     return value;
   }
-  logger_.writeToLog(File::Logger::LogType::error, "Failed to find a valid lua type. Likely returning nil.");
 
   popStack(key_path.size());
   return std::monostate();
 }
 
-auto LuaInstance::popStack(int num) noexcept -> void
-{
-  lua_pop(lua_.get(), num);
-  logger_.writeToLog(File::Logger::LogType::debug, std::format("Lua stack popped by {}.", num));
-}
+auto LuaInstance::popStack(int num) noexcept -> void { lua_pop(lua_.get(), num); }
