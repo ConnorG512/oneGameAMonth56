@@ -13,6 +13,7 @@ class Logger
 
 public:
   Logger(const std::string &file_name, std::function<bool()> use_debug_func);
+  Logger() = default;
 
   enum class LogType
   {

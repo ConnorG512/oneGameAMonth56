@@ -25,7 +25,7 @@
 
 auto main() -> int
 {
-  File::Logger log{std::getenv("PWD"), "/debug.log", true};
+  File::Logger log{};
 
   File::validateFiles(File::lua_files);
 
