@@ -7,11 +7,11 @@ namespace File
 {
 class Logger
 {
-  std::fstream logfile_{"./debug.log", std::ios::out | std::ios::trunc};
+  std::fstream logfile_{"debug.log", std::ios::out | std::ios::trunc};
   bool active_{true};
 
 public:
-  Logger(const std::string &path, const std::string &file_name = "debug.log", bool active = false);
+  Logger(const std::string &file_name = "debug.log", bool active = false);
 
   enum class LogType
   {
