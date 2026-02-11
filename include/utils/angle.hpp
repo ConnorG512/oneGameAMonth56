@@ -8,30 +8,30 @@
 namespace Utils::Angle
 {
 template <typename T>
-concept Number = std::integral<T> && !std::same_as<T, bool>;
+concept FloatingPoint = std::floating_point<T>;
 
-template <Number T> constexpr T texture_offset{90.0};
+template <FloatingPoint T> constexpr T texture_offset{90.0};
 
-template <Number T>
+template <FloatingPoint T>
 auto CaclulateAngleBetweenTwoObjectsRadians(const std::pair<T, T> &obj1, const std::pair<T, T> &obj2) -> T
 {
   return std::atan2(obj1.second - obj2.second, obj1.first - obj2.first);
 }
 
-template <Number T>
+template <FloatingPoint T>
 auto CaclulateAngleBetweenTwoObjectsDegree(const std::pair<T, T> &obj1, const std::pair<T, T> &obj2) -> T
 {
   const auto radians{std::atan2(obj1.second - obj2.second, obj1.first - obj2.first)};
   return radians * (180 / std::numbers::pi_v<T>);
 }
 
-template <Number T>
+template <FloatingPoint T>
 auto CalculateYDirection(T radians, T speed) -> T
 {
   return std::sin(radians) * speed;
 }
 
-template <Number T>
+template <FloatingPoint T>
 auto CalculateXDirection(T radians, T speed) -> T
 {
   return std::cos(radians) * speed;
