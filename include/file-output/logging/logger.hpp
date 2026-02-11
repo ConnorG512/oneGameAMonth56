@@ -8,7 +8,7 @@ namespace File
 class Logger
 {
   std::fstream logfile_{"debug.log", std::ios::out | std::ios::trunc};
-  bool log_debug{true};
+  bool log_debug_{true};
 
 public:
   Logger(const std::string &file_name = "debug.log", bool active = false);
