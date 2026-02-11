@@ -23,6 +23,7 @@
 #include <SDL3/SDL_surface.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <array>
+#include <complex>
 
 auto main() -> int
 {
@@ -81,6 +82,7 @@ auto main() -> int
     // Spawned Projectile Render:
     for (auto &projectile : proj_spawner.ref())
     {
+      projectile.destroy(display.game_window.WindowSize());
       projectile.bounds_.move(Utils::Angle::CalculateXDirection(mouse_radian, 0.04f),
                               Utils::Angle::CalculateYDirection(mouse_radian, 0.04f));
       display.game_renderer.renderTexture(projectile.texture_.ref(), nullptr, &projectile.bounds_.ref());
