@@ -9,7 +9,7 @@ LuaInstance::LuaInstance(File::Logger &logger) : logger_{logger}
 {
   luaL_openlibs(lua_.get());
 
-  logger_.writeAddress("Lua Instance", this);
+  logger_.writeAddress("Lua Instance", *this);
   logger_.writeToLog(File::Logger::LogType::info, "Lua setup complete.");
 }
 
