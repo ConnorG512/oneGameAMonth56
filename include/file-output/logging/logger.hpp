@@ -20,6 +20,10 @@ public:
     error,
   };
   auto writeToLog(LogType type, const std::string &message) noexcept -> void;
-  auto writeAddress(std::string_view object_name, void *address) -> void;
+
+  template <typename T> auto writeAddress(std::string_view name, T &object) -> void
+  {
+    std::println(logfile_, "{} Object {} written to address: [{}].", "MEM:", name, static_cast<void *>(&object));
+  }
 };
 } // namespace File
