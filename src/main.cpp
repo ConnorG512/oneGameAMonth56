@@ -26,16 +26,16 @@
 
 auto main() -> int
 {
-  File::Logger log{};
-
   File::validateFiles(File::lua_files);
-
-  File::Binary save_file{"game.sav"};
-
-  Game::Serialize file_data{save_file.readSerialDataFromFile<Game::Serialize>()};
-
-  LuaInstance lua_instance{log};
+  LuaInstance lua_instance{};
   lua_instance.execFiles(File::lua_files);
+
+  File::Logger log{
+      "debug.log", [&lua_instance]
+      { return CastGetVar<bool>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Logger", "enable"})); }};
+  
+  File::Binary save_file{"game.sav"};
+  Game::Serialize file_data{save_file.readSerialDataFromFile<Game::Serialize>()};
 
   SDL::Init init{};
 
@@ -45,8 +45,7 @@ auto main() -> int
       {std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "x"})),
        std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "y"}))}};
 
-  SDL::Text score_text{
-      32, {20, 20, 100, 20}, "Player", 6, display.game_renderer.ref()};
+  SDL::Text score_text{32, {20, 20, 100, 20}, "Player", 6, display.game_renderer.ref()};
 
   SDL::Mouse mouse{};
 
@@ -64,28 +63,27 @@ auto main() -> int
   {
     const auto mouse_xy{mouse.GetCursorPosition()};
     event_handler.PollEvent([&] { proj_spawner.spawnProjectile(mouse_xy, lua_instance, display.game_renderer.ref()); });
-    
 
     // Rendering
     display.game_renderer.clearScreen();
     display.game_renderer.drawColorFloat(0, 0, 0);
-    
+
     display.game_renderer.renderTextureRotate(player.texture_.ref(), nullptr, &player.bounds_.ref(),
                                               Utils::Angle::CaclulateAngleBetweenTwoObjectsDegree(
                                                   mouse_xy, {player.bounds_.cref().x, player.bounds_.cref().y}) +
                                                   Utils::Angle::texture_offset<double>,
                                               nullptr, SDL_FLIP_NONE);
     display.game_renderer.renderTexture(enemy.texture_.ref(), nullptr, &enemy.bounds_.ref());
-    
+
     // Spawned Projectile Render:
     for (auto &projectile : proj_spawner.ref())
     {
       display.game_renderer.renderTexture(projectile.texture_.ref(), nullptr, &projectile.bounds_.ref());
     }
-    
+
     display.game_renderer.renderTexture(score_text.texture.ref(), nullptr, &score_text.rectangle.ref());
     display.game_renderer.present();
-    //SDL_DestroyTexture(texture);
+    // SDL_DestroyTexture(texture);
   }
 
   file_data.high_score = current_score.getHighScore();
