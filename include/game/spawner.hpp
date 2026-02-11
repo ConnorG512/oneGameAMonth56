@@ -15,8 +15,8 @@ namespace Game
 {
 
 template <typename T>
-concept Destroyable = requires(T &t) {
-  { t.destroy() } -> std::convertible_to<bool>;
+concept Destroyable = requires(T &t, std::pair<int,int>max_screen_bounds) {
+  { t.destroy(max_screen_bounds) } -> std::convertible_to<bool>;
 };
 
 template <Destroyable T> class Spawner
