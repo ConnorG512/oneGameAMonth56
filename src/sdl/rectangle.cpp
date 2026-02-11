@@ -28,6 +28,12 @@ auto SDL::Rectangle::move(Direction dir, float x, float y) noexcept -> void
   }
 }
 
+auto SDL::Rectangle::move(float x_vel, float y_vel) noexcept -> void
+{
+  rect_.x = x_vel;
+  rect_.y = y_vel;
+}
+
 auto SDL::Rectangle::cref() const noexcept -> const SDL_FRect & { return rect_; }
 
 auto SDL::Rectangle::ref() noexcept -> SDL_FRect & { return rect_; }

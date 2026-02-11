@@ -22,6 +22,7 @@ public:
     negative,
   };
   auto move(Direction dir, float x, float y) noexcept -> void;
+  auto move(float x_vel, float y_vel) noexcept -> void;
   auto cref() const noexcept -> const SDL_FRect &;
   auto ref() noexcept -> SDL_FRect &;
 };
