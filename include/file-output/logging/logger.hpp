@@ -23,7 +23,7 @@ public:
 
   template <typename T> auto writeAddress(std::string_view name, T &object) -> void
   {
-    std::println(logfile_, "MEM: Object {} written to address: [{}].",  name, static_cast<void *>(&object));
+    std::println(logfile_, "MEM: Object {} written to address: [{}].", name, static_cast<void *>(&object));
   }
 };
 } // namespace File
