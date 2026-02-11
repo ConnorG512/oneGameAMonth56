@@ -60,6 +60,7 @@
         wrapProgram $out/bin/oneGameAMonth \
           --set LD_LIBRARY_PATH ${lib.makeLibraryPath [
             pkgs.libGL.out
+            pkgs.mesa
           ]}
       '';
     });
