@@ -25,4 +25,16 @@ auto CaclulateAngleBetweenTwoObjectsDegree(const std::pair<T, T> &obj1, const st
   return radians * (180 / std::numbers::pi_v<T>);
 }
 
+template <Number T>
+auto CalculateYDirection(T radians, T speed) -> T
+{
+  return std::sin(radians) * speed;
+}
+
+template <Number T>
+auto CalculateXDirection(T radians, T speed) -> T
+{
+  return std::cos(radians) * speed;
+}
+
 } // namespace Utils::Angle
