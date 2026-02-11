@@ -45,8 +45,6 @@ auto main() -> int
       {std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "x"})),
        std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "y"}))}};
 
-  const auto window_size{display.game_window.WindowSize()};
-
   SDL::Text score_text{
       32, {20, 20, 100, 20}, "Player", 6, display.game_renderer.ref()};
 
