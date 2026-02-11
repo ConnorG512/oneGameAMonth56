@@ -9,7 +9,7 @@ SDL::Rectangle::Rectangle(std::pair<float, float> xy, std::pair<float, float> wh
 
 SDL::Rectangle::Rectangle(std::array<float, 4> xywh) : rect_{xywh.at(0), xywh.at(1), xywh.at(2), xywh.at(3)} {}
 
-auto SDL::Rectangle::move(Direction dir, float x, float y)
+auto SDL::Rectangle::move(Direction dir, float x, float y) noexcept -> void
 {
   switch (dir)
   {
