@@ -15,6 +15,7 @@
 #include "sdl/text/text.hpp"
 #include "sdl/window-renderer/window-renderer.hpp"
 #include "utils/angle.hpp"
+#include "utils/cast-get.hpp"
 
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_rect.h>
