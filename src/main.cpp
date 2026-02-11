@@ -15,7 +15,6 @@
 #include "sdl/text/text.hpp"
 #include "sdl/window-renderer/window-renderer.hpp"
 #include "utils/angle.hpp"
-#include "utils/cast-get.hpp"
 
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_rect.h>
@@ -32,21 +31,13 @@ auto main() -> int
   File::validateFiles(File::lua_files);
 
   File::Binary save_file{"game.sav"};
-  if (save_file.isValidBinary())
-    log.writeToLog(File::Logger::LogType::debug, "Save file magic validated!");
-  else
-    log.writeToLog(File::Logger::LogType::error, "Save file magic not mathing, possible corruption!");
 
   Game::Serialize file_data{save_file.readSerialDataFromFile<Game::Serialize>()};
-
-  log.writeToLog(File::Logger::LogType::debug, std::format("Read Save data, High Score: {}", file_data.high_score));
-  log.writeToLog(File::Logger::LogType::debug, std::format("Read Save data, Times Played: {}", file_data.times_played));
 
   LuaInstance lua_instance{log};
   lua_instance.execFiles(File::lua_files);
 
   SDL::Init init{};
-  log.writeAddress("init", static_cast<void *>(&init));
 
   SDL::EventHandler event_handler{log};
   SDL::WindowRenderer display{
@@ -55,8 +46,6 @@ auto main() -> int
        std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "y"}))}};
 
   const auto window_size{display.game_window.WindowSize()};
-  log.writeToLog(File::Logger::LogType::info,
-                 std::format("screen size: [{}*{}].", window_size.first, window_size.second));
 
   SDL::Text score_text{
       32, {20, 20, 100, 20}, "Player", 6, display.game_renderer.ref()};
