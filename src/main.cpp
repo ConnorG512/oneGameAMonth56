@@ -33,7 +33,7 @@ auto main() -> int
   File::Logger log{
       "debug.log", [&lua_instance]
       { return CastGetVar<bool>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Logger", "enable"})); }};
-  
+
   File::Binary save_file{"game.sav"};
   Game::Serialize file_data{save_file.readSerialDataFromFile<Game::Serialize>()};
 
@@ -62,6 +62,9 @@ auto main() -> int
   while (event_handler.isGameRunning())
   {
     const auto mouse_xy{mouse.GetCursorPosition()};
+    const auto mouse_radian{Utils::Angle::CaclulateAngleBetweenTwoObjectsRadians(
+        mouse_xy, {player.bounds_.cref().x, player.bounds_.cref().y})};
+
     event_handler.PollEvent([&] { proj_spawner.spawnProjectile(mouse_xy, lua_instance, display.game_renderer.ref()); });
 
     // Rendering
@@ -78,7 +81,8 @@ auto main() -> int
     // Spawned Projectile Render:
     for (auto &projectile : proj_spawner.ref())
     {
-      projectile.bounds_.move(SDL::Rectangle::Direction::positive, 1, 0);
+      projectile.bounds_.move(Utils::Angle::CalculateXDirection(mouse_radian, 0.01f),
+                              Utils::Angle::CalculateYDirection(mouse_radian, 0.01f));
       display.game_renderer.renderTexture(projectile.texture_.ref(), nullptr, &projectile.bounds_.ref());
     }
 
