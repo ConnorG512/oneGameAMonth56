@@ -16,6 +16,8 @@ public:
   SDL::Rectangle bounds_{};
   SDL::Texture texture_;
 
+  auto destroy(std::pair<int, int>max_screen_bounds) -> bool;
+
   Projectile(std::pair<float, float> xy, LuaInstance &lua, SDL_Renderer &renderer);
 };
 } // namespace Game
