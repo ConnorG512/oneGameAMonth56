@@ -1,5 +1,6 @@
 #pragma once
 
+#include <concepts>
 #include <cstdint>
 #include <functional>
 #include <memory>
@@ -12,7 +13,13 @@ class SDL_Renderer;
 
 namespace Game
 {
-template <typename T> class Spawner
+
+template <typename T>
+concept Destroyable = requires(T &t) {
+  { t.destroy() } -> std::convertible_to<bool>;
+};
+
+template <Destroyable T> class Spawner
 {
   std::vector<std::unique_ptr<T>> spawn_slots_{};
 
@@ -36,6 +43,15 @@ public:
         slot = std::make_unique<T>(xy, lua, renderer);
         break;
       }
+    }
+  }
+
+  auto clearSlot() -> void 
+  {
+    for (auto& slot : spawn_slots_)
+    {
+      if(slot.destroy())
+        slot.reset();
     }
   }
 
