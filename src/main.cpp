@@ -83,7 +83,6 @@ auto main() -> int
 
     display.game_renderer.renderTexture(score_text.texture.ref(), nullptr, &score_text.rectangle.ref());
     display.game_renderer.present();
-    // SDL_DestroyTexture(texture);
   }
 
   file_data.high_score = current_score.getHighScore();
