@@ -78,6 +78,7 @@ auto main() -> int
     // Spawned Projectile Render:
     for (auto &projectile : proj_spawner.ref())
     {
+      projectile.bounds_.move(SDL::Rectangle::Direction::positive, 1, 0);
       display.game_renderer.renderTexture(projectile.texture_.ref(), nullptr, &projectile.bounds_.ref());
     }
 
