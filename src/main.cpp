@@ -66,7 +66,14 @@ auto main() -> int
     const auto mouse_radian{Utils::Angle::CaclulateAngleBetweenTwoObjectsRadians(
         mouse_xy, {player.bounds_.cref().x, player.bounds_.cref().y})};
 
-    event_handler.PollEvent([&] { proj_spawner.spawnProjectile(mouse_xy, lua_instance, display.game_renderer.ref()); });
+    event_handler.PollEvent(
+        [&]
+        {
+          proj_spawner.spawnProjectile(display.game_window.WindowSize(), mouse_xy, lua_instance,
+                                       display.game_renderer.ref());
+        });
+    
+    proj_spawner.clearSlot();
 
     // Rendering
     display.game_renderer.clearScreen();
@@ -78,11 +85,11 @@ auto main() -> int
                                                   Utils::Angle::texture_offset<double>,
                                               nullptr, SDL_FLIP_NONE);
     display.game_renderer.renderTexture(enemy.texture_.ref(), nullptr, &enemy.bounds_.ref());
-
+    
+    
     // Spawned Projectile Render:
     for (auto &projectile : proj_spawner.ref())
     {
-      projectile.destroy(display.game_window.WindowSize());
       projectile.bounds_.move(Utils::Angle::CalculateXDirection(mouse_radian, 0.04f),
                               Utils::Angle::CalculateYDirection(mouse_radian, 0.04f));
       display.game_renderer.renderTexture(projectile.texture_.ref(), nullptr, &projectile.bounds_.ref());

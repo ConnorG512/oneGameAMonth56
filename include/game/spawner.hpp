@@ -15,8 +15,8 @@ namespace Game
 {
 
 template <typename T>
-concept Destroyable = requires(T &t, std::pair<int,int>max_screen_bounds) {
-  { t.destroy(max_screen_bounds) } -> std::convertible_to<bool>;
+concept Destroyable = requires(T &t) {
+  { t.isReadyToBeDestroyed() } -> std::convertible_to<bool>;
 };
 
 template <Destroyable T> class Spawner
@@ -34,23 +34,24 @@ template <Destroyable T> class Spawner
 public:
   Spawner(std::function<std::uint32_t()> slot_func) : spawn_slots_{CreateSpawner(slot_func)} {}
 
-  auto spawnProjectile(const std::pair<float, float> &xy, LuaInstance &lua, SDL_Renderer &renderer) -> void
+  auto spawnProjectile(const std::pair<int, int> &screen_bounds, const std::pair<float, float> &xy, LuaInstance &lua,
+                       SDL_Renderer &renderer) -> void
   {
     for (auto &slot : spawn_slots_)
     {
       if (slot == nullptr)
       {
-        slot = std::make_unique<T>(xy, lua, renderer);
+        slot = std::make_unique<T>(screen_bounds, xy, lua, renderer);
         break;
       }
     }
   }
 
-  auto clearSlot() -> void 
+  auto clearSlot() -> void
   {
-    for (auto& slot : spawn_slots_ | std::views::filter([](const auto& slot){return slot != nullptr;})) 
+    for (auto &slot : spawn_slots_ | std::views::filter([](auto &slot) { return slot != nullptr; }))
     {
-      if(slot.destroy())
+      if (slot->isReadyToBeDestroyed())
         slot.reset();
     }
   }

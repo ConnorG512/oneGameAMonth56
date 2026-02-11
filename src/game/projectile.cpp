@@ -14,15 +14,14 @@ Game::Projectile::Projectile(std::pair<int, int> screen_max_xy, std::pair<float,
 {
 }
 
-auto Game::Projectile::destroy() -> bool
+auto Game::Projectile::isReadyToBeDestroyed() -> bool
 {
   auto [screen_width, screen_height] = screen_max_xy_;
   if (bounds_.cref().h > screen_height || bounds_.ref().w > screen_width)
   {
     return true;
   }
-
-  if (bounds_.cref().h < 0 || bounds_.ref().w < 0)
+  else if (bounds_.cref().h < 0 || bounds_.ref().w < 0)
   {
     return true;
   }

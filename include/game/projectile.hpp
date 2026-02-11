@@ -18,7 +18,7 @@ public:
   SDL::Rectangle bounds_{};
   SDL::Texture texture_;
 
-  auto destroy() -> bool;
+  auto isReadyToBeDestroyed() -> bool;
 
   Projectile(std::pair<int, int> screen_max_xy, std::pair<float, float> xy, LuaInstance &lua, SDL_Renderer &renderer);
 };
