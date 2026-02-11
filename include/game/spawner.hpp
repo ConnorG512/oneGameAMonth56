@@ -48,7 +48,7 @@ public:
 
   auto clearSlot() -> void 
   {
-    for (auto& slot : spawn_slots_)
+    for (auto& slot : spawn_slots_ | std::views::filter([](const auto& slot){return slot != nullptr;})) 
     {
       if(slot.destroy())
         slot.reset();
