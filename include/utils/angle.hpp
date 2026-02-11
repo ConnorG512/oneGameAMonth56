@@ -10,8 +10,10 @@ namespace Utils::Angle
 template <typename T>
 concept FloatingPoint = std::floating_point<T>;
 
+// SDL sets neutral not facing upward. constant texture offset for making the sprite point the correct way.
 template <FloatingPoint T> constexpr T texture_offset{90.0};
 
+// Used to calculate the angle between to objects so that they face toward eatchother. 
 template <FloatingPoint T>
 auto CaclulateAngleBetweenTwoObjectsRadians(const std::pair<T, T> &obj1, const std::pair<T, T> &obj2) -> T
 {
@@ -25,6 +27,7 @@ auto CaclulateAngleBetweenTwoObjectsDegree(const std::pair<T, T> &obj1, const st
   return radians * (180 / std::numbers::pi_v<T>);
 }
 
+// Move in the correct angle given.
 template <FloatingPoint T>
 auto CalculateYDirection(T radians, T speed) -> T
 {
