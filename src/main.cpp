@@ -45,8 +45,10 @@ auto main() -> int
       "Game window",
       {std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "x"})),
        std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "y"}))}};
+  
 
-  SDL::Text score_text{32, {20, 20, 100, 20}, "Player", 6, display.game_renderer.ref()};
+  const auto player_name {CastGetVar<std::string>(lua_instance.GetLuaValue(std::array{"PlayerValues", "name"}))};
+  SDL::Text score_text{32, {20, 20, 100, 20}, player_name.c_str(), player_name.size(), display.game_renderer.ref()};
 
   SDL::Mouse mouse{};
 
