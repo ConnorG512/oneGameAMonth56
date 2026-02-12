@@ -90,8 +90,8 @@ auto main() -> int
     // Spawned Projectile Render:
     for (auto &projectile : proj_spawner.ref())
     {
-      projectile.bounds_.move(Utils::Angle::CalculateXDirection(mouse_radian, 0.04f),
-                              Utils::Angle::CalculateYDirection(mouse_radian, 0.04f));
+      projectile.bounds_.move(Utils::Angle::CalculateXDirection(mouse_radian, CastGetVar<float>(lua_instance.GetLuaValue(std::array{"Projectile", "speed"}))),
+                              Utils::Angle::CalculateYDirection(mouse_radian, CastGetVar<float>(lua_instance.GetLuaValue(std::array{"Projectile", "speed"}))));
       display.game_renderer.renderTexture(projectile.texture_.ref(), nullptr, &projectile.bounds_.ref());
     }
 
