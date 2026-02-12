@@ -1,5 +1,6 @@
 #pragma once
 
+#include <concepts>
 #include <cstdint>
 #include <functional>
 #include <memory>
@@ -12,7 +13,13 @@ class SDL_Renderer;
 
 namespace Game
 {
-template <typename T> class Spawner
+
+template <typename T>
+concept Destroyable = requires(T &t) {
+  { t.isReadyToBeDestroyed() } -> std::convertible_to<bool>;
+};
+
+template <Destroyable T> class Spawner
 {
   std::vector<std::unique_ptr<T>> spawn_slots_{};
 
@@ -27,15 +34,25 @@ template <typename T> class Spawner
 public:
   Spawner(std::function<std::uint32_t()> slot_func) : spawn_slots_{CreateSpawner(slot_func)} {}
 
-  auto spawnProjectile(const std::pair<float, float> &xy, LuaInstance &lua, SDL_Renderer &renderer) -> void
+  auto spawnProjectile(const std::pair<int, int> &screen_bounds, const std::pair<float, float> &xy, LuaInstance &lua,
+                       SDL_Renderer &renderer) -> void
   {
     for (auto &slot : spawn_slots_)
     {
       if (slot == nullptr)
       {
-        slot = std::make_unique<T>(xy, lua, renderer);
+        slot = std::make_unique<T>(screen_bounds, xy, lua, renderer);
         break;
       }
+    }
+  }
+
+  auto clearSlot() -> void
+  {
+    for (auto &slot : spawn_slots_ | std::views::filter([](auto &slot) { return slot != nullptr; }))
+    {
+      if (slot->isReadyToBeDestroyed())
+        slot.reset();
     }
   }
 
