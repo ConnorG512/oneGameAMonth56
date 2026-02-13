@@ -3,7 +3,6 @@
 #include "utils/concepts.hpp"
 
 #include <limits>
-#include <utility>
 
 template <Concepts::Number T>
 class Counter 
