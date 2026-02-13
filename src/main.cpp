@@ -106,6 +106,8 @@ auto main() -> int
     }
 
     player_text.draw({20, 20});
+
+    score_text.swapText(std::to_string(game_rules.score.getCurrent()));
     score_text.draw({20, 60});
     display.game_renderer.present();
   }
