@@ -23,7 +23,6 @@
 #include <SDL3/SDL_surface.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <array>
-#include <format>
 #include <string>
 
 auto main() -> int
