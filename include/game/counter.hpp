@@ -22,6 +22,8 @@ public:
     current_ += amount;
     if (current_ > max_)
       current_ = max_;
+
+    return current_;
   }
 
   [[maybe_unused]] auto decrease(Concepts::Number auto amount) noexcept -> T
@@ -29,6 +31,8 @@ public:
     current_ -= amount;
     if (current_ < 0)
       current_ = 0;
+    
+    return current_;
   }
 
   [[maybe_unused]] auto setTo(Concepts::Number auto num) noexcept -> T
@@ -38,6 +42,8 @@ public:
       current_ = max_;
     else if (current_ < 0)
       current_ = 0;
+    
+    return current_;
   }
 
   auto reset() noexcept -> void { current_ = 0; }
