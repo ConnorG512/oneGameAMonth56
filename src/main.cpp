@@ -23,6 +23,8 @@
 #include <SDL3/SDL_surface.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <array>
+#include <format>
+#include <string>
 
 auto main() -> int
 {
@@ -44,16 +46,16 @@ auto main() -> int
       "Game window",
       {std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "x"})),
        std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "y"}))}};
-  
-  Game::Rules game_rules
-  {
-    CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_score"})),
-    CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_time"})),
-  };
 
+  Game::Rules game_rules{
+      CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_score"})),
+      CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_time"})),
+  };
   const auto player_name{CastGetVar<std::string>(lua_instance.GetLuaValue(std::array{"PlayerValues", "name"}))};
   SDL::Text player_text{32, {20, 20, 100, 20}, player_name.c_str(), player_name.size(), display.game_renderer.ref()};
-  SDL::Text score_text{32, {20, 40, 150, 20}, "0000000", 7, display.game_renderer.ref()};
+
+  const std::string score_string{std::format("{:0>7}", std::to_string(game_rules.score.getCurrent()))};
+  SDL::Text score_text{32, {20, 40, 150, 20}, score_string.c_str(), score_string.size(), display.game_renderer.ref()};
 
   SDL::Mouse mouse{};
 
