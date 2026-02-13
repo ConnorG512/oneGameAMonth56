@@ -10,7 +10,7 @@ auto SDL::Text::draw(std::pair<float, float>xy) noexcept -> void
   TTF_DrawRendererText(text_object_.get(), xy.first, xy.second);
 }
 
-auto SDL::Text::swapText(const std::string& text)
+auto SDL::Text::swapText(const std::string& text) noexcept -> void
 {
   TTF_SetTextString(text_object_.get(), text.c_str(), text.size());
 }

@@ -27,6 +27,6 @@ public:
   Text(const std::string&, SDL_Renderer &renderer);
 
   auto draw(std::pair<float, float>xy) noexcept -> void;
-  auto swapText(const std::string& text);
+  auto swapText(const std::string& text) noexcept -> void;
 };
 } // namespace SDL
