@@ -82,6 +82,8 @@ auto main() -> int
         });
 
     proj_spawner.clearSlot();
+    
+    game_rules.score.increase(1);
 
     // Rendering
     display.game_renderer.clearScreen();
