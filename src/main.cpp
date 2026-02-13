@@ -4,6 +4,7 @@
 #include "game/enemy.hpp"
 #include "game/player.hpp"
 #include "game/projectile.hpp"
+#include "game/rules.hpp"
 #include "game/save-object.hpp"
 #include "game/scoring.hpp"
 #include "game/spawner.hpp"
@@ -44,6 +45,8 @@ auto main() -> int
       "Game window",
       {std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "x"})),
        std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "y"}))}};
+  
+  Game::Rules game_rules{1000000, 180};
 
   const auto player_name{CastGetVar<std::string>(lua_instance.GetLuaValue(std::array{"PlayerValues", "name"}))};
   SDL::Text player_text{32, {20, 20, 100, 20}, player_name.c_str(), player_name.size(), display.game_renderer.ref()};
@@ -51,7 +54,6 @@ auto main() -> int
 
   SDL::Mouse mouse{};
 
-  Game::Score<int> current_score{};
   Game::Player player{lua_instance, display.game_renderer.ref()};
   Game::Enemy enemy{lua_instance, display.game_renderer.ref()};
   Game::Spawner<Game::Projectile> proj_spawner{[&lua_instance]()
@@ -103,7 +105,6 @@ auto main() -> int
     display.game_renderer.present();
   }
 
-  file_data.high_score = current_score.getHighScore();
   file_data.times_played += 1;
   save_file.writeSerialDataToFile(file_data);
 
