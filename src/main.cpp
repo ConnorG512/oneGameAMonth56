@@ -47,7 +47,7 @@ auto main() -> int
 
   const auto player_name{CastGetVar<std::string>(lua_instance.GetLuaValue(std::array{"PlayerValues", "name"}))};
   SDL::Text player_text{32, {20, 20, 100, 20}, player_name.c_str(), player_name.size(), display.game_renderer.ref()};
-  SDL::Text score_text{32, {20,40,150,20}, "0000000", 7, display.game_renderer.ref()};
+  SDL::Text score_text{32, {20, 40, 150, 20}, "0000000", 7, display.game_renderer.ref()};
 
   SDL::Mouse mouse{};
 
@@ -90,8 +90,11 @@ auto main() -> int
     // Spawned Projectile Render:
     for (auto &projectile : proj_spawner.ref())
     {
-      projectile.bounds_.move(Utils::Angle::CalculateXDirection(mouse_radian, CastGetVar<float>(lua_instance.GetLuaValue(std::array{"Projectile", "speed"}))),
-                              Utils::Angle::CalculateYDirection(mouse_radian, CastGetVar<float>(lua_instance.GetLuaValue(std::array{"Projectile", "speed"}))));
+      projectile.bounds_.move(
+          Utils::Angle::CalculateXDirection(
+              mouse_radian, CastGetVar<float>(lua_instance.GetLuaValue(std::array{"Projectile", "speed"}))),
+          Utils::Angle::CalculateYDirection(
+              mouse_radian, CastGetVar<float>(lua_instance.GetLuaValue(std::array{"Projectile", "speed"}))));
       display.game_renderer.renderTexture(projectile.texture_.ref(), nullptr, &projectile.bounds_.ref());
     }
 
