@@ -2,11 +2,13 @@
 
 #include "utils/concepts.hpp"
 
+#include <limits>
+
 template <Concepts::Number T>
 class Counter 
 {
   T current_ {0};
-  T max_ {0};
+  T max_ {std::numeric_limits<T>::max()};
 
   public:
     Counter(Concepts::Number auto current, Concepts::Number auto max)
