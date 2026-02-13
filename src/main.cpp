@@ -6,7 +6,6 @@
 #include "game/projectile.hpp"
 #include "game/rules.hpp"
 #include "game/save-object.hpp"
-#include "game/scoring.hpp"
 #include "game/spawner.hpp"
 #include "lua/lua.hpp"
 #include "sdl/event-handler.hpp"
