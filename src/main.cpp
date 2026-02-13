@@ -4,8 +4,8 @@
 #include "game/enemy.hpp"
 #include "game/player.hpp"
 #include "game/projectile.hpp"
+#include "game/rules.hpp"
 #include "game/save-object.hpp"
-#include "game/scoring.hpp"
 #include "game/spawner.hpp"
 #include "lua/lua.hpp"
 #include "sdl/event-handler.hpp"
@@ -23,6 +23,8 @@
 #include <SDL3/SDL_surface.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <array>
+#include <string>
+#include <format>
 
 auto main() -> int
 {
@@ -45,13 +47,16 @@ auto main() -> int
       {std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "x"})),
        std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "y"}))}};
 
-  const auto player_name{CastGetVar<std::string>(lua_instance.GetLuaValue(std::array{"PlayerValues", "name"}))};
-  SDL::Text player_text{32, {20, 20, 100, 20}, player_name.c_str(), player_name.size(), display.game_renderer.ref()};
-  SDL::Text score_text{32, {20,40,150,20}, "0000000", 7, display.game_renderer.ref()};
+  Game::Rules game_rules{
+      CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_score"})),
+      CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_time"})),
+  };
+  SDL::Text player_text{CastGetVar<std::string>(lua_instance.GetLuaValue(std::array{"PlayerValues", "name"})),
+                        display.game_renderer.ref()};
+  SDL::Text score_text{std::format("{:07}", game_rules.score.getCurrent()).c_str(), display.game_renderer.ref()};
 
   SDL::Mouse mouse{};
 
-  Game::Score<int> current_score{};
   Game::Player player{lua_instance, display.game_renderer.ref()};
   Game::Enemy enemy{lua_instance, display.game_renderer.ref()};
   Game::Spawner<Game::Projectile> proj_spawner{[&lua_instance]()
@@ -76,6 +81,8 @@ auto main() -> int
 
     proj_spawner.clearSlot();
 
+    game_rules.score.increase(1);
+
     // Rendering
     display.game_renderer.clearScreen();
     display.game_renderer.drawColorFloat(0, 0, 0);
@@ -90,17 +97,21 @@ auto main() -> int
     // Spawned Projectile Render:
     for (auto &projectile : proj_spawner.ref())
     {
-      projectile.bounds_.move(Utils::Angle::CalculateXDirection(mouse_radian, CastGetVar<float>(lua_instance.GetLuaValue(std::array{"Projectile", "speed"}))),
-                              Utils::Angle::CalculateYDirection(mouse_radian, CastGetVar<float>(lua_instance.GetLuaValue(std::array{"Projectile", "speed"}))));
+      projectile.bounds_.move(
+          Utils::Angle::CalculateXDirection(
+              mouse_radian, CastGetVar<float>(lua_instance.GetLuaValue(std::array{"Projectile", "speed"}))),
+          Utils::Angle::CalculateYDirection(
+              mouse_radian, CastGetVar<float>(lua_instance.GetLuaValue(std::array{"Projectile", "speed"}))));
       display.game_renderer.renderTexture(projectile.texture_.ref(), nullptr, &projectile.bounds_.ref());
     }
 
-    display.game_renderer.renderTexture(player_text.texture.ref(), nullptr, &player_text.rectangle.ref());
-    display.game_renderer.renderTexture(score_text.texture.ref(), nullptr, &score_text.rectangle.ref());
+    player_text.draw({20, 20});
+
+    score_text.swapText(std::to_string(game_rules.score.getCurrent()));
+    score_text.draw({20, 60});
     display.game_renderer.present();
   }
 
-  file_data.high_score = current_score.getHighScore();
   file_data.times_played += 1;
   save_file.writeSerialDataToFile(file_data);
 

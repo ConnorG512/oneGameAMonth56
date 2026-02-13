@@ -1,13 +1,12 @@
 #pragma once
 
+#include "concepts.hpp"
+
 #include <cassert>
 #include <random>
-#include <type_traits>
 
 namespace Utils::Rng
 {
-template <typename T>
-concept RandVal = std::is_arithmetic_v<T> && !std::is_same_v<T, bool>;
 
 class Rng
 {
@@ -15,7 +14,7 @@ class Rng
   std::mt19937 generator_{device_()};
 
 public:
-  auto generate(RandVal auto min = 0, RandVal auto max = 100) -> auto
+  auto generate(Concepts::Number auto min = 0, Concepts::Number auto max = 100) -> auto
   {
     assert(min < max);
 
