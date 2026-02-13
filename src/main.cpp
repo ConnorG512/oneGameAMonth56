@@ -47,6 +47,7 @@ auto main() -> int
 
   const auto player_name{CastGetVar<std::string>(lua_instance.GetLuaValue(std::array{"PlayerValues", "name"}))};
   SDL::Text player_text{32, {20, 20, 100, 20}, player_name.c_str(), player_name.size(), display.game_renderer.ref()};
+  SDL::Text score_text{32, {20,40,150,20}, "0000000", 7, display.game_renderer.ref()};
 
   SDL::Mouse mouse{};
 
@@ -95,6 +96,7 @@ auto main() -> int
     }
 
     display.game_renderer.renderTexture(player_text.texture.ref(), nullptr, &player_text.rectangle.ref());
+    display.game_renderer.renderTexture(score_text.texture.ref(), nullptr, &score_text.rectangle.ref());
     display.game_renderer.present();
   }
 
