@@ -16,21 +16,21 @@ class Counter
       , max_{max} {}
     Counter() = default;
     
-    [[maybe_unused]] auto increase(Concepts::Number auto amount) -> T 
+    [[maybe_unused]] auto increase(Concepts::Number auto amount) noexcept -> T 
     {
       current_ += amount; 
       if (current_ > max_)
         current_ = max_;
     }
     
-    [[maybe_unused]] auto decrease(Concepts::Number auto amount) -> T 
+    [[maybe_unused]] auto decrease(Concepts::Number auto amount) noexcept -> T 
     {
       current_ -= amount; 
       if (current_ < 0)
         current_ = 0;
     }
 
-    [[maybe_unused]] auto setTo(Concepts::Number auto num) -> T
+    [[maybe_unused]] auto setTo(Concepts::Number auto num) noexcept -> T
     {
       current_ = num;
       if(current_ > max_)
@@ -39,7 +39,7 @@ class Counter
         current_ = 0;
     }
 
-    auto reset() -> void 
+    auto reset() noexcept -> void 
     {
       current_ = 0;
     }
