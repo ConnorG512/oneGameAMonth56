@@ -24,6 +24,7 @@
 #include <SDL3_ttf/SDL_ttf.h>
 #include <array>
 #include <string>
+#include <format>
 
 auto main() -> int
 {
@@ -52,7 +53,7 @@ auto main() -> int
   };
   SDL::Text player_text{CastGetVar<std::string>(lua_instance.GetLuaValue(std::array{"PlayerValues", "name"})),
                         display.game_renderer.ref()};
-  SDL::Text score_text{std::to_string(game_rules.score.getCurrent()), display.game_renderer.ref()};
+  SDL::Text score_text{std::format("{:07}", game_rules.score.getCurrent()).c_str(), display.game_renderer.ref()};
 
   SDL::Mouse mouse{};
 
