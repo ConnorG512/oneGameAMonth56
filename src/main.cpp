@@ -52,6 +52,7 @@ auto main() -> int
   };
   SDL::Text player_text{CastGetVar<std::string>(lua_instance.GetLuaValue(std::array{"PlayerValues", "name"})),
                         display.game_renderer.ref()};
+  SDL::Text score_text{std::to_string(game_rules.score.getCurrent()), display.game_renderer.ref()};
 
   SDL::Mouse mouse{};
 
@@ -102,8 +103,9 @@ auto main() -> int
               mouse_radian, CastGetVar<float>(lua_instance.GetLuaValue(std::array{"Projectile", "speed"}))));
       display.game_renderer.renderTexture(projectile.texture_.ref(), nullptr, &projectile.bounds_.ref());
     }
-    
-    player_text.draw({20,20});
+
+    player_text.draw({20, 20});
+    score_text.draw({20, 60});
     display.game_renderer.present();
   }
 
