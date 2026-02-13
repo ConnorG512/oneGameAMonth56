@@ -14,7 +14,8 @@ class Counter
     Counter(Concepts::Number auto current, Concepts::Number auto max)
       : current_{current}
       , max_{max} {}
-
+    Counter() = default;
+    
     [[maybe_unused]] auto increase(Concepts::Number auto amount) -> T 
     {
       current_ += amount; 
