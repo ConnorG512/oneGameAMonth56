@@ -1,7 +1,5 @@
 #include "game/player.hpp"
-#include "file-output/logging/logger.hpp"
 #include "lua/lua.hpp"
-#include "sdl/window-renderer/renderer.hpp"
 #include "utils/cast-get.hpp"
 
 #include <array>
