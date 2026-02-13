@@ -4,6 +4,7 @@
 
 #include <limits>
 
+namespace Game {
 template <Concepts::Number T>
 class Counter 
 {
@@ -62,3 +63,4 @@ class Counter
       return {current_, max_};
     }
 };
+}
