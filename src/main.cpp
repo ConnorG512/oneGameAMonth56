@@ -51,11 +51,8 @@ auto main() -> int
       CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_score"})),
       CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_time"})),
   };
-  const auto player_name{CastGetVar<std::string>(lua_instance.GetLuaValue(std::array{"PlayerValues", "name"}))};
-  SDL::Text player_text{32, {20, 20, 100, 20}, player_name.c_str(), player_name.size(), display.game_renderer.ref()};
-
-  const std::string score_string{std::format("{:0>7}", std::to_string(game_rules.score.getCurrent()))};
-  SDL::Text score_text{32, {20, 40, 150, 20}, score_string.c_str(), score_string.size(), display.game_renderer.ref()};
+  SDL::Text player_text{CastGetVar<std::string>(lua_instance.GetLuaValue(std::array{"PlayerValues", "name"})),
+                        display.game_renderer.ref()};
 
   SDL::Mouse mouse{};
 
@@ -82,7 +79,7 @@ auto main() -> int
         });
 
     proj_spawner.clearSlot();
-    
+
     game_rules.score.increase(1);
 
     // Rendering
@@ -106,9 +103,8 @@ auto main() -> int
               mouse_radian, CastGetVar<float>(lua_instance.GetLuaValue(std::array{"Projectile", "speed"}))));
       display.game_renderer.renderTexture(projectile.texture_.ref(), nullptr, &projectile.bounds_.ref());
     }
-
-    display.game_renderer.renderTexture(player_text.texture.ref(), nullptr, &player_text.rectangle.ref());
-    display.game_renderer.renderTexture(score_text.texture.ref(), nullptr, &score_text.rectangle.ref());
+    
+    player_text.draw({20,20});
     display.game_renderer.present();
   }
 
