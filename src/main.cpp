@@ -45,7 +45,11 @@ auto main() -> int
       {std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "x"})),
        std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "y"}))}};
   
-  Game::Rules game_rules{1000000, 180};
+  Game::Rules game_rules
+  {
+    CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_score"})),
+    CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_time"})),
+  };
 
   const auto player_name{CastGetVar<std::string>(lua_instance.GetLuaValue(std::array{"PlayerValues", "name"}))};
   SDL::Text player_text{32, {20, 20, 100, 20}, player_name.c_str(), player_name.size(), display.game_renderer.ref()};
