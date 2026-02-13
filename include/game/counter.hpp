@@ -3,6 +3,7 @@
 #include "utils/concepts.hpp"
 
 #include <limits>
+#include <utility>
 
 template <Concepts::Number T>
 class Counter 
@@ -11,11 +12,13 @@ class Counter
   T max_ {std::numeric_limits<T>::max()};
 
   public:
+    // Constructors:
     Counter(Concepts::Number auto current, Concepts::Number auto max)
       : current_{current}
       , max_{max} {}
     Counter() = default;
     
+    // Methods:
     [[maybe_unused]] auto increase(Concepts::Number auto amount) noexcept -> T 
     {
       current_ += amount; 
@@ -42,5 +45,21 @@ class Counter
     auto reset() noexcept -> void 
     {
       current_ = 0;
+    }
+    
+    // Getters:
+    [[nodiscard]] auto getCurrent() const noexcept -> T
+    {
+      return current_;
+    }
+
+    [[nodiscard]] auto getMax() const noexcept -> T
+    {
+      return max_;
+    }
+    
+    [[nodiscard]] auto getBoth() const noexcept -> T
+    {
+      return {current_, max_};
     }
 };
