@@ -78,10 +78,8 @@ auto main() -> int
           proj_spawner.spawnProjectile(display.game_window.WindowSize(), mouse_xy, lua_instance,
                                        display.game_renderer.ref());
         });
-
+    
     proj_spawner.clearSlot();
-
-    game_rules.score.increase(1);
 
     // Rendering
     display.game_renderer.clearScreen();
