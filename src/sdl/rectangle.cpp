@@ -45,6 +45,14 @@ auto SDL::Rectangle::checkCollision(const std::span<const SDL_FRect> other_bound
   return false;
 }
 
+auto SDL::Rectangle::checkCollision(const SDL_FRect &other_bound) noexcept -> bool
+{
+  if (SDL_HasRectIntersectionFloat(&rect_, &other_bound))
+    return true;
+  else 
+    return false;
+}
+
 auto SDL::Rectangle::cref() const noexcept -> const SDL_FRect & { return rect_; }
 
 auto SDL::Rectangle::ref() noexcept -> SDL_FRect & { return rect_; }
