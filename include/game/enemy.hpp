@@ -3,6 +3,7 @@
 #include "game/health.hpp"
 #include "sdl/image/texture.hpp"
 #include "sdl/rectangle.hpp"
+#include <utility>
 
 class LuaInstance;
 namespace File
@@ -21,5 +22,6 @@ public:
   Game::HealthComponent<int> health_{};
 
   Enemy(LuaInstance &lua, SDL_Renderer &renderer);
+  Enemy(std::pair<float, float>xy, LuaInstance &lua, SDL_Renderer &renderer);
 };
 } // namespace Game
