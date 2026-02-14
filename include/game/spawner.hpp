@@ -43,7 +43,7 @@ template <Spawnable T> class Spawner
   }
 
 public:
-  Spawner(std::function<std::uint32_t()> slot_func) : spawn_slots_{CreateSpawner(slot_func)} {}
+  Spawner(std::function<std::uint32_t()> slot_func = nullptr) : spawn_slots_{CreateSpawner(slot_func)} {}
 
   auto spawnProjectile(const std::pair<int, int> &screen_bounds, const std::pair<float, float> &xy, LuaInstance &lua,
                        SDL_Renderer &renderer) -> void
