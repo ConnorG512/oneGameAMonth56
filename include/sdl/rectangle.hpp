@@ -24,7 +24,10 @@ public:
   };
   auto move(Direction dir, float x, float y) noexcept -> void;
   auto move(float x_vel, float y_vel) noexcept -> void;
+  
   auto checkCollision(const std::span<const SDL_FRect> other_bounds) noexcept -> bool;
+  auto checkCollision(const SDL_FRect &other_bound) noexcept -> bool;
+  
   auto cref() const noexcept -> const SDL_FRect &;
   auto ref() noexcept -> SDL_FRect &;
 };
