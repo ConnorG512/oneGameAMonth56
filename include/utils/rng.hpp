@@ -5,7 +5,7 @@
 #include <cassert>
 #include <random>
 
-namespace Utils::Rng
+namespace Utils
 {
 
 class Rng
@@ -14,7 +14,8 @@ class Rng
   std::mt19937 generator_{device_()};
 
 public:
-  auto generate(Concepts::Number auto min = 0, Concepts::Number auto max = 100) -> auto
+  template <Concepts::Number T = int>
+  auto generate(T min = 0, T max = 100) -> auto
   {
     assert(min < max);
 
