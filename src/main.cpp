@@ -24,7 +24,6 @@
 #include <SDL3/SDL_surface.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <array>
-#include <complex>
 #include <format>
 #include <string>
 #include <utility>
@@ -63,7 +62,6 @@ auto main() -> int
   Utils::Rng rng{};
 
   Game::Player player{lua_instance, display.game_renderer.ref()};
-  Game::Enemy enemy{lua_instance, display.game_renderer.ref()};
   Game::Spawner<Game::Projectile> proj_spawner{[&lua_instance]()
                                                {
                                                  return CastGetVar<int>(lua_instance.GetLuaValue(
@@ -84,8 +82,8 @@ auto main() -> int
 
     proj_spawner.clearSlot();
 
-    enemy_spawner.spawn(static_cast<float>(rng.generate(0, 1024)), static_cast<float>(rng.generate(0, 1024)), lua_instance,
-                        display.game_renderer.ref());
+    enemy_spawner.spawn(static_cast<float>(rng.generate(0, 1024)), static_cast<float>(rng.generate(0, 1024)),
+                        lua_instance, display.game_renderer.ref());
 
     for (const auto &slot : proj_spawner.cref())
     {
@@ -101,8 +99,6 @@ auto main() -> int
                                                   mouse_xy, {player.bounds_.cref().x, player.bounds_.cref().y}) +
                                                   Utils::Angle::texture_offset<double>,
                                               nullptr, SDL_FLIP_NONE);
-    display.game_renderer.renderTexture(enemy.texture_.ref(), nullptr, &enemy.bounds_.ref());
-
     // Spawned Projectile Render:
     for (auto &projectile : proj_spawner.ref())
     {
