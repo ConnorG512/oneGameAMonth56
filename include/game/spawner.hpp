@@ -45,35 +45,36 @@ template <Spawnable T> class Spawner
 public:
   Spawner(std::function<std::uint32_t()> slot_func = nullptr) : spawn_slots_{CreateSpawner(slot_func)} {}
 
-  auto spawnProjectile(const std::pair<int, int> &screen_bounds, const std::pair<float, float> &xy, LuaInstance &lua,
-                       SDL_Renderer &renderer) -> void
+  // Different objects that utilise the spawner may have difference constructors so a variadic template
+  // will allow for more generic construction.
+  template <typename... Args> auto spawn(Args &&...args) -> void
   {
     for (auto &slot : spawn_slots_)
     {
       if (slot == nullptr)
       {
-        slot = std::make_unique<T>(screen_bounds, xy, lua, renderer);
+        slot = std::make_unique<T>(std::forward<Args>(args)...);
         break;
       }
     }
   }
-  
-  auto clearSlot(const auto& collider) -> void
+
+  auto clearSlot(const auto &collider) -> void
     requires HasCollisionObject<T>
   {
     for (auto &slot : spawn_slots_ | std::views::filter([](auto &slot) { return slot != nullptr; }))
     {
-      if (slot->bounds_.checkCollision(collider.cref()))
+      if (slot->bounds_.checkCollision(collider.bounds_.cref()))
         slot.reset();
     }
   }
-  
+
   auto clearSlot() -> void
     requires Destroyable<T>
   {
     for (auto &slot : spawn_slots_ | std::views::filter([](auto &slot) { return slot != nullptr; }))
     {
-      if(slot->isReadyToBeDestroyed())
+      if (slot->isReadyToBeDestroyed())
         slot.reset();
     }
   }
