@@ -1,5 +1,6 @@
 #pragma once
 
+#include "sdl/rectangle.hpp"
 #include <concepts>
 #include <cstdint>
 #include <functional>
@@ -14,10 +15,17 @@ class SDL_Renderer;
 namespace Game
 {
 
+// Concpets
+template <typename T>
+concept HasCollisionObject = requires(T &t) {
+  { t.bounds_ } -> std::same_as<SDL::Rectangle &>;
+};
+
 template <typename T>
 concept Destroyable = requires(T &t) {
   { t.isReadyToBeDestroyed() } -> std::convertible_to<bool>;
 };
+//
 
 template <Destroyable T> class Spawner
 {
@@ -46,13 +54,21 @@ public:
       }
     }
   }
-
-  auto clearSlot() -> void
+  
+  auto clearSlot(const auto& collider) -> void
   {
     for (auto &slot : spawn_slots_ | std::views::filter([](auto &slot) { return slot != nullptr; }))
     {
-      if (slot->isReadyToBeDestroyed())
-        slot.reset();
+      if constexpr (HasCollisionObject<T>)
+      {
+        if (slot->bounds_.checkCollision(collider.cref()))
+          slot.reset();
+      }
+      else 
+      {
+        if(slot->isReadyToBeDestroyed())
+          slot.reset();
+      }
     }
   }
 
