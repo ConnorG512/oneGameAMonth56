@@ -25,9 +25,12 @@ template <typename T>
 concept Destroyable = requires(T &t) {
   { t.isReadyToBeDestroyed() } -> std::convertible_to<bool>;
 };
+
+template <typename T>
+concept Spawnable = HasCollisionObject<T> || Destroyable<T>;
 //
 
-template <Destroyable T> class Spawner
+template <Spawnable T> class Spawner
 {
   std::vector<std::unique_ptr<T>> spawn_slots_{};
 
@@ -56,19 +59,22 @@ public:
   }
   
   auto clearSlot(const auto& collider) -> void
+    requires HasCollisionObject<T>
   {
     for (auto &slot : spawn_slots_ | std::views::filter([](auto &slot) { return slot != nullptr; }))
     {
-      if constexpr (HasCollisionObject<T>)
-      {
-        if (slot->bounds_.checkCollision(collider.cref()))
-          slot.reset();
-      }
-      else 
-      {
-        if(slot->isReadyToBeDestroyed())
-          slot.reset();
-      }
+      if (slot->bounds_.checkCollision(collider.cref()))
+        slot.reset();
+    }
+  }
+  
+  auto clearSlot() -> void
+    requires Destroyable<T>
+  {
+    for (auto &slot : spawn_slots_ | std::views::filter([](auto &slot) { return slot != nullptr; }))
+    {
+      if(slot->isReadyToBeDestroyed())
+        slot.reset();
     }
   }
 
