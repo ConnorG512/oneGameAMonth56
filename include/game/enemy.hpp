@@ -22,6 +22,6 @@ public:
   Game::HealthComponent<int> health_{};
 
   Enemy(LuaInstance &lua, SDL_Renderer &renderer);
-  Enemy(std::pair<float, float>xy, LuaInstance &lua, SDL_Renderer &renderer);
+  Enemy(float x, float y, LuaInstance &lua, SDL_Renderer &renderer);
 };
 } // namespace Game
