@@ -16,6 +16,7 @@
 #include "sdl/window-renderer/window-renderer.hpp"
 #include "utils/angle.hpp"
 #include "utils/cast-get.hpp"
+#include "utils/rng.hpp"
 
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_rect.h>
@@ -23,8 +24,9 @@
 #include <SDL3/SDL_surface.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <array>
-#include <string>
 #include <format>
+#include <string>
+#include <utility>
 
 auto main() -> int
 {
@@ -57,13 +59,15 @@ auto main() -> int
 
   SDL::Mouse mouse{};
 
+  Utils::Rng rng{};
+
   Game::Player player{lua_instance, display.game_renderer.ref()};
-  Game::Enemy enemy{lua_instance, display.game_renderer.ref()};
   Game::Spawner<Game::Projectile> proj_spawner{[&lua_instance]()
                                                {
                                                  return CastGetVar<int>(lua_instance.GetLuaValue(
                                                      std::array{"GameRules", "ProjectileSpawner", "max_spawn_slots"}));
                                                }};
+  Game::Spawner<Game::Enemy> enemy_spawner{};
 
   // Game loop
   while (event_handler.isGameRunning())
@@ -74,14 +78,17 @@ auto main() -> int
 
     event_handler.PollEvent(
         [&]
-        {
-          proj_spawner.spawnProjectile(display.game_window.WindowSize(), mouse_xy, lua_instance,
-                                       display.game_renderer.ref());
-        });
+        { proj_spawner.spawn(display.game_window.WindowSize(), mouse_xy, lua_instance, display.game_renderer.ref()); });
 
     proj_spawner.clearSlot();
 
-    game_rules.score.increase(1);
+    enemy_spawner.spawn(static_cast<float>(rng.generate(0, 1024)), static_cast<float>(rng.generate(0, 1024)),
+                        lua_instance, display.game_renderer.ref());
+
+    for (const auto &slot : proj_spawner.cref())
+    {
+      enemy_spawner.clearSlot(slot);
+    }
 
     // Rendering
     display.game_renderer.clearScreen();
@@ -92,8 +99,6 @@ auto main() -> int
                                                   mouse_xy, {player.bounds_.cref().x, player.bounds_.cref().y}) +
                                                   Utils::Angle::texture_offset<double>,
                                               nullptr, SDL_FLIP_NONE);
-    display.game_renderer.renderTexture(enemy.texture_.ref(), nullptr, &enemy.bounds_.ref());
-
     // Spawned Projectile Render:
     for (auto &projectile : proj_spawner.ref())
     {
@@ -103,6 +108,11 @@ auto main() -> int
           Utils::Angle::CalculateYDirection(
               mouse_radian, CastGetVar<float>(lua_instance.GetLuaValue(std::array{"Projectile", "speed"}))));
       display.game_renderer.renderTexture(projectile.texture_.ref(), nullptr, &projectile.bounds_.ref());
+    }
+
+    for (auto &enemy : enemy_spawner.ref())
+    {
+      display.game_renderer.renderTexture(enemy.texture_.ref(), nullptr, &enemy.bounds_.ref());
     }
 
     player_text.draw({20, 20});

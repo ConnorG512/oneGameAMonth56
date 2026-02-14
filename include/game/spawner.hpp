@@ -1,5 +1,6 @@
 #pragma once
 
+#include "sdl/rectangle.hpp"
 #include <concepts>
 #include <cstdint>
 #include <functional>
@@ -14,12 +15,22 @@ class SDL_Renderer;
 namespace Game
 {
 
+// Concpets
+template <typename T>
+concept HasCollisionObject = requires(T &t) {
+  { t.bounds_ } -> std::same_as<SDL::Rectangle &>;
+};
+
 template <typename T>
 concept Destroyable = requires(T &t) {
   { t.isReadyToBeDestroyed() } -> std::convertible_to<bool>;
 };
 
-template <Destroyable T> class Spawner
+template <typename T>
+concept Spawnable = HasCollisionObject<T> || Destroyable<T>;
+//
+
+template <Spawnable T> class Spawner
 {
   std::vector<std::unique_ptr<T>> spawn_slots_{};
 
@@ -32,22 +43,34 @@ template <Destroyable T> class Spawner
   }
 
 public:
-  Spawner(std::function<std::uint32_t()> slot_func) : spawn_slots_{CreateSpawner(slot_func)} {}
+  Spawner(std::function<std::uint32_t()> slot_func = nullptr) : spawn_slots_{CreateSpawner(slot_func)} {}
 
-  auto spawnProjectile(const std::pair<int, int> &screen_bounds, const std::pair<float, float> &xy, LuaInstance &lua,
-                       SDL_Renderer &renderer) -> void
+  // Different objects that utilise the spawner may have difference constructors so a variadic template
+  // will allow for more generic construction.
+  template <typename... Args> auto spawn(Args &&...args) -> void
   {
     for (auto &slot : spawn_slots_)
     {
       if (slot == nullptr)
       {
-        slot = std::make_unique<T>(screen_bounds, xy, lua, renderer);
+        slot = std::make_unique<T>(std::forward<Args>(args)...);
         break;
       }
     }
   }
 
+  auto clearSlot(const auto &collider) -> void
+    requires HasCollisionObject<T>
+  {
+    for (auto &slot : spawn_slots_ | std::views::filter([](auto &slot) { return slot != nullptr; }))
+    {
+      if (slot->bounds_.checkCollision(collider.bounds_.cref()))
+        slot.reset();
+    }
+  }
+
   auto clearSlot() -> void
+    requires Destroyable<T>
   {
     for (auto &slot : spawn_slots_ | std::views::filter([](auto &slot) { return slot != nullptr; }))
     {
