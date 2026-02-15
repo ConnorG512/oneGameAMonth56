@@ -24,6 +24,7 @@
 #include <SDL3/SDL_surface.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <array>
+#include <cstdio>
 #include <format>
 #include <string>
 #include <utility>
@@ -124,7 +125,8 @@ auto main() -> int
     score_text.draw({20, 60});
     display.game_renderer.present();
   }
-
+  
+  file_data.high_score = game_rules.score.getCurrent();
   file_data.times_played += 1;
   save_file.writeSerialDataToFile(file_data);
 
