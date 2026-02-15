@@ -84,13 +84,13 @@ public:
     }
   }
 
-  auto ref() noexcept -> auto
+  auto ref() noexcept
   {
     return spawn_slots_ | std::views::filter([](const auto &slot) { return slot != nullptr; }) |
            std::views::transform([](auto &slot) -> T & { return *slot; });
   }
 
-  auto cref() const noexcept -> auto
+  auto cref() const noexcept
   {
     return spawn_slots_ | std::views::filter([](const auto &slot) { return slot != nullptr; }) |
            std::views::transform([](auto &slot) -> T & { return *slot; });
