@@ -16,7 +16,7 @@ class Rectangle
   float y_vel_{0.0f};
 
 public:
-  Rectangle(float x = 0.0, float y = 0.0, float w = 32.0, float h = 32.0, float vel_x = 0.0f, float vel_y = 0.0f);
+  Rectangle(float x = 0.0f, float y = 0.0f, float w = 32.0f, float h = 32.0f, float vel_x = 0.0f, float vel_y = 0.0f);
   Rectangle(std::pair<float, float> xy, std::pair<float, float> wh);
   Rectangle(std::array<float, 4> xywh);
 
