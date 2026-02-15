@@ -1,7 +1,10 @@
 #include "sdl/rectangle.hpp"
 #include <SDL3/SDL_rect.h>
 
-SDL::Rectangle::Rectangle(float x, float y, float w, float h) : rect_{x, y, w, h} {}
+SDL::Rectangle::Rectangle(float x, float y, float w, float h, float vel_x, float vel_y)
+    : rect_{x, y, w, h}, x_vel_{vel_x}, y_vel_{vel_y}
+{
+}
 
 SDL::Rectangle::Rectangle(std::pair<float, float> xy, std::pair<float, float> wh)
     : rect_{xy.first, xy.second, wh.first, wh.second}
@@ -37,9 +40,9 @@ auto SDL::Rectangle::move(float x_vel, float y_vel) noexcept -> void
 
 auto SDL::Rectangle::checkCollision(const std::span<const SDL_FRect> other_bounds) noexcept -> bool
 {
-  for(const auto& rec : other_bounds)
+  for (const auto &rec : other_bounds)
   {
-    if(SDL_HasRectIntersectionFloat(&rect_, &rec))
+    if (SDL_HasRectIntersectionFloat(&rect_, &rec))
       return true;
   }
   return false;
@@ -49,7 +52,7 @@ auto SDL::Rectangle::checkCollision(const SDL_FRect &other_bound) noexcept -> bo
 {
   if (SDL_HasRectIntersectionFloat(&rect_, &other_bound))
     return true;
-  else 
+  else
     return false;
 }
 
