@@ -13,7 +13,6 @@ SDL::Rectangle::Rectangle(std::pair<float, float> xy, std::pair<float, float> wh
 
 SDL::Rectangle::Rectangle(std::array<float, 4> xywh) : rect_{xywh.at(0), xywh.at(1), xywh.at(2), xywh.at(3)} {}
 
-// 8 Directional Movement
 auto SDL::Rectangle::move(Direction dir, float x, float y) noexcept -> void
 {
   switch (dir)
@@ -33,11 +32,16 @@ auto SDL::Rectangle::move(Direction dir, float x, float y) noexcept -> void
   }
 }
 
-// Moving based on a velcity
 auto SDL::Rectangle::move(float x_vel, float y_vel) noexcept -> void
 {
   rect_.x += x_vel;
   rect_.y += y_vel;
+}
+
+auto SDL::Rectangle::move() noexcept -> void
+{
+  rect_.x += x_vel_;
+  rect_.y += y_vel_;
 }
 
 auto SDL::Rectangle::checkCollision(const std::span<const SDL_FRect> other_bounds) noexcept -> bool

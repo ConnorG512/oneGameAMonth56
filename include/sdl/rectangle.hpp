@@ -25,8 +25,12 @@ public:
     positive,
     negative,
   };
+  // 8 Directional Movement
   auto move(Direction dir, float x, float y) noexcept -> void;
+  // Moving based on an outside velcity
   auto move(float x_vel, float y_vel) noexcept -> void;
+  // Moving based on constructed velcity
+  auto move() noexcept -> void;
 
   auto checkCollision(const std::span<const SDL_FRect> other_bounds) noexcept -> bool;
   auto checkCollision(const SDL_FRect &other_bound) noexcept -> bool;
