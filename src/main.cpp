@@ -80,8 +80,9 @@ auto main() -> int
         [&]
         {
           proj_spawner.spawn(display.game_window.WindowSize(), mouse_xy,
-                             std::pair<float, float>{mouse_radian, mouse_radian}, lua_instance,
-                             display.game_renderer.ref());
+                             std::pair<float, float>{Utils::Angle::CalculateXDirection(mouse_radian, 1.0f),
+                                                     Utils::Angle::CalculateYDirection(mouse_radian, 1.0f)},
+                             lua_instance, display.game_renderer.ref());
         });
 
     proj_spawner.clearSlot();
