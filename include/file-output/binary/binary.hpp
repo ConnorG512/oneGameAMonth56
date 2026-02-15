@@ -3,8 +3,6 @@
 #include <array>
 #include <cstdint>
 #include <fstream>
-#include <functional>
-#include <span>
 
 namespace File
 {
