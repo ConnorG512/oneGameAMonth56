@@ -80,7 +80,9 @@ auto main() -> int
         [&]
         {
           proj_spawner.spawn(
-              display.game_window.WindowSize(), mouse_xy,
+              display.game_window.WindowSize(),
+              std::pair<float, float>{display.game_window.WindowSize().first / 2 - 16,
+                                      display.game_window.WindowSize().second / 2 - 16},
               std::pair<float, float>{
                   Utils::Angle::CalculateXDirection(
                       mouse_radian, CastGetVar<float>(lua_instance.GetLuaValue(std::array{"Projectile", "speed"}))),
