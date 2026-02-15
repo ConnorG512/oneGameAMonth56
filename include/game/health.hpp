@@ -1,13 +1,12 @@
 #pragma once
 
 #include <cassert>
-#include <concepts>
+
+#include "utils/concepts.hpp"
 
 namespace Game
 {
-template <typename T>
-  requires std::floating_point<T> || std::integral<T>
-class HealthComponent
+template <Concepts::Number T> class HealthComponent
 {
   T current_{100};
   T max_{100};
