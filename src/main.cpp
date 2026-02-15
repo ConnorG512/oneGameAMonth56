@@ -79,10 +79,14 @@ auto main() -> int
     event_handler.PollEvent(
         [&]
         {
-          proj_spawner.spawn(display.game_window.WindowSize(), mouse_xy,
-                             std::pair<float, float>{Utils::Angle::CalculateXDirection(mouse_radian, 1.0f),
-                                                     Utils::Angle::CalculateYDirection(mouse_radian, 1.0f)},
-                             lua_instance, display.game_renderer.ref());
+          proj_spawner.spawn(
+              display.game_window.WindowSize(), mouse_xy,
+              std::pair<float, float>{
+                  Utils::Angle::CalculateXDirection(
+                      mouse_radian, CastGetVar<float>(lua_instance.GetLuaValue(std::array{"Projectile", "speed"}))),
+                  Utils::Angle::CalculateYDirection(
+                      mouse_radian, CastGetVar<float>(lua_instance.GetLuaValue(std::array{"Projectile", "speed"})))},
+              lua_instance, display.game_renderer.ref());
         });
 
     proj_spawner.clearSlot();
