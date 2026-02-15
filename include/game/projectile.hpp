@@ -21,5 +21,7 @@ public:
   auto isReadyToBeDestroyed() -> bool;
 
   Projectile(std::pair<int, int> screen_max_xy, std::pair<float, float> xy, LuaInstance &lua, SDL_Renderer &renderer);
+  Projectile(std::pair<int, int> screen_max_xy, std::pair<float, float> xy, std::pair<float, float> vel_xy,
+             LuaInstance &lua, SDL_Renderer &renderer);
 };
 } // namespace Game
