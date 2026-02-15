@@ -13,6 +13,7 @@
 #include "sdl/init.hpp"
 #include "sdl/input/mouse.hpp"
 #include "sdl/text/text.hpp"
+#include "sdl/audio.hpp"
 #include "sdl/window-renderer/window-renderer.hpp"
 #include "utils/angle.hpp"
 #include "utils/cast-get.hpp"
@@ -48,6 +49,8 @@ auto main() -> int
       "Game window",
       {std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "x"})),
        std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "y"}))}};
+  
+  SDL::Audio audio {};
 
   Game::Rules game_rules{
       CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_score"})),
