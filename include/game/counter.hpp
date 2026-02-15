@@ -17,7 +17,7 @@ public:
   Counter() = default;
 
   // Methods:
-  [[maybe_unused]] auto increase(Concepts::Number auto amount) noexcept -> T
+  [[maybe_unused]] auto increase(Concepts::Number auto amount) noexcept
   {
     current_ += amount;
     if (current_ > max_)
@@ -26,7 +26,7 @@ public:
     return current_;
   }
 
-  [[maybe_unused]] auto decrease(Concepts::Number auto amount) noexcept -> T
+  [[maybe_unused]] auto decrease(Concepts::Number auto amount) noexcept
   {
     current_ -= amount;
     if (current_ < 0)
@@ -35,7 +35,7 @@ public:
     return current_;
   }
 
-  [[maybe_unused]] auto setTo(Concepts::Number auto num) noexcept -> T
+  [[maybe_unused]] auto setTo(Concepts::Number auto num) noexcept
   {
     current_ = num;
     if (current_ > max_)

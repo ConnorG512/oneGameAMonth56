@@ -23,7 +23,7 @@ public:
   };
   auto writeToLog(LogType type, const std::string &message) noexcept -> void;
 
-  template <typename T> auto writeAddress(std::string_view name, T &object) -> void
+  auto writeAddress(std::string_view name, auto &object) -> void
   {
     std::println(logfile_, "MEM: Object {} written to address: [{}].", name, static_cast<void *>(&object));
   }
