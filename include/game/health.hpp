@@ -25,7 +25,7 @@ public:
     reduce,
     increase,
   };
-  auto ModifyHealth(ModifyType type, T amount) noexcept -> T
+  auto ModifyHealth(ModifyType type, Concepts::Number auto amount) noexcept -> T
   {
     if (type == ModifyType::reduce)
     {
