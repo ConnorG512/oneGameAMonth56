@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/player.hpp"
 #include "sdl/rectangle.hpp"
 #include <concepts>
 #include <cstdint>
@@ -59,14 +60,18 @@ public:
     }
   }
 
-  auto clearSlot(const auto &collider) -> void
+  auto clearSlot(const auto &collider) -> bool
     requires HasCollisionObject<T>
   {
     for (auto &slot : spawn_slots_ | std::views::filter([](auto &slot) { return slot != nullptr; }))
     {
       if (slot->bounds_.checkCollision(collider.bounds_.cref()))
+      {
         slot.reset();
+        return true;
+      }
     }
+    return false;
   }
 
   auto clearSlot() -> void

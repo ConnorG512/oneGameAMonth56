@@ -87,7 +87,10 @@ auto main() -> int
 
     for (const auto &slot : proj_spawner.cref())
     {
-      enemy_spawner.clearSlot(slot);
+      if(enemy_spawner.clearSlot(slot))
+      {
+        game_rules.score.increase(rng.generate(300, 450));
+      }
     }
 
     // Rendering
