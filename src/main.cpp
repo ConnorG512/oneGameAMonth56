@@ -78,7 +78,11 @@ auto main() -> int
 
     event_handler.PollEvent(
         [&]
-        { proj_spawner.spawn(display.game_window.WindowSize(), mouse_xy, lua_instance, display.game_renderer.ref()); });
+        {
+          proj_spawner.spawn(display.game_window.WindowSize(), mouse_xy,
+                             std::pair<float, float>{mouse_radian, mouse_radian}, lua_instance,
+                             display.game_renderer.ref());
+        });
 
     proj_spawner.clearSlot();
 
@@ -87,7 +91,7 @@ auto main() -> int
 
     for (const auto &slot : proj_spawner.cref())
     {
-      if(enemy_spawner.clearSlot(slot))
+      if (enemy_spawner.clearSlot(slot))
       {
         game_rules.score.increase(rng.generate(300, 450));
       }
@@ -105,11 +109,7 @@ auto main() -> int
     // Spawned Projectile Render:
     for (auto &projectile : proj_spawner.ref())
     {
-      projectile.bounds_.move(
-          Utils::Angle::CalculateXDirection(
-              mouse_radian, CastGetVar<float>(lua_instance.GetLuaValue(std::array{"Projectile", "speed"}))),
-          Utils::Angle::CalculateYDirection(
-              mouse_radian, CastGetVar<float>(lua_instance.GetLuaValue(std::array{"Projectile", "speed"}))));
+      projectile.bounds_.move();
       display.game_renderer.renderTexture(projectile.texture_.ref(), nullptr, &projectile.bounds_.ref());
     }
 
@@ -124,7 +124,7 @@ auto main() -> int
     score_text.draw({20, 60});
     display.game_renderer.present();
   }
-  
+
   file_data.high_score = game_rules.score.getCurrent();
   file_data.times_played += 1;
   save_file.writeSerialDataToFile(file_data);
