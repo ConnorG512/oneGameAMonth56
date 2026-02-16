@@ -1,7 +1,9 @@
 #include "sdl/audio.hpp"
+
 #include <SDL3/SDL_audio.h>
 #include <cassert>
 #include <cstdint>
+#include <print>
 
 auto SDL::Audio::pushStream(std::span<const float> buffer) -> void
 {
@@ -23,4 +25,10 @@ auto SDL::Audio::stopAndClearStream() -> void
 {
   SDL_PauseAudioStreamDevice(audio_stream_.get());
   SDL_ClearAudioStream(audio_stream_.get());
+}
+
+auto SDL::Audio::getAudioDevice() -> void
+{
+  const auto result{SDL_GetNumAudioDrivers()};
+  std::println("Audio Devices: {}", result);
 }
