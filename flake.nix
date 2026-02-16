@@ -61,9 +61,10 @@
           --set LD_LIBRARY_PATH ${lib.makeLibraryPath [
             pkgs.libGL.out
             pkgs.mesa
-            pkgs.alsa-lib
+            pkgs.pulseaudio.out
+            pkgs.pipewire.out
           ]} \
-          --set SDL_AUDIODRIVER=alsa
+          --set SDL_AUDIODRIVER=pipewire
       '';
     });
     
