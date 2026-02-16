@@ -3,7 +3,7 @@
 #include <cassert>
 #include <cstdint>
 
-auto SDL::Audio::pushStream(std::span<const uint8_t> buffer)
+auto SDL::Audio::pushStream(std::span<const float> buffer) -> void
 {
   // check for empty buffer.
   if (buffer.empty())

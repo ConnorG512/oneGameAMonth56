@@ -25,6 +25,7 @@
 #include <SDL3/SDL_surface.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <array>
+#include <cstdint>
 #include <format>
 #include <string>
 #include <utility>
@@ -75,6 +76,8 @@ auto main() -> int
   // Game loop
   while (event_handler.isGameRunning())
   {
+    audio.pushStream(std::array<float, 5>{0.3f,0.3f,0.3f,0.3f,0.3f,});
+
     const auto mouse_xy{mouse.GetCursorPosition()};
     const auto mouse_radian{Utils::Angle::CaclulateAngleBetweenTwoObjectsRadians(
         mouse_xy, {player.bounds_.cref().x, player.bounds_.cref().y})};
@@ -104,6 +107,7 @@ auto main() -> int
       if (enemy_spawner.clearSlot(slot))
       {
         game_rules.score.increase(rng.generate(300, 450));
+        audio.resumeStream();
       }
     }
 

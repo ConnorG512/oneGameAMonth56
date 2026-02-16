@@ -12,7 +12,7 @@ class Audio
       SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, nullptr, nullptr, nullptr), &SDL_DestroyAudioStream};
 
 public:
-  auto pushStream(std::span<const uint8_t> buffer);
+  auto pushStream(std::span<const float> buffer) -> void;
   auto resumeStream() -> void;
   auto pauseStream() -> void;
   auto clearStream() -> void;
