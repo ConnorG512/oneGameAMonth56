@@ -12,7 +12,7 @@ SDL::Init::Init()
     throw std::runtime_error(std::format("Could not initialise SDL! Error: [].", SDL_GetError()).c_str());
   if (!TTF_Init())
     throw std::runtime_error(std::format("Could not get sdl3 ttf! Error: [].", SDL_GetError()).c_str());
-  if(SDL_Init(SDL_INIT_AUDIO))
+  if(!SDL_Init(SDL_INIT_AUDIO))
     throw std::runtime_error(std::format("Could not initialise SDL Audio! Error: [].", SDL_GetError()).c_str());
 }
 
