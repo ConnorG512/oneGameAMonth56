@@ -8,4 +8,5 @@ AppConfiguration = {
   Logger = {
     enable = true,
   },
+  audio_id = 1,
 }
