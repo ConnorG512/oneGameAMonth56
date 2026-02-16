@@ -8,12 +8,12 @@
 #include "game/save-object.hpp"
 #include "game/spawner.hpp"
 #include "lua/lua.hpp"
+#include "sdl/audio.hpp"
 #include "sdl/event-handler.hpp"
 #include "sdl/image/texture.hpp"
 #include "sdl/init.hpp"
 #include "sdl/input/mouse.hpp"
 #include "sdl/text/text.hpp"
-#include "sdl/audio.hpp"
 #include "sdl/window-renderer/window-renderer.hpp"
 #include "utils/angle.hpp"
 #include "utils/cast-get.hpp"
@@ -25,7 +25,6 @@
 #include <SDL3/SDL_surface.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <array>
-#include <cstdint>
 #include <format>
 #include <string>
 #include <utility>
@@ -50,8 +49,9 @@ auto main() -> int
       "Game window",
       {std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "x"})),
        std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "y"}))}};
-  
-  SDL::Audio audio {};
+
+  SDL::Audio audio{};
+  audio.getAudioDevice();
 
   Game::Rules game_rules{
       CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_score"})),
@@ -76,7 +76,13 @@ auto main() -> int
   // Game loop
   while (event_handler.isGameRunning())
   {
-    audio.pushStream(std::array<float, 5>{0.3f,0.3f,0.3f,0.3f,0.3f,});
+    audio.pushStream(std::array<float, 5>{
+        0.3f,
+        0.3f,
+        0.3f,
+        0.3f,
+        0.3f,
+    });
 
     const auto mouse_xy{mouse.GetCursorPosition()};
     const auto mouse_radian{Utils::Angle::CaclulateAngleBetweenTwoObjectsRadians(
