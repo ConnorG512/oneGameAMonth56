@@ -6,7 +6,7 @@
 auto SDL::Audio::pushStream(std::span<const uint8_t> buffer)
 {
   assert(buffer.data() != nullptr);
-  SDL_PutAudioStreamData(audio_stream_.get(), buffer.data(), buffer.size());
+  SDL_PutAudioStreamData(audio_stream_.get(), buffer.data(), buffer.size() * sizeof(uint8_t));
 }
 
 auto SDL::Audio::resumeStream() -> void { SDL_ResumeAudioStreamDevice(audio_stream_.get()); }
