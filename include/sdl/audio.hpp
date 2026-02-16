@@ -2,6 +2,7 @@
 
 #include <SDL3/SDL_audio.h>
 #include <memory>
+#include <span>
 
 namespace SDL
 {
@@ -11,5 +12,10 @@ class Audio
       SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, nullptr, nullptr, nullptr), &SDL_DestroyAudioStream};
 
 public:
+  auto pushStream(std::span<const uint8_t> buffer);
+  auto resumeStream() -> void;
+  auto pauseStream() -> void;
+  auto clearStream() -> void;
+  auto stopAndClearStream() -> void;
 };
 } // namespace SDL
