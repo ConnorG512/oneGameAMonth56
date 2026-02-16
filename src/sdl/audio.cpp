@@ -5,6 +5,10 @@
 
 auto SDL::Audio::pushStream(std::span<const uint8_t> buffer)
 {
+  // check for empty buffer.
+  if (buffer.empty())
+    return;
+
   assert(buffer.data() != nullptr);
   SDL_PutAudioStreamData(audio_stream_.get(), buffer.data(), buffer.size() * sizeof(uint8_t));
 }
