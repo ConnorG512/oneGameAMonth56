@@ -5,6 +5,7 @@
 #include <numbers>
 #include <ranges>
 #include <vector>
+
 namespace Utils
 {
 template <std::floating_point T>
