@@ -40,11 +40,10 @@
       ];
 
       nativeBuildInputs = with pkgs; [
-        makeWrapper
         cmake 
         ninja
         pkg-config
-        
+        makeWrapper
       ];
       buildInputs = with pkgs; [
         sdl3
@@ -54,16 +53,19 @@
         
         lua
       ];
-      
-      # Missing libGL.so.1 runtime error. Wrapping to fix
-      postFixup = ''
+      postFixup = 
+      let
+        libs = with pkgs; [
+          libGL.out
+          mesa
+        ];
+      in
+      ''
         wrapProgram $out/bin/oneGameAMonth \
-          --set LD_LIBRARY_PATH ${lib.makeLibraryPath [
-            pkgs.libGL.out
-            pkgs.mesa
-          ]}
+          --set LD_LIBRARY_PATH ${lib.makeLibraryPath libs}
       '';
     });
+    
     
     release = pkgs.stdenv.mkDerivation (finalAttrs: {
       pname = "oneGameAMonth";

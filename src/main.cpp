@@ -8,6 +8,7 @@
 #include "game/save-object.hpp"
 #include "game/spawner.hpp"
 #include "lua/lua.hpp"
+#include "sdl/audio.hpp"
 #include "sdl/event-handler.hpp"
 #include "sdl/image/texture.hpp"
 #include "sdl/init.hpp"
@@ -17,6 +18,7 @@
 #include "utils/angle.hpp"
 #include "utils/cast-get.hpp"
 #include "utils/rng.hpp"
+#include "utils/sine.hpp"
 
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_rect.h>
@@ -49,6 +51,9 @@ auto main() -> int
       {std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "x"})),
        std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "y"}))}};
 
+  SDL::Audio audio{};
+  audio.getAudioDevice();
+
   Game::Rules game_rules{
       CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_score"})),
       CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_time"})),
@@ -72,6 +77,7 @@ auto main() -> int
   // Game loop
   while (event_handler.isGameRunning())
   {
+
     const auto mouse_xy{mouse.GetCursorPosition()};
     const auto mouse_radian{Utils::Angle::CaclulateAngleBetweenTwoObjectsRadians(
         mouse_xy, {player.bounds_.cref().x, player.bounds_.cref().y})};
@@ -100,7 +106,9 @@ auto main() -> int
     {
       if (enemy_spawner.clearSlot(slot))
       {
+        audio.pushStream(Utils::generateSine(220.0f, 48000.0f, 48000 / 2, 0.05f));
         game_rules.score.increase(rng.generate(300, 450));
+        audio.resumeStream();
       }
     }
 
