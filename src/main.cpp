@@ -58,17 +58,12 @@ auto main() -> int
 
   SDL::Audio audio{};
   audio.getAudioDevice();
-
-  Game::Rules game_rules{
-      CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_score"})),
-      CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_time"})),
-  };
   
   UI::Layout<int> ui {};
 
   SDL::Text player_text{CastGetVar<std::string>(lua_instance.GetLuaValue(std::array{"PlayerValues", "name"})),
                         display.game_renderer.ref()};
-  SDL::Text score_text{std::format("{:09}", game_rules.score.getCurrent()).c_str(), display.game_renderer.ref()};
+  SDL::Text score_text{std::format("{:09}", 0), display.game_renderer.ref()};
   SDL::Text high_score_text{std::format("{:09}", file_data.high_score).c_str(), display.game_renderer.ref()};
 
   SDL::Mouse mouse{};
@@ -123,7 +118,7 @@ auto main() -> int
         };
 
         audio.pushStream(Utils::generateSine(calcNote(), 48000.0f, 48000 / 2, 0.05f));
-        game_rules.score.increase(rng.generate(300, 450));
+        game_rules.Score.increase(rng.generate(300, 450));
         audio.resumeStream();
       }
     }
