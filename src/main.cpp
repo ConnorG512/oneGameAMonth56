@@ -18,6 +18,7 @@
 #include "utils/angle.hpp"
 #include "utils/cast-get.hpp"
 #include "utils/rng.hpp"
+#include "utils/sine.hpp"
 
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_rect.h>
@@ -76,13 +77,7 @@ auto main() -> int
   // Game loop
   while (event_handler.isGameRunning())
   {
-    audio.pushStream(std::array<float, 5>{
-        0.3f,
-        0.3f,
-        0.3f,
-        0.3f,
-        0.3f,
-    });
+    audio.pushStream(Utils::generateSine(440.0f, 48000.0f, 48000 / 2));
 
     const auto mouse_xy{mouse.GetCursorPosition()};
     const auto mouse_radian{Utils::Angle::CaclulateAngleBetweenTwoObjectsRadians(
