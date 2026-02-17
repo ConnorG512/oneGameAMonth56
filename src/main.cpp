@@ -77,7 +77,6 @@ auto main() -> int
   // Game loop
   while (event_handler.isGameRunning())
   {
-    audio.pushStream(Utils::generateSine(440.0f, 48000.0f, 48000 / 2));
 
     const auto mouse_xy{mouse.GetCursorPosition()};
     const auto mouse_radian{Utils::Angle::CaclulateAngleBetweenTwoObjectsRadians(
@@ -107,6 +106,7 @@ auto main() -> int
     {
       if (enemy_spawner.clearSlot(slot))
       {
+        audio.pushStream(Utils::generateSine(220.0f, 48000.0f, 48000 / 2, 0.05f));
         game_rules.score.increase(rng.generate(300, 450));
         audio.resumeStream();
       }
