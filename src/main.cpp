@@ -7,6 +7,7 @@
 #include "game/rules.hpp"
 #include "game/save-object.hpp"
 #include "game/spawner.hpp"
+#include "game/ui-layout.hpp"
 #include "lua/lua.hpp"
 #include "sdl/audio.hpp"
 #include "sdl/event-handler.hpp"
@@ -19,7 +20,6 @@
 #include "utils/cast-get.hpp"
 #include "utils/rng.hpp"
 #include "utils/sine.hpp"
-#include "game/ui-layout.hpp"
 
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_rect.h>
@@ -43,7 +43,7 @@ auto main() -> int
 
   File::Binary save_file{"game.sav"};
   Game::Serialize file_data{save_file.readSerialDataFromFile<Game::Serialize>()};
-  
+
   SDL::Init init{};
 
   SDL::EventHandler event_handler{log};
@@ -58,8 +58,8 @@ auto main() -> int
 
   SDL::Audio audio{};
   audio.getAudioDevice();
-  
-  UI::Layout<int> ui {};
+
+  UI::Layout<int> ui{};
 
   SDL::Text player_text{CastGetVar<std::string>(lua_instance.GetLuaValue(std::array{"PlayerValues", "name"})),
                         display.game_renderer.ref()};
@@ -69,6 +69,8 @@ auto main() -> int
   SDL::Mouse mouse{};
 
   Utils::Rng rng{};
+  
+  Game::Rules game_rules{};
 
   Game::Player player{lua_instance, display.game_renderer.ref()};
   Game::Spawner<Game::Projectile> proj_spawner{[&lua_instance]()
@@ -118,7 +120,7 @@ auto main() -> int
         };
 
         audio.pushStream(Utils::generateSine(calcNote(), 48000.0f, 48000 / 2, 0.05f));
-        game_rules.Score.increase(rng.generate(300, 450));
+        game_rules.score.increase(rng.generate(300, 450), audio);
         audio.resumeStream();
       }
     }
@@ -146,14 +148,14 @@ auto main() -> int
 
     player_text.draw(ui.name_xy);
 
-    score_text.swapText(std::to_string(game_rules.score.getCurrent()));
+    score_text.swapText(std::to_string(game_rules.score.cref().getCurrent()));
     score_text.draw(ui.score_xy);
     high_score_text.swapText(std::to_string(file_data.high_score));
     high_score_text.draw(ui.high_score_xy);
     display.game_renderer.present();
   }
 
-  file_data.high_score = game_rules.score.getCurrent();
+  file_data.high_score = game_rules.score.cref().getCurrent();
   file_data.times_played += 1;
   save_file.writeSerialDataToFile(file_data);
 
