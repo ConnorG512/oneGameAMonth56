@@ -42,7 +42,7 @@ auto main() -> int
 
   File::Binary save_file{"game.sav"};
   Game::Serialize file_data{save_file.readSerialDataFromFile<Game::Serialize>()};
-
+  
   SDL::Init init{};
 
   SDL::EventHandler event_handler{log};
@@ -64,7 +64,8 @@ auto main() -> int
   };
   SDL::Text player_text{CastGetVar<std::string>(lua_instance.GetLuaValue(std::array{"PlayerValues", "name"})),
                         display.game_renderer.ref()};
-  SDL::Text score_text{std::format("{:07}", game_rules.score.getCurrent()).c_str(), display.game_renderer.ref()};
+  SDL::Text score_text{std::format("{:09}", game_rules.score.getCurrent()).c_str(), display.game_renderer.ref()};
+  SDL::Text high_score_text{std::format("{:09}", file_data.high_score).c_str(), display.game_renderer.ref()};
 
   SDL::Mouse mouse{};
 
@@ -148,6 +149,8 @@ auto main() -> int
 
     score_text.swapText(std::to_string(game_rules.score.getCurrent()));
     score_text.draw({20, 60});
+    high_score_text.swapText(std::to_string(file_data.high_score));
+    high_score_text.draw({20, 100});
     display.game_renderer.present();
   }
 
