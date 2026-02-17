@@ -155,7 +155,7 @@ auto main() -> int
     display.game_renderer.present();
   }
 
-  file_data.high_score = game_rules.score.cref().getCurrent();
+  file_data.high_score = (game_rules.score.cref().getCurrent() > file_data.high_score) ? game_rules.score.cref().getCurrent() : file_data.high_score;
   file_data.times_played += 1;
   save_file.writeSerialDataToFile(file_data);
 
