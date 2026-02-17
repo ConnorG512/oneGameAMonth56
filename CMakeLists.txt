@@ -26,6 +26,7 @@ set(SOURCE_FILES
   src/lua/lua.cpp
   src/filesystem/file-check.cpp
   src/game/rules.cpp
+  src/game/score.cpp
 )
 
 add_executable(${EXEC_NAME} ${SOURCE_FILES})

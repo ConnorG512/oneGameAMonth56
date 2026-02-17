@@ -1,16 +1,17 @@
 #pragma once
 
 #include "game/counter.hpp"
+#include "game/score.hpp"
 
 namespace Game
 {
 class Rules
 {
 public:
-  Rules(int score_max, int time_max);
+  Rules(int time_max);
   Rules() = default;
 
-  Counter<int> score{1000000};
+  Score score{};
   Counter<int> time{180};
 };
 } // namespace Game
