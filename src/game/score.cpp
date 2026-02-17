@@ -16,7 +16,7 @@ auto Game::Score::increase(int amount, SDL::Audio &audio) noexcept -> int
   
   if((new_score / threshold) > (prev_score / threshold))
   {
-    audio.pushStream(Utils::generateSine(440.0f, 48000.0f, 48000 / 2, 0.30f));
+    audio.pushStream(Utils::generateSine(440.0f, 48000.0f, 48000 / 2, 0.08f));
     audio.resumeStream();
   }
 
