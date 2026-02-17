@@ -1,8 +1,10 @@
 #include "sdl/window-renderer/renderer.hpp"
 
+#include <SDL3/SDL_error.h>
 #include <SDL3/SDL_render.h>
 #include <cassert>
-#include <stdexcept>
+#include <format>
+#include <utility>
 
 auto SDL::Renderer::CreateRenderer(SDL_Window *window, const char *driver) noexcept
     -> std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>
@@ -46,3 +48,10 @@ auto SDL::Renderer::renderTextureRotate(SDL_Texture &texture, const SDL_FRect *s
   SDL_RenderTextureRotated(renderer_.get(), &texture, source_rect, dest_rect, angle, center_point, flipmode);
 }
 
+auto SDL::Renderer::setVsnc(vsync_option vsync) -> std::expected<void, std::string>
+{
+  if (SDL_SetRenderVSync(renderer_.get(), std::to_underlying(vsync)))
+    return std::unexpected(std::format("Failed to set vsync! Error [{}]", SDL_GetError()));
+  else
+    return {};
+}
