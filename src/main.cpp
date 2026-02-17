@@ -50,7 +50,10 @@ auto main() -> int
       "Game window",
       {std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "x"})),
        std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "y"}))}};
-
+  
+  if (const auto vsync_result = display.game_renderer.setVsnc(SDL::Renderer::vsync_option::adaptive); !vsync_result.has_value())
+    log.writeToLog(File::Logger::LogType::error, vsync_result.error());
+  
   SDL::Audio audio{};
   audio.getAudioDevice();
 
