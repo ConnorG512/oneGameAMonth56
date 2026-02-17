@@ -12,7 +12,7 @@ auto generateSine(T frequency, T sample_rate, std::integral auto count, T amplit
 {
   std::vector<T> buffer(count);
 
-  for (auto &[index, sample] : buffer | std::views::enumerate)
+  for (const auto &[index, sample] : buffer | std::views::enumerate)
   {
     T time = static_cast<T>(index / sample_rate);
 
