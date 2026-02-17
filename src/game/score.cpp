@@ -19,3 +19,8 @@ auto Game::Score::increase(int amount, SDL::Audio &audio) noexcept -> int
 
   return new_score;
 }
+
+auto Game::Score::cref() const noexcept -> const Counter<int>& 
+{
+  return count;
+}

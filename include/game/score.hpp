@@ -12,5 +12,6 @@ class Score
   
   public:
     auto increase(int amount, SDL::Audio &audio) noexcept -> int;
+    auto cref() const noexcept -> const Counter<int>&; 
 };
 } // namespace Game
