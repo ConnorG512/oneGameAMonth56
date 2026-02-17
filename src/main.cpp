@@ -19,6 +19,7 @@
 #include "utils/cast-get.hpp"
 #include "utils/rng.hpp"
 #include "utils/sine.hpp"
+#include "game/ui-layout.hpp"
 
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_rect.h>
@@ -62,6 +63,9 @@ auto main() -> int
       CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_score"})),
       CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_time"})),
   };
+  
+  UI::Layout<int> ui {};
+
   SDL::Text player_text{CastGetVar<std::string>(lua_instance.GetLuaValue(std::array{"PlayerValues", "name"})),
                         display.game_renderer.ref()};
   SDL::Text score_text{std::format("{:09}", game_rules.score.getCurrent()).c_str(), display.game_renderer.ref()};
@@ -145,12 +149,12 @@ auto main() -> int
       display.game_renderer.renderTexture(enemy.texture_.ref(), nullptr, &enemy.bounds_.ref());
     }
 
-    player_text.draw({20, 20});
+    player_text.draw(ui.name_xy);
 
     score_text.swapText(std::to_string(game_rules.score.getCurrent()));
-    score_text.draw({20, 60});
+    score_text.draw(ui.score_xy);
     high_score_text.swapText(std::to_string(file_data.high_score));
-    high_score_text.draw({20, 100});
+    high_score_text.draw(ui.high_score_xy);
     display.game_renderer.present();
   }
 
