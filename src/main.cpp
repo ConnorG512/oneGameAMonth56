@@ -26,6 +26,7 @@
 #include <SDL3/SDL_surface.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <array>
+#include <concepts>
 #include <format>
 #include <string>
 #include <utility>
@@ -50,10 +51,11 @@ auto main() -> int
       "Game window",
       {std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "x"})),
        std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "y"}))}};
-  
-  if (const auto vsync_result = display.game_renderer.setVsnc(SDL::Renderer::vsync_option::adaptive); !vsync_result.has_value())
+
+  if (const auto vsync_result = display.game_renderer.setVsnc(SDL::Renderer::vsync_option::adaptive);
+      !vsync_result.has_value())
     log.writeToLog(File::Logger::LogType::error, vsync_result.error());
-  
+
   SDL::Audio audio{};
   audio.getAudioDevice();
 
@@ -109,7 +111,14 @@ auto main() -> int
     {
       if (enemy_spawner.clearSlot(slot))
       {
-        audio.pushStream(Utils::generateSine(220.0f, 48000.0f, 48000 / 2, 0.05f));
+        const auto calcNote = [&rng]()
+        {
+          constexpr std::array<float, 3> notes{220.f, 277.18f, 329.63f};
+          const auto rng_result{rng.generate(0, 2)};
+          return notes.at(rng_result);
+        };
+
+        audio.pushStream(Utils::generateSine(calcNote(), 48000.0f, 48000 / 2, 0.05f));
         game_rules.score.increase(rng.generate(300, 450));
         audio.resumeStream();
       }
