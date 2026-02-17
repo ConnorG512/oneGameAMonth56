@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL3/SDL_render.h>
+#include <expected>
 #include <memory>
 
 class SDL_Window;
@@ -25,5 +26,11 @@ public:
   auto renderTexture(SDL_Texture &texture, SDL_FRect *source_rect, SDL_FRect *dest_rect) -> void;
   auto renderTextureRotate(SDL_Texture &texture, const SDL_FRect *source_rect, const SDL_FRect *dest_rect, double angle,
                            const SDL_FPoint *center_point, SDL_FlipMode flipmode) -> void;
+  enum class vsync_option
+  {
+    disabled = SDL_RENDERER_VSYNC_DISABLED,
+    adaptive = SDL_RENDERER_VSYNC_ADAPTIVE,
+  };
+  auto setVsnc(vsync_option vsync) -> std::expected<void, std::string>;
 };
 } // namespace SDL
