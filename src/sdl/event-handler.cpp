@@ -2,7 +2,9 @@
 #include "file-output/logging/logger.hpp"
 
 #include <SDL3/SDL.h>
+#include <SDL3/SDL_events.h>
 #include <SDL3/SDL_mouse.h>
+#include <SDL3/SDL_stdinc.h>
 
 SDL::EventHandler::EventHandler(File::Logger &logger) : logger_{logger} { logger_.writeAddress("Event Handler", *this); }
 
@@ -28,6 +30,9 @@ auto SDL::EventHandler::isGameRunning() const noexcept -> bool { return game_run
 
 auto SDL::EventHandler::quit() -> void 
 {
-  game_running_ = true;
+  SDL_Event event{};
+  SDL_zero(event);
+  event.type = SDL_EVENT_QUIT;
+  SDL_PushEvent(&event);
 }
 
