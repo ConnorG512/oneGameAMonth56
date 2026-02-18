@@ -14,7 +14,6 @@
 #include "sdl/image/texture.hpp"
 #include "sdl/init.hpp"
 #include "sdl/input/mouse.hpp"
-#include "sdl/text/text.hpp"
 #include "sdl/window-renderer/window-renderer.hpp"
 #include "utils/angle.hpp"
 #include "utils/cast-get.hpp"
