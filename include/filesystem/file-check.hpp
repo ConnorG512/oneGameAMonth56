@@ -7,7 +7,7 @@ namespace File
 {
 [[maybe_unused]] constexpr auto lua_files =
     std::to_array<const char *>({"config.lua", "gamescript/enemy.lua", "gamescript/player.lua",
-                                 "gamescript/projectile.lua", "gamescript/rules.lua"});
+                                 "gamescript/projectile.lua", "gamescript/rules.lua", "gamescript/ui.lua"});
 
 auto validateFiles(const std::span<const char *const> required_files) -> void;
 } // namespace File
