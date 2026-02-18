@@ -8,7 +8,7 @@ namespace Game
 {
 class Score
 {
-  Counter<int> count_{1000000};
+  Counter<int> count_{0, 1000000};
   
   public:
     explicit Score(int max_score);

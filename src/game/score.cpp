@@ -5,7 +5,7 @@
 #include <cassert>
 
 Game::Score::Score(int max_score)
-  : count_{max_score} {}
+  : count_{0, max_score} {}
 
 /*
   For every time the score goes past the 10,000 mark. Play a brighter beep tone. 
