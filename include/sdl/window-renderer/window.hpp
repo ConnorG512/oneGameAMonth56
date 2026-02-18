@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL3/SDL_video.h>
+#include <expected>
 #include <memory>
 #include <utility>
 
@@ -17,5 +18,6 @@ public:
 
   auto ptr() noexcept -> SDL_Window *;
   auto WindowSize() noexcept -> std::pair<int, int>;
+  auto getRefreshRate() const noexcept -> std::expected<float, std::string>;
 };
 } // namespace SDL

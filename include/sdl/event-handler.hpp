@@ -1,7 +1,6 @@
 #pragma once
 
 #include <SDL3/SDL.h>
-#include <cstdint>
 #include <functional>
 
 namespace File
@@ -21,5 +20,6 @@ public:
 
   auto PollEvent(std::function<void()> on_click_func = nullptr) noexcept -> void;
   auto isGameRunning() const noexcept -> bool;
+  auto quit() -> void;
 };
 } // namespace SDL

@@ -24,6 +24,7 @@
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_surface.h>
+#include <SDL3/SDL_video.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <array>
 #include <format>
@@ -85,8 +86,11 @@ auto main() -> int
   SDL::Mouse mouse{};
 
   Utils::Rng rng{};
+  const auto refresh_rate{static_cast<int>(display.game_window.getRefreshRate().value_or(60))};
+  log.writeToLog(File::Logger::LogType::debug, std::format("Refresh rate: {}", refresh_rate));
 
-  Game::Rules game_rules{CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_time"})),
+  Game::Rules game_rules{CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_time"})) * refresh_rate,
+                         CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_time"})) * refresh_rate,
                          CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_score"}))};
 
   Game::Player player{lua_instance, display.game_renderer.ref()};
@@ -142,6 +146,10 @@ auto main() -> int
         audio.resumeStream();
       }
     }
+    
+    game_rules.time.decrease(1);
+    if(game_rules.time.getCurrent() <= 0)
+      event_handler.quit();
 
     // Rendering
     display.game_renderer.clearScreen();
