@@ -17,7 +17,7 @@ auto Game::UI::Layout::drawText() -> void
   }
 }
 
-auto Game::UI::Layout::setText(Text text, const std::string &message)
+auto Game::UI::Layout::setText(Text text, const std::string &message) -> void
 {
   switch (text)
   {

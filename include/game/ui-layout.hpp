@@ -36,6 +36,6 @@ public:
     high_score,
     times_played,
   };
-  auto setText(Text text, const std::string &message);
+  auto setText(Text text, const std::string &message) -> void;
 };
 } // namespace Game::UI
