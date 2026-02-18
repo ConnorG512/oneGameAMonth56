@@ -69,8 +69,9 @@ auto main() -> int
   SDL::Mouse mouse{};
 
   Utils::Rng rng{};
-  
-  Game::Rules game_rules{};
+
+  Game::Rules game_rules{CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_time"})),
+                         CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_score"}))};
 
   Game::Player player{lua_instance, display.game_renderer.ref()};
   Game::Spawner<Game::Projectile> proj_spawner{[&lua_instance]()
@@ -155,7 +156,9 @@ auto main() -> int
     display.game_renderer.present();
   }
 
-  file_data.high_score = (game_rules.score.cref().getCurrent() > file_data.high_score) ? game_rules.score.cref().getCurrent() : file_data.high_score;
+  file_data.high_score = (game_rules.score.cref().getCurrent() > file_data.high_score)
+                             ? game_rules.score.cref().getCurrent()
+                             : file_data.high_score;
   file_data.times_played += 1;
   save_file.writeSerialDataToFile(file_data);
 
