@@ -13,7 +13,6 @@ template <Concepts::Number T> class Counter
 
 public:
   // Constructors:
-  Counter(Concepts::Number auto max) : current_{0}, max_{max} {}
   Counter(Concepts::Number auto current, Concepts::Number auto max) : current_{current}, max_{max} {}
   Counter() = default;
 

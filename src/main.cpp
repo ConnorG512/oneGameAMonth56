@@ -24,6 +24,7 @@
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_surface.h>
+#include <SDL3/SDL_video.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <array>
 #include <format>
@@ -86,8 +87,7 @@ auto main() -> int
 
   Utils::Rng rng{};
 
-  Game::Rules game_rules{CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_time"})),
-                         CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_score"}))};
+  Game::Rules game_rules{};
 
   Game::Player player{lua_instance, display.game_renderer.ref()};
   Game::Spawner<Game::Projectile> proj_spawner{[&lua_instance]()
@@ -96,7 +96,7 @@ auto main() -> int
                                                      std::array{"GameRules", "ProjectileSpawner", "max_spawn_slots"}));
                                                }};
   Game::Spawner<Game::Enemy> enemy_spawner{};
-
+  
   // Game loop
   while (event_handler.isGameRunning())
   {
