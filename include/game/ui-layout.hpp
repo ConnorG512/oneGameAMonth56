@@ -13,5 +13,6 @@ template <Concepts::Number T> struct Layout
   std::pair<T, T> name_xy{20, 20};
   std::pair<T, T> score_xy{20, 60};
   std::pair<T, T> high_score_xy{20, 100};
+  std::pair<T, T> times_played_xy{20, 140};
 };
 } // namespace UI
