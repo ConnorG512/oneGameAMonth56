@@ -27,6 +27,7 @@ set(SOURCE_FILES
   src/filesystem/file-check.cpp
   src/game/rules.cpp
   src/game/score.cpp
+  src/game/ui-layout.cpp
 )
 
 add_executable(${EXEC_NAME} ${SOURCE_FILES})
