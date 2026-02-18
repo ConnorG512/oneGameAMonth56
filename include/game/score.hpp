@@ -9,6 +9,8 @@ namespace Game
 class Score
 {
   explicit Score(int max_score);
+  Score() = default;
+
   Counter<int> count_{1000000};
   
   public:
