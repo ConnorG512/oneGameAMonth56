@@ -87,7 +87,11 @@ auto main() -> int
 
   Utils::Rng rng{};
 
-  Game::Rules game_rules{};
+  Game::Rules game_rules{CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_time"})) *
+                             static_cast<int>(display.game_window.getRefreshRate().value_or(60)),
+                         CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_time"})) *
+                             static_cast<int>(display.game_window.getRefreshRate().value_or(60)),
+                         CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_score"}))};
 
   Game::Player player{lua_instance, display.game_renderer.ref()};
   Game::Spawner<Game::Projectile> proj_spawner{[&lua_instance]()
@@ -96,7 +100,7 @@ auto main() -> int
                                                      std::array{"GameRules", "ProjectileSpawner", "max_spawn_slots"}));
                                                }};
   Game::Spawner<Game::Enemy> enemy_spawner{};
-  
+
   // Game loop
   while (event_handler.isGameRunning())
   {
