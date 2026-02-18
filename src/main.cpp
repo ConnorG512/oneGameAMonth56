@@ -154,6 +154,8 @@ auto main() -> int
     score_text.draw(ui.score_xy);
     high_score_text.swapText(std::to_string(file_data.high_score));
     high_score_text.draw(ui.high_score_xy);
+    times_played_text.swapText(std::to_string(file_data.high_score));
+    times_played_text.draw(ui.high_score_xy);
     display.game_renderer.present();
   }
 
