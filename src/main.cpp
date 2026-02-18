@@ -86,11 +86,11 @@ auto main() -> int
   SDL::Mouse mouse{};
 
   Utils::Rng rng{};
+  const auto refresh_rate{static_cast<int>(display.game_window.getRefreshRate().value_or(60))};
+  log.writeToLog(File::Logger::LogType::debug, std::format("Refresh rate: {}", refresh_rate));
 
-  Game::Rules game_rules{CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_time"})) *
-                             static_cast<int>(display.game_window.getRefreshRate().value_or(60)),
-                         CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_time"})) *
-                             static_cast<int>(display.game_window.getRefreshRate().value_or(60)),
+  Game::Rules game_rules{CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_time"})) * refresh_rate,
+                         CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_time"})) * refresh_rate,
                          CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_score"}))};
 
   Game::Player player{lua_instance, display.game_renderer.ref()};
