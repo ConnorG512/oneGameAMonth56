@@ -15,7 +15,7 @@ class Layout
   SDL::Text score_;
   SDL::Text high_score_;
   SDL::Text times_played_;
-  
+
 public:
   struct Properties
   {
@@ -28,5 +28,14 @@ public:
          const Properties &times_played);
 
   auto drawText() -> void;
+
+  enum class Text
+  {
+    name,
+    score,
+    high_score,
+    times_played,
+  };
+  auto setText(Text text, const std::string &message);
 };
 } // namespace Game::UI

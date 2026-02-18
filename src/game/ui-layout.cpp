@@ -16,3 +16,23 @@ auto Game::UI::Layout::drawText() -> void
     element->draw();
   }
 }
+
+auto Game::UI::Layout::setText(Text text, const std::string &message)
+{
+  switch (text)
+  {
+    default:
+    case Text::name:
+      name_.swapText(message);
+      break;
+    case Text::score:
+      score_.swapText(message);
+      break;
+    case Text::high_score:
+      high_score_.swapText(message);
+      break;
+    case Text::times_played:
+      times_played_.swapText(message);
+      break;
+  }
+}
