@@ -1,18 +1,18 @@
 UI = {
-  name = {
+  Name = {
     label = "Player",
     x_pos = 20,
     y_pos = 20,
   },
-  score = {
+  Score = {
     x_pos = 20,
     y_pos = 60,
   },
-  high_score = {
+  HighScore = {
     x_pos = 20,
     y_pos = 100,
   },
-  times_played = {
+  TimesPlayed = {
     x_pos = 20,
     y_pos = 140,
   },
