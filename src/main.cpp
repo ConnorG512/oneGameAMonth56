@@ -123,7 +123,7 @@ auto main() -> int
 
     proj_spawner.clearSlot();
 
-    enemy_spawner.spawn(static_cast<float>(rng.generate(0, 1024)), static_cast<float>(rng.generate(0, 1024)),
+    enemy_spawner.spawn(static_cast<float>(rng.generate(100, 924)), static_cast<float>(rng.generate(100, 924)),
                         lua_instance, display.game_renderer.ref());
 
     for (const auto &slot : proj_spawner.cref())
