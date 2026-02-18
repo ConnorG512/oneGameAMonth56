@@ -72,12 +72,12 @@ auto main() -> int
       CastGetVar<int>(lua_instance.GetLuaValue(std::array{"UI", "Score", "y_pos"})),
     },
     {
-      std::format("{:09}", 0).c_str(),
+      std::format("{:09}", file_data.high_score).c_str(),
       CastGetVar<int>(lua_instance.GetLuaValue(std::array{"UI", "HighScore", "x_pos"})),
       CastGetVar<int>(lua_instance.GetLuaValue(std::array{"UI", "HighScore", "y_pos"})),
     },
     {
-      std::format("{:02}", 0).c_str(),
+      std::format("{:02}", file_data.times_played).c_str(),
       CastGetVar<int>(lua_instance.GetLuaValue(std::array{"UI", "TimesPlayed", "x_pos"})),
       CastGetVar<int>(lua_instance.GetLuaValue(std::array{"UI", "TimesPlayed", "y_pos"})),
     },
@@ -139,6 +139,7 @@ while (event_handler.isGameRunning())
 
       audio.pushStream(Utils::generateSine(calcNote(), 48000.0f, 48000 / 2, 0.05f));
       game_rules.score.increase(rng.generate(300, 450), audio);
+      ui.setText(Game::UI::Layout::Text::score, std::to_string(game_rules.score.cref().getCurrent()));
       audio.resumeStream();
     }
   }
