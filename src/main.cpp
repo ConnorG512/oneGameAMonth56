@@ -146,6 +146,10 @@ auto main() -> int
         audio.resumeStream();
       }
     }
+    
+    game_rules.time.decrease(1);
+    if(game_rules.time.getCurrent() <= 0)
+      event_handler.quit();
 
     // Rendering
     display.game_renderer.clearScreen();
