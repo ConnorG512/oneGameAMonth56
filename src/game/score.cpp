@@ -4,6 +4,9 @@
 
 #include <cassert>
 
+Game::Score::Score(int max_score)
+  : count_{max_score} {}
+
 /*
   For every time the score goes past the 10,000 mark. Play a brighter beep tone. 
 */
@@ -11,8 +14,8 @@ auto Game::Score::increase(int amount, SDL::Audio &audio) noexcept -> int
 {
   constexpr int threshold {10000};
   
-  const auto prev_score{count.getCurrent()};
-  const auto new_score {count.increase(amount)};
+  const auto prev_score{count_.getCurrent()};
+  const auto new_score {count_.increase(amount)};
   
   if((new_score / threshold) > (prev_score / threshold))
   {
@@ -25,5 +28,5 @@ auto Game::Score::increase(int amount, SDL::Audio &audio) noexcept -> int
 
 auto Game::Score::cref() const noexcept -> const Counter<int>& 
 {
-  return count;
+  return count_;
 }

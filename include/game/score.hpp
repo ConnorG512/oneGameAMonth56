@@ -8,7 +8,8 @@ namespace Game
 {
 class Score
 {
-  Counter<int> count{1000000};
+  explicit Score(int max_score);
+  Counter<int> count_{1000000};
   
   public:
     auto increase(int amount, SDL::Audio &audio) noexcept -> int;
