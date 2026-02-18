@@ -1,18 +1,32 @@
 #pragma once
 
-#include "utils/concepts.hpp"
-#include <utility>
+#include "sdl/text/text.hpp"
 
-namespace UI
+class SDL_Renderer;
+
+namespace Game::UI
 {
 
-template <Concepts::Number T> struct Layout
+class Layout
 {
-  consteval Layout() = default;
+  SDL_Renderer &renderer_;
 
-  std::pair<T, T> name_xy{20, 20};
-  std::pair<T, T> score_xy{20, 60};
-  std::pair<T, T> high_score_xy{20, 100};
-  std::pair<T, T> times_played_xy{20, 140};
+  SDL::Text name_;
+  SDL::Text score_;
+  SDL::Text high_score_;
+  SDL::Text times_played_;
+  
+public:
+  struct Properties
+  {
+    const char *label{nullptr};
+    int x_pos{0};
+    int y_pos{0};
+  };
+
+  Layout(SDL_Renderer &renderer, const Properties &name, const Properties &score, const Properties &high_score,
+         const Properties &times_played);
+
+  auto drawText() -> void;
 };
-} // namespace UI
+} // namespace Game::UI
