@@ -67,12 +67,12 @@ auto main() -> int
           CastGetVar<int>(lua_instance.GetLuaValue(std::array{"UI", "Name", "y_pos"})),
       },
       {
-          std::format("{:09}", 0).c_str(),
+          std::format("{:0}", 0).c_str(),
           CastGetVar<int>(lua_instance.GetLuaValue(std::array{"UI", "Score", "x_pos"})),
           CastGetVar<int>(lua_instance.GetLuaValue(std::array{"UI", "Score", "y_pos"})),
       },
       {
-          std::format("{:09}", file_data.high_score).c_str(),
+          std::format("{:0}", file_data.high_score).c_str(),
           CastGetVar<int>(lua_instance.GetLuaValue(std::array{"UI", "HighScore", "x_pos"})),
           CastGetVar<int>(lua_instance.GetLuaValue(std::array{"UI", "HighScore", "y_pos"})),
       },
