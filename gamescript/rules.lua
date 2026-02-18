@@ -2,6 +2,7 @@ GameRules = {
   ProjectileSpawner = {
     max_spawn_slots = 5;
   },
-  max_score = 1000000,
+  -- max score should be up to 9 digits.
+  max_score = 999999999,
   max_time = 180,
 }
