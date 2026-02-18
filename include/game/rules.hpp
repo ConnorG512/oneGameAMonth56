@@ -8,10 +8,10 @@ namespace Game
 class Rules
 {
 public:
-  Rules(int time_max, int score_max);
+  Rules(int time_start, int time_end, int score_max);
   Rules() = default;
 
   Score score{1000000};
-  Counter<int> time{180};
+  Counter<int> time{0, 60};
 };
 } // namespace Game
