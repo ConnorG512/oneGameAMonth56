@@ -65,6 +65,7 @@ auto main() -> int
                         display.game_renderer.ref()};
   SDL::Text score_text{std::format("{:09}", 0), display.game_renderer.ref()};
   SDL::Text high_score_text{std::format("{:09}", file_data.high_score).c_str(), display.game_renderer.ref()};
+  SDL::Text times_played_text{std::format("{:0}", file_data.times_played).c_str(), display.game_renderer.ref()};
 
   SDL::Mouse mouse{};
 
