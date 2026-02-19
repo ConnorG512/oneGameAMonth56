@@ -112,10 +112,11 @@ auto main() -> int
     event_handler.PollEvent(
         [&]
         {
+          const auto window_size_result {display.game_window.WindowSize().value_or({1024,1024})};
           proj_spawner.spawn(
-              display.game_window.WindowSize(),
-              std::pair<float, float>{display.game_window.WindowSize().first / 2 - 16,
-                                      display.game_window.WindowSize().second / 2 - 16},
+              window_size_result,
+              std::pair<float, float>{window_size_result.first / 2 - 16,
+                                      window_size_result.second / 2 - 16},
               std::pair<float, float>{
                   Utils::Angle::CalculateXDirection(
                       mouse_radian, CastGetVar<float>(lua_instance.GetLuaValue(std::array{"Projectile", "speed"}))),
