@@ -11,7 +11,7 @@ auto SDL::Window::ref() noexcept -> SDL_Window &
   return *window_;
 }
 
-auto SDL::Window::WindowSize() noexcept -> std::pair<int, int>
+auto SDL::Window::WindowSize() const noexcept -> std::pair<int, int>
 {
   int w, h{};
   SDL_GetWindowSize(window_.get(), &w, &h);
