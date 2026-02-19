@@ -5,10 +5,10 @@
 #include <format>
 #include <stdexcept>
 
-auto SDL::Window::ptr() noexcept -> SDL_Window *
+auto SDL::Window::ref() noexcept -> SDL_Window &
 {
   assert(window_.get() != nullptr);
-  return window_.get();
+  return *window_;
 }
 
 auto SDL::Window::WindowSize() noexcept -> std::pair<int, int>
