@@ -2,6 +2,7 @@
 
 #include <SDL3/SDL_error.h>
 #include <cassert>
+#include <expected>
 #include <format>
 #include <stdexcept>
 
@@ -11,11 +12,13 @@ auto SDL::Window::ref() noexcept -> SDL_Window &
   return *window_;
 }
 
-auto SDL::Window::WindowSize() const noexcept -> std::pair<int, int>
+auto SDL::Window::WindowSize() const noexcept -> std::expected<std::pair<int, int>, std::string>
 {
   int w, h{};
-  SDL_GetWindowSize(window_.get(), &w, &h);
-  return {w, h};
+  if(!SDL_GetWindowSize(window_.get(), &w, &h))
+    return std::unexpected<std::string>(std::format("Error: Failed to get Window size! {}.", SDL_GetError()));
+  else
+    return std::pair<int,int>{w, h};
 }
 
 SDL::Window::Window(const char *title, const std::pair<int, int> &xy)

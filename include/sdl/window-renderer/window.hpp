@@ -17,7 +17,7 @@ public:
   Window(const char *title, const std::pair<int, int> &xy);
 
   auto ref() noexcept -> SDL_Window &;
-  auto WindowSize() const noexcept -> std::pair<int, int>;
+  auto WindowSize() const noexcept -> std::expected<std::pair<int, int>, std::string>;
   auto getRefreshRate() const noexcept -> std::expected<float, std::string>;
 };
 } // namespace SDL
