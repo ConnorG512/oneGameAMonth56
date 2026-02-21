@@ -12,11 +12,11 @@ class Renderer
 {
   std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)> renderer_{nullptr, &SDL_DestroyRenderer};
 
-  auto CreateRenderer(SDL_Window *window, const char *driver = nullptr) noexcept
+  auto CreateRenderer(SDL_Window &window, const char *driver = nullptr) noexcept
       -> std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>;
 
 public:
-  Renderer(SDL_Window *window);
+  Renderer(SDL_Window &window);
 
   auto ref() noexcept -> SDL_Renderer &;
   auto clearScreen() noexcept -> void;

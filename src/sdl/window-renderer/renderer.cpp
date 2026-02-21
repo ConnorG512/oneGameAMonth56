@@ -6,17 +6,17 @@
 #include <format>
 #include <utility>
 
-auto SDL::Renderer::CreateRenderer(SDL_Window *window, const char *driver) noexcept
+auto SDL::Renderer::CreateRenderer(SDL_Window &window, const char *driver) noexcept
     -> std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>
 {
-  SDL_Renderer *renderer{SDL_CreateRenderer(window, driver)};
+  SDL_Renderer *renderer{SDL_CreateRenderer(&window, driver)};
 
   assert(renderer != nullptr);
   return std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)>{renderer, &SDL_DestroyRenderer};
 }
 
 // Constructor
-SDL::Renderer::Renderer(SDL_Window *window) : renderer_{CreateRenderer(window, nullptr)} {}
+SDL::Renderer::Renderer(SDL_Window &window) : renderer_{CreateRenderer(window, nullptr)} {}
 
 // Getter
 auto SDL::Renderer::ref() noexcept -> SDL_Renderer &

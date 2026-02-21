@@ -28,6 +28,7 @@
 #include <SDL3_ttf/SDL_ttf.h>
 #include <array>
 #include <format>
+#include <ranges>
 #include <string>
 #include <utility>
 
@@ -112,10 +113,11 @@ auto main() -> int
     event_handler.PollEvent(
         [&]
         {
+          const auto window_size_result {display.game_window.WindowSize().value_or({1024,1024})};
           proj_spawner.spawn(
-              display.game_window.WindowSize(),
-              std::pair<float, float>{display.game_window.WindowSize().first / 2 - 16,
-                                      display.game_window.WindowSize().second / 2 - 16},
+              window_size_result,
+              std::pair<float, float>{window_size_result.first / 2 - 16,
+                                      window_size_result.second / 2 - 16},
               std::pair<float, float>{
                   Utils::Angle::CalculateXDirection(
                       mouse_radian, CastGetVar<float>(lua_instance.GetLuaValue(std::array{"Projectile", "speed"}))),
@@ -125,6 +127,9 @@ auto main() -> int
         });
 
     proj_spawner.clearSlot();
+
+    for(auto& projectile : proj_spawner.cref())
+      projectile.bounds_.move();
 
     enemy_spawner.spawn(static_cast<float>(rng.generate(100, 924)), static_cast<float>(rng.generate(100, 924)),
                         lua_instance, display.game_renderer.ref());
@@ -160,17 +165,17 @@ auto main() -> int
                                                   mouse_xy, {player.bounds_.cref().x, player.bounds_.cref().y}) +
                                                   Utils::Angle::texture_offset<double>,
                                               nullptr, SDL_FLIP_NONE);
+    
+    
     // Spawned Projectile Render:
+    std::vector<SDL_Texture> textures(10);
+    std::vector<SDL_FRect> bounds(10);
+
     for (auto &projectile : proj_spawner.ref())
-    {
-      projectile.bounds_.move();
       display.game_renderer.renderTexture(projectile.texture_.ref(), nullptr, &projectile.bounds_.ref());
-    }
 
     for (auto &enemy : enemy_spawner.ref())
-    {
       display.game_renderer.renderTexture(enemy.texture_.ref(), nullptr, &enemy.bounds_.ref());
-    }
 
     ui.drawText();
 
