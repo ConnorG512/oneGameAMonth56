@@ -1,32 +1,28 @@
 #include "game/score.hpp"
-#include "sdl/audio.hpp"
-#include "utils/sine.hpp"
+#include "sdl/audio/audio.hpp"
+#include "sdl/audio/modes.hpp"
 
 #include <cassert>
 
-Game::Score::Score(int max_score)
-  : count_{0, max_score} {}
+Game::Score::Score(int max_score) : count_{0, max_score} {}
 
 /*
-  For every time the score goes past the 10,000 mark. Play a brighter beep tone. 
+  For every time the score goes past the 10,000 mark. Play a brighter beep tone.
 */
-auto Game::Score::increase(int amount, SDL::Audio &audio) noexcept -> int
+auto Game::Score::increase(int amount, Audio::Instance &audio) noexcept -> int
 {
-  constexpr int threshold {10000};
-  
+  constexpr int threshold{10000};
+
   const auto prev_score{count_.getCurrent()};
-  const auto new_score {count_.increase(amount)};
-  
-  if((new_score / threshold) > (prev_score / threshold))
+  const auto new_score{count_.increase(amount)};
+
+  if ((new_score / threshold) > (prev_score / threshold))
   {
-    audio.pushStream(Utils::generateSine(440.0f, 48000.0f, 48000 / 2, 0.08f));
+    audio.playAudio<Audio::Modes::BasicSine<float>>(440.0f, 48000.0f, 48000 / 2, 0.05f);
     audio.resumeStream();
   }
 
   return new_score;
 }
 
-auto Game::Score::cref() const noexcept -> const Counter<int>& 
-{
-  return count_;
-}
+auto Game::Score::cref() const noexcept -> const Counter<int> & { return count_; }
