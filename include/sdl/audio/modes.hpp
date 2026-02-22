@@ -6,10 +6,10 @@
 #include <ranges>
 #include <vector>
 
-namespace Utils
+namespace Audio::Modes
 {
 template <std::floating_point T>
-auto generateSine(T frequency, T sample_rate, std::integral auto count, T amplitude = 0.3f)
+auto basicSine(T frequency, T sample_rate, std::integral auto count, T amplitude = 0.3f)
 {
   std::vector<T> buffer(count);
 
@@ -22,4 +22,4 @@ auto generateSine(T frequency, T sample_rate, std::integral auto count, T amplit
 
   return buffer;
 }
-} // namespace Utils
+} // namespace Audio::Modes
