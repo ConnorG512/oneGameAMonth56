@@ -5,13 +5,13 @@
 
 namespace SDL
 {
-class WindowRenderer
+class Display
 {
 public:
   Window game_window{};
   Renderer game_renderer{game_window.ref()};
 
-  WindowRenderer() = default;
-  WindowRenderer(const char *title, const std::pair<int, int> &xy);
+  Display() = default;
+  Display(const char *title, const std::pair<int, int> &xy);
 };
 } // namespace SDL

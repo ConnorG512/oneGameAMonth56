@@ -48,7 +48,7 @@ auto main() -> int
   SDL::Init init{};
 
   SDL::EventHandler event_handler{log};
-  SDL::WindowRenderer display{
+  SDL::Display display{
       "Game window",
       {std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "x"})),
        std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "y"}))}};
