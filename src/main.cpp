@@ -14,7 +14,7 @@
 #include "sdl/image/texture.hpp"
 #include "sdl/init.hpp"
 #include "sdl/input/mouse.hpp"
-#include "sdl/window-renderer/window-renderer.hpp"
+#include "sdl/display/display.hpp"
 #include "utils/angle.hpp"
 #include "utils/cast-get.hpp"
 #include "utils/rng.hpp"
@@ -48,7 +48,7 @@ auto main() -> int
   SDL::Init init{};
 
   SDL::EventHandler event_handler{log};
-  SDL::WindowRenderer display{
+  SDL::Display display{
       "Game window",
       {std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "x"})),
        std::get<double>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Display", "Resolution", "y"}))}};

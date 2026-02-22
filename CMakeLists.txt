@@ -10,9 +10,9 @@ set(SOURCE_FILES
   src/main.cpp
   src/sdl/init.cpp
   src/sdl/text/text.cpp
-  src/sdl/window-renderer/window.cpp
-  src/sdl/window-renderer/renderer.cpp
-  src/sdl/window-renderer/window-renderer.cpp
+  src/sdl/display/window.cpp
+  src/sdl/display/renderer.cpp
+  src/sdl/display/display.cpp
   src/sdl/image/texture.cpp
   src/sdl/rectangle.cpp
   src/sdl/event-handler.cpp
