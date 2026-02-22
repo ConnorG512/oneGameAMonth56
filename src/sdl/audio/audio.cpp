@@ -2,18 +2,7 @@
 
 #include <SDL3/SDL_audio.h>
 #include <cassert>
-#include <cstdint>
 #include <print>
-
-auto Audio::Instance::pushStream(std::span<const float> buffer) -> void
-{
-  // check for empty buffer.
-  if (buffer.empty())
-    return;
-
-  assert(buffer.data() != nullptr);
-  SDL_PutAudioStreamData(audio_stream_.get(), buffer.data(), buffer.size() * sizeof(uint8_t));
-}
 
 auto Audio::Instance::resumeStream() -> void { SDL_ResumeAudioStreamDevice(audio_stream_.get()); }
 
