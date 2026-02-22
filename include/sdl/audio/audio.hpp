@@ -1,6 +1,9 @@
 #pragma once
 
+#include "sdl/audio/modes.hpp"
+
 #include <SDL3/SDL_audio.h>
+#include <cassert>
 #include <memory>
 #include <span>
 
@@ -24,7 +27,12 @@ public:
   auto clearStream() -> void;
   auto stopAndClearStream() -> void;
   auto getAudioDevice() -> void;
-  
-  auto playAudio(std::span<const float> buffer, float amplitude = 0.03f) -> void;
+
+  template <Audio::Modes::AudioMode audio_func>
+  auto playAudio(std::span<const float> buffer, float amplitude = 0.03f) -> void
+  {
+    assert(buffer.data() != nullptr);
+    audio_func(buffer, amplitude);
+  }
 };
-} // namespace SDL
+} // namespace Audio
