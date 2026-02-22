@@ -8,23 +8,20 @@
 
 namespace Audio::Modes
 {
-template <typename T>
-concept AudioMode = requires(T f, std::span<const float> buffer, float amplitude) {
-  { f(buffer, amplitude) } -> std::same_as<void>;
-};
-
-template <std::floating_point T>
-auto basicSine(T frequency, T sample_rate, std::integral auto count, T amplitude = 0.03f)
+template <std::floating_point T> struct BasicSine
 {
-  std::vector<T> buffer(count);
-
-  for (const auto &[index, sample] : buffer | std::views::enumerate)
+  auto operator()(T frequency, T sample_rate, std::integral auto count, T amplitude = 0.03f)
   {
-    T time = static_cast<T>(index / sample_rate);
+    std::vector<T> buffer(count);
 
-    sample = amplitude * std::sin(2.0f * std::numbers::pi_v<T> * frequency * time);
+    for (const auto &[index, sample] : buffer | std::views::enumerate)
+    {
+      T time = static_cast<T>(index / sample_rate);
+
+      sample = amplitude * std::sin(2.0f * std::numbers::pi_v<T> * frequency * time);
+    }
+
+    return buffer;
   }
-
-  return buffer;
-}
+};
 } // namespace Audio::Modes
