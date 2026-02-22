@@ -4,9 +4,9 @@
 #include <memory>
 #include <span>
 
-namespace SDL
+namespace Audio
 {
-class Audio
+class Instance
 {
   SDL_AudioSpec spec{
       .format = SDL_AUDIO_F32,
@@ -24,5 +24,7 @@ public:
   auto clearStream() -> void;
   auto stopAndClearStream() -> void;
   auto getAudioDevice() -> void;
+  
+  auto playAudio(std::span<const float> buffer, float amplitude = 0.03f) -> void;
 };
 } // namespace SDL
