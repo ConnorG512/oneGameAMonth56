@@ -17,7 +17,7 @@ set(SOURCE_FILES
   src/sdl/rectangle.cpp
   src/sdl/event-handler.cpp
   src/sdl/input/mouse.cpp
-  src/sdl/audio.cpp
+  src/sdl/audio/audio.cpp
   src/file-output/logging/logger.cpp
   src/file-output/binary/binary.cpp
   src/game/player.cpp

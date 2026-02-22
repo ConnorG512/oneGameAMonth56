@@ -9,7 +9,8 @@
 #include "game/spawner.hpp"
 #include "game/ui-layout.hpp"
 #include "lua/lua.hpp"
-#include "sdl/audio.hpp"
+#include "sdl/audio/audio.hpp"
+#include "sdl/audio/modes.hpp"
 #include "sdl/event-handler.hpp"
 #include "sdl/image/texture.hpp"
 #include "sdl/init.hpp"
@@ -18,7 +19,6 @@
 #include "utils/angle.hpp"
 #include "utils/cast-get.hpp"
 #include "utils/rng.hpp"
-#include "utils/sine.hpp"
 
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_rect.h>
@@ -28,7 +28,6 @@
 #include <SDL3_ttf/SDL_ttf.h>
 #include <array>
 #include <format>
-#include <ranges>
 #include <string>
 #include <utility>
 
@@ -57,7 +56,7 @@ auto main() -> int
       !vsync_result.has_value())
     log.writeToLog(File::Logger::LogType::error, vsync_result.error());
 
-  SDL::Audio audio{};
+  Audio::Instance audio{};
   audio.getAudioDevice();
 
   Game::UI::Layout ui{
@@ -144,8 +143,8 @@ auto main() -> int
           const auto rng_result{rng.generate(0, 2)};
           return notes.at(rng_result);
         };
+        audio.playAudio<Audio::Modes::BasicSine<float>>(calcNote(), 48000.0f, 48000 / 2, 0.05f);
 
-        audio.pushStream(Utils::generateSine(calcNote(), 48000.0f, 48000 / 2, 0.05f));
         game_rules.score.increase(rng.generate(300, 450), audio);
         ui.setText(Game::UI::Layout::Text::score, std::to_string(game_rules.score.cref().getCurrent()));
         audio.resumeStream();
