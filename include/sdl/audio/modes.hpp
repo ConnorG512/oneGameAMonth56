@@ -9,7 +9,7 @@
 namespace Audio::Modes
 {
 template <std::floating_point T>
-auto basicSine(T frequency, T sample_rate, std::integral auto count, T amplitude = 0.3f)
+auto basicSine(T frequency, T sample_rate, std::integral auto count, T amplitude = 0.03f)
 {
   std::vector<T> buffer(count);
 
