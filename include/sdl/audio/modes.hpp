@@ -8,6 +8,11 @@
 
 namespace Audio::Modes
 {
+template <typename T>
+concept AudioMode = requires(T f, std::span<const float> buffer) {
+  { f(buffer) } -> std::same_as<void>;
+};
+
 template <std::floating_point T>
 auto basicSine(T frequency, T sample_rate, std::integral auto count, T amplitude = 0.03f)
 {
