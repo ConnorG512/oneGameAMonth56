@@ -1,4 +1,4 @@
-#include "sdl/window-renderer/renderer.hpp"
+#include "sdl/display/renderer.hpp"
 
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_render.h>

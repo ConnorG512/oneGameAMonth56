@@ -1,7 +1,7 @@
 #pragma once
 
-#include "sdl/window-renderer/renderer.hpp"
-#include "sdl/window-renderer/window.hpp"
+#include "sdl/display/renderer.hpp"
+#include "sdl/display/window.hpp"
 
 namespace SDL
 {

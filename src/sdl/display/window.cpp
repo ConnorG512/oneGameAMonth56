@@ -1,4 +1,4 @@
-#include "sdl/window-renderer/window.hpp"
+#include "sdl/display/window.hpp"
 
 #include <SDL3/SDL_error.h>
 #include <cassert>
