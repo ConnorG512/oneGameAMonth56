@@ -9,8 +9,8 @@
 namespace Audio::Modes
 {
 template <typename T>
-concept AudioMode = requires(T f, std::span<const float> buffer) {
-  { f(buffer) } -> std::same_as<void>;
+concept AudioMode = requires(T f, std::span<const float> buffer, float amplitude) {
+  { f(buffer, amplitude) } -> std::same_as<void>;
 };
 
 template <std::floating_point T>
