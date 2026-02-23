@@ -65,5 +65,7 @@ public:
   [[nodiscard]] auto getMax() const noexcept -> T { return max_; }
 
   [[nodiscard]] auto getBoth() const noexcept -> T { return {current_, max_}; }
+
+  [[nodiscard]] auto isZero() const noexcept -> bool { return current_ <= 0;}
 };
 } // namespace Game
