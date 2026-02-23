@@ -8,6 +8,7 @@
   outputs = { self, nixpkgs }: 
   let
     pkgs = nixpkgs.legacyPackages.x86_64-linux;
+    pkgsMingw = pkgs.pkgsCross.mingwW64;
     lib = nixpkgs.lib;
   in 
   {
@@ -92,6 +93,28 @@
         
         lua
       ];
+    });
+
+    mingw = pkgsMingw.stdenv.mkDerivation (finalAttrs: {
+      pname = "oneGameAMonth";
+      version = "mingw";
+      src = ./.;
+
+      nativeBuildInputs = with pkgs; [
+        cmake 
+        ninja
+        pkg-config
+      ];
+      buildInputs = with pkgsMingw; [
+        sdl3
+        sdl3-ttf
+      ];
+
+      installPhase = ''
+        mkdir -p $out/bin
+        cp compile_commands.json $out/bin
+        cp app.exe $out/bin/
+     '';
     });
   };
 }
