@@ -131,6 +131,25 @@
           cp -rv x86_64-w64-mingw32/* $out/
           runHook postInstall
         '';
+        };
+      
+      lua = pkgsMingw.stdenv.mkDerivation {
+        pname = "lua";
+        version = "5.5.0";
+        src = pkgsMingw.fetchzip {
+          url = "https://www.lua.org/ftp/lua-5.5.0.tar.gz";
+          hash = "sha256-0hEjDzvMqWZaLLeDjjTH7SP8XDdObgZ+UydGr6/d46o=";
+        };
+
+        buildPhase = ''
+          runHook preBuild
+          make mingw \
+            CC="${pkgsMingw.stdenv.cc.targetPrefix}gcc" \
+            AR="${pkgsMingw.stdenv.cc.targetPrefix}ar rcu" \
+            RANLIB="${pkgsMingw.stdenv.cc.targetPrefix}ranlib" \
+            STRIP="${pkgsMingw.stdenv.cc.targetPrefix}strip"
+          runHook postBuild
+        '';
       };
 
     in 
@@ -146,6 +165,7 @@
       ];
       buildInputs = [
         pkgsMingw.sdl3
+        lua
         sdl3-ttf
         sdl3-image
       ];
