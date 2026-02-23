@@ -171,9 +171,9 @@
       ];
 
       installPhase = ''
-        mkdir -p $out/bin
-        cp compile_commands.json $out/bin
-        cp app.exe $out/bin/
+        mkdir -p $out/bin/
+        cp oneGameAMonth.exe $out/bin/
+        find . -name "*.dll" -exec cp {} $out/bin/ \;
      '';
     });
   };
