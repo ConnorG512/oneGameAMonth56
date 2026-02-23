@@ -18,4 +18,5 @@ COPY . .
 
 RUN cmake -B build -S . -G Ninja -DCMAKE_BUILD_TYPE=Release  && cmake --build build
 
+# Finaly command when running the container.
 CMD ["/bin/bash"]
