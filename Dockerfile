@@ -1,5 +1,5 @@
-FROM fedora:latest
-
+# Stage 1 as build
+FROM fedora:latest AS builder
 RUN dnf install -y \
   gcc \
   gcc-c++ \
@@ -12,11 +12,12 @@ RUN dnf install -y \
   SDL3_ttf-devel \
   lua-devel
 
-WORKDIR /app
-
+WORKDIR /build-src
 COPY . .
-
 RUN cmake -B build -S . -G Ninja -DCMAKE_BUILD_TYPE=Release  && cmake --build build
 
-# Finaly command when running the container.
-CMD ["/bin/bash"]
+# Stage 2 as Exporter
+FROM scratch AS exporter
+COPY --from=builder /build-src/build/oneGameAMonth /
+
+# CMD ["/bin/bash"]
