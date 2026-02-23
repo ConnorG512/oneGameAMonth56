@@ -1,8 +1,8 @@
 #pragma once
 
 #include <fstream>
-#include <string>
 #include <functional>
+#include <string>
 
 namespace File
 {
@@ -25,7 +25,7 @@ public:
 
   auto writeAddress(std::string_view name, auto &object) -> void
   {
-    std::println(logfile_, "MEM: Object {} written to address: [{}].", name, static_cast<void *>(&object));
+    std::println(logfile_, "MEM: Object {} written to address: [{}].", name, static_cast<const void *>(&object));
   }
 };
 } // namespace File
