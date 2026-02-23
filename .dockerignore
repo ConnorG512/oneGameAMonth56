@@ -9,6 +9,7 @@ result
 result/
 clang-format
 makefile
+docker-out/
 
 # Game files:
 compile_commands.json
