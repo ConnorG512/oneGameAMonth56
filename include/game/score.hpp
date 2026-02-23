@@ -18,6 +18,7 @@ public:
   Score() = default;
 
   auto increase(int amount, Audio::Instance &audio) noexcept -> int;
+  auto reset(Audio::Instance &audio) -> void;
   auto cref() const noexcept -> const Counter<int> &;
 };
 } // namespace Game
