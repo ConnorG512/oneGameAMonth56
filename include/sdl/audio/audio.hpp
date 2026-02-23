@@ -26,11 +26,11 @@ public:
   auto stopAndClearStream() -> void;
   auto getAudioDevice() -> void;
 
-  template <typename audio_func, typename... Args>
-    requires std::invocable<audio_func, Args...>
+  template <typename AudioFunc, typename... Args>
+    requires std::invocable<AudioFunc, Args...>
   auto playAudio(Args&&... args) -> void
   {
-    const auto buffer {audio_func{}(std::forward<Args>(args)...)};
+    const auto buffer {AudioFunc{}(std::forward<Args>(args)...)};
     SDL_PutAudioStreamData(audio_stream_.get(), buffer.data(), buffer.size());
   }
 };
