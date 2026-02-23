@@ -38,8 +38,7 @@ auto main() -> int
   lua_instance.execFiles(File::lua_files);
 
   File::Logger log{
-      "debug.log", [&lua_instance]
-      { return CastGetVar<bool>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Logger", "enable"})); }};
+      "debug.log", CastGetVar<bool>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Logger", "enable"}))};
 
   File::Binary save_file{"game.sav"};
   Game::Serialize file_data{save_file.readSerialDataFromFile<Game::Serialize>()};
