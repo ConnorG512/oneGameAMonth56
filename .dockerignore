@@ -1,5 +1,7 @@
 # Project files:
 build/
+build-release/
+build-debug/
 .git/
 .ccls-cache
 .cache/
