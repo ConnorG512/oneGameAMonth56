@@ -132,6 +132,25 @@
           runHook postInstall
         '';
         };
+
+        lua = pkgsMingw.stdenv.mkDerivation {
+          pname = "lua";
+          version = "5.4.8";
+          src = pkgsMingw.fetchurl {
+            url = "https://mirror.msys2.org/mingw/mingw64/mingw-w64-x86_64-lua-5.4.8-1-any.pkg.tar.zst";
+            hash = "sha256-0p8AwpzrYHGB/8MZ1E4Edu6TYFde+gXGglkLB6a+yNE=";
+          };
+          nativeBuildInputs = [
+            pkgs.zstd
+          ];
+
+          installPhase = ''
+            runHook preInstall
+            mkdir -p $out
+            cp -rv . "$out/"
+            runHook postInstall
+          '';
+        };
     in 
     pkgsMingw.stdenv.mkDerivation (finalAttrs: {
       pname = "oneGameAMonth";
@@ -142,9 +161,11 @@
         pkgs.cmake 
         pkgs.ninja
         pkgs.pkg-config
+        pkgs.zstd
       ];
       buildInputs = [
         pkgsMingw.sdl3
+        lua
         sdl3-ttf
         sdl3-image
       ];
