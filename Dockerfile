@@ -1,6 +1,6 @@
 FROM fedora:latest
 
-RUN dnf -y \
+RUN dnf install -y \
   gcc \
   cmake \
   ninja-build \
