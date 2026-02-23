@@ -19,7 +19,7 @@ namespace
   }
 }
 
-File::Binary::Binary(const char *file_name) : file_{file_name, std::ios::in | std::ios::out | std::ios::binary}
+File::Binary::Binary(const std::string& file_name) : file_{file_name, std::ios::in | std::ios::out | std::ios::binary}
 {
   createNewFile(file_, magic_, file_name);
 }

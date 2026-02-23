@@ -3,6 +3,7 @@
 #include <array>
 #include <cstdint>
 #include <fstream>
+#include <string>
 
 namespace File
 {
@@ -12,7 +13,7 @@ class Binary
   std::array<std::uint8_t, 8> magic_{'C', 'G', 'E', 'B', 'I', 'N', 0x00, 0x00};
 
 public:
-  Binary(const char *file_name);
+  Binary(const std::string&);
   Binary();
 
   auto isValidBinary() noexcept -> bool;
