@@ -64,6 +64,7 @@ target_link_libraries(${EXEC_NAME} PRIVATE
   SDL3_image::SDL3_image
   ${LUA_PKG_LIBRARIES}
   ${SDL3_TTF_PKG_LIBRARIES}
+  stdc++exp
 )
 
 target_include_directories(${EXEC_NAME} PRIVATE 
