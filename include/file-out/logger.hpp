@@ -9,7 +9,7 @@ namespace File
 class Logger
 {
   std::fstream logfile_{"debug.log", std::ios::out | std::ios::trunc};
-  bool log_debug_{true};
+  bool is_debug_{true};
 
 public:
   Logger(const std::string &file_name, std::function<bool()> use_debug_func);
