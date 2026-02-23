@@ -6,6 +6,7 @@ build/
 result
 result/
 clang-format
+makefile
 
 # Game files:
 compile_commands.json
