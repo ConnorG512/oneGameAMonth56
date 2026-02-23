@@ -13,6 +13,7 @@ class Binary
 
 public:
   Binary(const char *file_name);
+  Binary();
 
   auto isValidBinary() noexcept -> bool;
 
