@@ -14,7 +14,6 @@ class Binary
 
 public:
   Binary(const std::string&);
-  Binary();
 
   auto isValidBinary() noexcept -> bool;
 
