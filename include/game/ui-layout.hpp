@@ -4,7 +4,7 @@
 
 class SDL_Renderer;
 
-namespace Game::UI
+namespace Game::GUI
 {
 
 class Layout
@@ -38,4 +38,4 @@ public:
   };
   auto setText(Text text, const std::string &message) -> void;
 };
-} // namespace Game::UI
+} // namespace Game::GUI
