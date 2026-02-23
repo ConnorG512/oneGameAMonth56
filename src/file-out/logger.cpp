@@ -24,9 +24,9 @@ auto GetPrepend(File::Logger::LogType type) -> std::string_view
 }
 } // namespace
 
-File::Logger::Logger(const std::string &file_name, std::function<bool()> use_debug_func)
+File::Logger::Logger(const std::string &file_name, bool use_debug)
     : logfile_{file_name, std::ios::out | std::ios::trunc},
-      is_debug_{(use_debug_func == nullptr) ? false : use_debug_func()}
+      is_debug_{use_debug}
 {
   writeToLog(File::Logger::LogType::info, std::format("Log file debug mode: {}", is_debug_));
 

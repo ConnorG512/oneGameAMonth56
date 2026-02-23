@@ -1,7 +1,6 @@
 #pragma once
 
 #include <fstream>
-#include <functional>
 #include <string>
 
 namespace File
@@ -12,7 +11,7 @@ class Logger
   bool is_debug_{true};
 
 public:
-  Logger(const std::string &file_name, std::function<bool()> use_debug_func);
+  Logger(const std::string &file_name, bool use_debug);
   Logger() = default;
 
   enum class LogType
