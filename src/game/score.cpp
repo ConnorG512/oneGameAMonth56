@@ -26,10 +26,9 @@ auto Game::Score::increase(int amount, Audio::Instance &audio) noexcept -> int
   return new_score;
 }
 
-auto Game::Score::reset(Audio::Instance &audio) -> void
+auto Game::Score::reset() -> void
 {
   count_.reset(Counter<int>::ResetFrom::zero);  
-  audio.playAudio<Audio::Modes::BasicSine<float>>(220.f, 48000.0f, 48000 / 2, 0.05f);
 }
 
 auto Game::Score::cref() const noexcept -> const Counter<int> & { return count_; }
