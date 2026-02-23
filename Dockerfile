@@ -15,7 +15,9 @@ RUN dnf install -y \
 # Start main build:
 WORKDIR /app
 COPY . .
-RUN cmake -B build -S . -G Ninja -DCMAKE_BUILD_TYPE=Release  && cmake --build build
+RUN cmake -B build -S . -G Ninja -DCMAKE_BUILD_TYPE=Release && \
+  cmake --build build && \
+  strip build/oneGameAMonth
 
 # Stage 2 as Exporter
 FROM scratch AS exporter
