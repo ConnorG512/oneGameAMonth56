@@ -1,5 +1,5 @@
-#include "file-output/binary/binary.hpp"
-#include "file-output/logging/logger.hpp"
+#include "file-out/binary.hpp"
+#include "file-out/logger.hpp"
 #include "filesystem/file-check.hpp"
 #include "game/enemy.hpp"
 #include "game/player.hpp"
