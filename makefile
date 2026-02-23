@@ -1,13 +1,12 @@
 local-build-release:
-	cmake -B build -S . -G Ninja -DCMAKE_BUILD_TYPE=Release
+	cmake -B build-release -S . -G Ninja -DCMAKE_BUILD_TYPE=Release
 	cmake --build build
 
 local-build-debug:
-	cmake -B build -S . -G Ninja -DCMAKE_BUILD_TYPE=Debug
+	cmake -B build-debug -S . -G Ninja -DCMAKE_BUILD_TYPE=Debug
 	cmake --build build
 
 docker-build:
-	docker build -t onegameamonth56 .
+	mkdir -p docker-out
+	docker build --target exporter --output ./docker-out . 
 
-docker-run:
-	docker build -t onegameamonth56 .
