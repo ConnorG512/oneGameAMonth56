@@ -95,19 +95,59 @@
       ];
     });
 
-    mingw = pkgsMingw.stdenv.mkDerivation (finalAttrs: {
+    mingw =
+    let 
+      sdl3-image = pkgsMingw.stdenv.mkDerivation {
+        pname = "sdl3-image";
+        version = "release";
+        src = pkgsMingw.fetchzip {
+          url = "https://github.com/libsdl-org/SDL_image/releases/download/release-3.4.0/SDL3_image-devel-3.4.0-mingw.zip";
+          hash = "sha256-nCkWP03qRN2OOzYEDZ4HKcnsrW4RV1+G2+b9JUXZDas=";
+        };
+        dontConfigure = true;
+        dontBuild = true;
+
+        installPhase = ''
+          runHook preInstall
+          mkdir -p $out
+          cp -rv x86_64-w64-mingw32/* $out/
+          runHook postInstall
+        '';
+      };
+      
+      sdl3-ttf = pkgsMingw.stdenv.mkDerivation {
+        pname = "sdl3-image";
+        version = "release";
+        src = pkgsMingw.fetchzip {
+          url = "https://github.com/libsdl-org/SDL_ttf/releases/download/release-3.2.2/SDL3_ttf-devel-3.2.2-mingw.tar.gz";
+          hash = "sha256-hmfypcP+myh4tRvsMskz9/V1/RGizugfeoHj6vkY46E=";
+        };
+        dontConfigure = true;
+        dontBuild = true;
+
+        installPhase = ''
+          runHook preInstall
+          mkdir -p $out
+          cp -rv x86_64-w64-mingw32/* $out/
+          runHook postInstall
+        '';
+      };
+
+    in 
+    pkgsMingw.stdenv.mkDerivation (finalAttrs: {
       pname = "oneGameAMonth";
       version = "mingw";
       src = ./.;
 
-      nativeBuildInputs = with pkgs; [
-        cmake 
-        ninja
-        pkg-config
+      nativeBuildInputs = [
+        pkgs.cmake 
+        pkgs.ninja
+        pkgs.pkg-config
       ];
-      buildInputs = with pkgsMingw; [
-        sdl3
+      buildInputs = [
+        pkgsMingw.sdl3
         sdl3-ttf
+        sdl3-image
       ];
 
       installPhase = ''
