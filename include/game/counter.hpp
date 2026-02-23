@@ -45,8 +45,19 @@ public:
 
     return current_;
   }
-
-  auto reset() noexcept -> void { current_ = 0; }
+  
+  enum class ResetFrom
+  {
+    zero,
+    max,
+  };
+  auto reset(ResetFrom position) noexcept -> void 
+  {
+    if(position == ResetFrom::zero)
+      current_ = 0;
+    else
+      current_ = max_;
+  }
 
   // Getters:
   [[nodiscard]] auto getCurrent() const noexcept -> T { return current_; }
@@ -54,5 +65,7 @@ public:
   [[nodiscard]] auto getMax() const noexcept -> T { return max_; }
 
   [[nodiscard]] auto getBoth() const noexcept -> T { return {current_, max_}; }
+
+  [[nodiscard]] auto isZeroOrLess() const noexcept -> bool { return current_ <= 0;}
 };
 } // namespace Game
