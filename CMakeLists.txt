@@ -18,8 +18,8 @@ set(SOURCE_FILES
   src/sdl/event-handler.cpp
   src/sdl/input/mouse.cpp
   src/sdl/audio/audio.cpp
-  src/file-output/logging/logger.cpp
-  src/file-output/binary/binary.cpp
+  src/file-out/logger.cpp
+  src/file-out/binary.cpp
   src/game/player.cpp
   src/game/enemy.cpp
   src/game/projectile.cpp
