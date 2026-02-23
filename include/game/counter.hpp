@@ -45,8 +45,19 @@ public:
 
     return current_;
   }
-
-  auto reset() noexcept -> void { current_ = 0; }
+  
+  enum class ResetFrom
+  {
+    zero,
+    max,
+  };
+  auto reset(ResetFrom position) noexcept -> void 
+  {
+    if(position == ResetFrom::zero)
+      current_ = 0;
+    else
+      current_ = max_;
+  }
 
   // Getters:
   [[nodiscard]] auto getCurrent() const noexcept -> T { return current_; }
