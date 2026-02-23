@@ -1,4 +1,5 @@
 #include "game/score.hpp"
+#include "game/counter.hpp"
 #include "sdl/audio/audio.hpp"
 #include "sdl/audio/modes.hpp"
 
@@ -23,6 +24,11 @@ auto Game::Score::increase(int amount, Audio::Instance &audio) noexcept -> int
   }
 
   return new_score;
+}
+
+auto Game::Score::reset() -> void
+{
+  count_.reset(Counter<int>::ResetFrom::zero);  
 }
 
 auto Game::Score::cref() const noexcept -> const Counter<int> & { return count_; }

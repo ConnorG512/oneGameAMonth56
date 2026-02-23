@@ -58,7 +58,7 @@ auto main() -> int
   Audio::Instance audio{};
   audio.getAudioDevice();
 
-  Game::UI::Layout ui{
+  Game::GUI::Layout game_ui{
       display.game_renderer.ref(),
       {
           CastGetVar<std::string>(lua_instance.GetLuaValue(std::array{"UI", "Name", "label"})).c_str(),
@@ -143,15 +143,15 @@ auto main() -> int
         audio.playAudio<Audio::Modes::BasicSine<float>>(calcNote(), 48000.0f, 48000 / 2, 0.05f);
 
         game_rules.score.increase(rng.generate(300, 450), audio);
-        ui.setText(Game::UI::Layout::Text::score, std::to_string(game_rules.score.cref().getCurrent()));
+        game_ui.setText(Game::GUI::Layout::Text::score, std::to_string(game_rules.score.cref().getCurrent()));
         audio.resumeStream();
       }
     }
 
+    // Reset player score once it hits end of time.
     game_rules.time.decrease(1);
-    if (game_rules.time.getCurrent() <= 0)
-      event_handler.quit();
-
+    game_rules.restartGame(audio, game_ui);
+    
     // Rendering
     display.game_renderer.clearScreen();
     display.game_renderer.drawColorFloat(0, 0, 0);
@@ -162,17 +162,13 @@ auto main() -> int
                                                   Utils::Angle::texture_offset<double>,
                                               nullptr, SDL_FLIP_NONE);
 
-    // Spawned Projectile Render:
-    std::vector<SDL_Texture> textures(10);
-    std::vector<SDL_FRect> bounds(10);
-
     for (auto &projectile : proj_spawner.ref())
       display.game_renderer.renderTexture(projectile.texture_.ref(), nullptr, &projectile.bounds_.ref());
 
     for (auto &enemy : enemy_spawner.ref())
       display.game_renderer.renderTexture(enemy.texture_.ref(), nullptr, &enemy.bounds_.ref());
 
-    ui.drawText();
+    game_ui.drawText();
 
     display.game_renderer.present();
   }

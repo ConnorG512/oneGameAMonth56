@@ -9,6 +9,7 @@ class Instance;
 
 namespace Game
 {
+class UI;
 class Score
 {
   Counter<int> count_{0, 1000000};
@@ -18,6 +19,7 @@ public:
   Score() = default;
 
   auto increase(int amount, Audio::Instance &audio) noexcept -> int;
+  auto reset() -> void;
   auto cref() const noexcept -> const Counter<int> &;
 };
 } // namespace Game

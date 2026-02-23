@@ -1,6 +1,6 @@
 #include "game/ui-layout.hpp"
 
-Game::UI::Layout::Layout(SDL_Renderer &renderer, const Properties &name, const Properties &score,
+Game::GUI::Layout::Layout(SDL_Renderer &renderer, const Properties &name, const Properties &score,
                          const Properties &high_score, const Properties &times_played)
     : renderer_{renderer}, name_{name.label, {name.x_pos, name.y_pos}, renderer_},
       score_{score.label, {score.x_pos, score.y_pos}, renderer},
@@ -9,7 +9,7 @@ Game::UI::Layout::Layout(SDL_Renderer &renderer, const Properties &name, const P
 {
 }
 
-auto Game::UI::Layout::drawText() -> void
+auto Game::GUI::Layout::drawText() -> void
 {
   for (auto *element : {&name_, &score_, &high_score_, &times_played_})
   {
@@ -17,7 +17,7 @@ auto Game::UI::Layout::drawText() -> void
   }
 }
 
-auto Game::UI::Layout::setText(Text text, const std::string &message) -> void
+auto Game::GUI::Layout::setText(Text text, const std::string &message) -> void
 {
   switch (text)
   {
