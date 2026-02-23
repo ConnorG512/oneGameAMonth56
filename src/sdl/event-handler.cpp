@@ -1,5 +1,5 @@
 #include "sdl/event-handler.hpp"
-#include "file-output/logging/logger.hpp"
+#include "file-out/logger.hpp"
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_events.h>
