@@ -6,18 +6,16 @@ RUN dnf install -y \
   cmake \
   ninja-build \
   pkgconf-pkg-config \
-  mingw64-gcc \
-  mingw64-gcc-c++ \
-  mingw64-SDL3 \
-  mingw64-SDL_image \
-  #mingw64-SDL_sound \
-  mingw64-SDL_ttf \
-  #mingw64-lua \
+  SDL3-devel \
+  SDL3_image-devel \
+  SDL3_ttf-devel \
+  lua-devel \
   && dnf clean all
 
-WORKDIR /build-src
+# Start main build:
+WORKDIR /build
 COPY . .
-RUN mingw64-cmake -B build-win -S . -G Ninja -DCMAKE_BUILD_TYPE=Release  && cmake --build build-win
+RUN cmake -B build -S . -G Ninja -DCMAKE_BUILD_TYPE=Release  && cmake --build build
 
 # Stage 2 as Exporter
 FROM scratch AS exporter
