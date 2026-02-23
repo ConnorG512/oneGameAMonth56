@@ -19,7 +19,6 @@ class Instance
       SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &spec, nullptr, nullptr), &SDL_DestroyAudioStream};
 
 public:
-  // auto pushStream(std::span<const float> buffer) -> void;
   auto resumeStream() -> void;
   auto pauseStream() -> void;
   auto clearStream() -> void;
