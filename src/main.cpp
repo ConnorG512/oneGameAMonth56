@@ -1,5 +1,5 @@
-#include "file-output/binary/binary.hpp"
-#include "file-output/logging/logger.hpp"
+#include "file-out/binary.hpp"
+#include "file-out/logger.hpp"
 #include "filesystem/file-check.hpp"
 #include "game/enemy.hpp"
 #include "game/player.hpp"
@@ -11,11 +11,11 @@
 #include "lua/lua.hpp"
 #include "sdl/audio/audio.hpp"
 #include "sdl/audio/modes.hpp"
+#include "sdl/display/display.hpp"
 #include "sdl/event-handler.hpp"
 #include "sdl/image/texture.hpp"
 #include "sdl/init.hpp"
 #include "sdl/input/mouse.hpp"
-#include "sdl/display/display.hpp"
 #include "utils/angle.hpp"
 #include "utils/cast-get.hpp"
 #include "utils/rng.hpp"
@@ -37,9 +37,8 @@ auto main() -> int
   LuaInstance lua_instance{};
   lua_instance.execFiles(File::lua_files);
 
-  File::Logger log{
-      "debug.log", [&lua_instance]
-      { return CastGetVar<bool>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Logger", "enable"})); }};
+  File::Logger log{"debug.log",
+                   CastGetVar<bool>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Logger", "enable"}))};
 
   File::Binary save_file{"game.sav"};
   Game::Serialize file_data{save_file.readSerialDataFromFile<Game::Serialize>()};
@@ -104,7 +103,6 @@ auto main() -> int
   // Game loop
   while (event_handler.isGameRunning())
   {
-
     const auto mouse_xy{mouse.GetCursorPosition()};
     const auto mouse_radian{Utils::Angle::CaclulateAngleBetweenTwoObjectsRadians(
         mouse_xy, {player.bounds_.cref().x, player.bounds_.cref().y})};
@@ -112,11 +110,10 @@ auto main() -> int
     event_handler.PollEvent(
         [&]
         {
-          const auto window_size_result {display.game_window.WindowSize().value_or({1024,1024})};
+          const auto window_size_result{display.game_window.WindowSize().value_or({1024, 1024})};
           proj_spawner.spawn(
               window_size_result,
-              std::pair<float, float>{window_size_result.first / 2 - 16,
-                                      window_size_result.second / 2 - 16},
+              std::pair<float, float>{window_size_result.first / 2 - 16, window_size_result.second / 2 - 16},
               std::pair<float, float>{
                   Utils::Angle::CalculateXDirection(
                       mouse_radian, CastGetVar<float>(lua_instance.GetLuaValue(std::array{"Projectile", "speed"}))),
@@ -127,7 +124,7 @@ auto main() -> int
 
     proj_spawner.clearSlot();
 
-    for(auto& projectile : proj_spawner.cref())
+    for (auto &projectile : proj_spawner.cref())
       projectile.bounds_.move();
 
     enemy_spawner.spawn(static_cast<float>(rng.generate(100, 924)), static_cast<float>(rng.generate(100, 924)),
@@ -150,9 +147,9 @@ auto main() -> int
         audio.resumeStream();
       }
     }
-    
+
     game_rules.time.decrease(1);
-    if(game_rules.time.getCurrent() <= 0)
+    if (game_rules.time.getCurrent() <= 0)
       event_handler.quit();
 
     // Rendering
@@ -164,8 +161,7 @@ auto main() -> int
                                                   mouse_xy, {player.bounds_.cref().x, player.bounds_.cref().y}) +
                                                   Utils::Angle::texture_offset<double>,
                                               nullptr, SDL_FLIP_NONE);
-    
-    
+
     // Spawned Projectile Render:
     std::vector<SDL_Texture> textures(10);
     std::vector<SDL_FRect> bounds(10);

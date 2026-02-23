@@ -1,4 +1,4 @@
-#include "file-output/logging/logger.hpp"
+#include "file-out/logger.hpp"
 
 #include <cassert>
 #include <format>
@@ -24,10 +24,10 @@ auto GetPrepend(File::Logger::LogType type) -> std::string_view
 }
 } // namespace
 
-File::Logger::Logger(const std::string &file_name, std::function<bool()> use_debug_func)
-    : logfile_{file_name, std::ios::out | std::ios::trunc}, log_debug_{(use_debug_func == nullptr) ? false : use_debug_func()}
+File::Logger::Logger(const std::string &file_name, bool use_debug)
+    : logfile_{file_name, std::ios::out | std::ios::trunc}, is_debug_{use_debug}
 {
-  writeToLog(File::Logger::LogType::info, std::format("Log file debug mode: {}", log_debug_));
+  writeToLog(File::Logger::LogType::info, std::format("Log file debug mode: {}", is_debug_));
 
   if (logfile_.is_open())
     writeToLog(LogType::info, "Log created.");
@@ -37,7 +37,7 @@ File::Logger::Logger(const std::string &file_name, std::function<bool()> use_deb
 
 auto File::Logger::writeToLog(LogType type, const std::string &message) noexcept -> void
 {
-  if (!log_debug_ && type == LogType::debug)
+  if (!is_debug_ && type == LogType::debug)
     return;
 
   std::println(logfile_, "{} {}", GetPrepend(type), message);
