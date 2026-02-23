@@ -3,6 +3,7 @@
 #include <SDL3/SDL_audio.h>
 #include <cassert>
 #include <memory>
+#include <concepts>
 
 namespace Audio
 {
@@ -26,6 +27,7 @@ public:
   auto getAudioDevice() -> void;
 
   template <typename audio_func, typename... Args>
+    requires std::invocable<audio_func, Args...>
   auto playAudio(Args&&... args) -> void
   {
     const auto buffer {audio_func{}(std::forward<Args>(args)...)};
