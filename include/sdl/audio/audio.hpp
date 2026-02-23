@@ -2,8 +2,8 @@
 
 #include <SDL3/SDL_audio.h>
 #include <cassert>
-#include <memory>
 #include <concepts>
+#include <memory>
 
 namespace Audio
 {
@@ -19,7 +19,7 @@ class Instance
       SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &spec, nullptr, nullptr), &SDL_DestroyAudioStream};
 
 public:
-  //auto pushStream(std::span<const float> buffer) -> void;
+  // auto pushStream(std::span<const float> buffer) -> void;
   auto resumeStream() -> void;
   auto pauseStream() -> void;
   auto clearStream() -> void;
@@ -28,9 +28,9 @@ public:
 
   template <typename AudioFunc, typename... Args>
     requires std::invocable<AudioFunc, Args...>
-  auto playAudio(Args&&... args) -> void
+  auto playAudio(Args &&...args) -> void
   {
-    const auto buffer {AudioFunc{}(std::forward<Args>(args)...)};
+    const auto buffer{AudioFunc{}(std::forward<Args>(args)...)};
     SDL_PutAudioStreamData(audio_stream_.get(), buffer.data(), buffer.size());
   }
 };
