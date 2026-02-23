@@ -1,0 +1,14 @@
+# Project files:
+build/
+.git/
+.ccls-cache
+.cache/
+result
+result/
+clang-format
+
+# Game files:
+compile_commands.json
+debug.log
+game.sav
+
