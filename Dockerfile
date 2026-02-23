@@ -13,12 +13,12 @@ RUN dnf install -y \
   && dnf clean all
 
 # Start main build:
-WORKDIR /build
+WORKDIR /app
 COPY . .
 RUN cmake -B build -S . -G Ninja -DCMAKE_BUILD_TYPE=Release  && cmake --build build
 
 # Stage 2 as Exporter
 FROM scratch AS exporter
-COPY --from=builder /build-src/build/oneGameAMonth /
+COPY --from=builder /app/build/oneGameAMonth /
 
 # CMD ["/bin/bash"]

@@ -1,8 +1,11 @@
 .ccls-cache
+.cache
 build
+build-release
+build-debug
 compile_commands.json
 debug.log
 game.sav
-.cache
 result
 out
+docker-out
