@@ -104,7 +104,6 @@ auto main() -> int
   // Game loop
   while (event_handler.isGameRunning())
   {
-
     const auto mouse_xy{mouse.GetCursorPosition()};
     const auto mouse_radian{Utils::Angle::CaclulateAngleBetweenTwoObjectsRadians(
         mouse_xy, {player.bounds_.cref().x, player.bounds_.cref().y})};
