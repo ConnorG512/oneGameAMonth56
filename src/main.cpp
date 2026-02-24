@@ -33,12 +33,14 @@
 
 auto main() -> int
 {
-  File::validateFiles(File::lua_files);
+  const auto total_files {File::validateFiles(File::lua_files)};
+  
   LuaInstance lua_instance{};
   lua_instance.execFiles(File::lua_files);
 
   File::Logger log{"debug.log",
                    CastGetVar<bool>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Logger", "enable"}))};
+  log.writeToLog(File::Logger::LogType::debug, std::format("Total files scanned: {0}", total_files));
 
   File::Binary save_file{"game.sav"};
   Game::Serialize file_data{save_file.readSerialDataFromFile<Game::Serialize>()};
