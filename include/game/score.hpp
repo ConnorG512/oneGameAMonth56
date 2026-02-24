@@ -2,6 +2,8 @@
 
 #include "game/counter.hpp"
 
+#include <utility>
+
 namespace Audio
 {
 class Instance;
@@ -18,7 +20,12 @@ public:
   explicit Score(int max_score);
   Score() = default;
 
-  auto increase(int amount, Audio::Instance &audio) noexcept -> int;
+  enum class ScoreType 
+  {
+    bonus,
+    standard,
+  };
+  auto increase(int amount) noexcept -> std::pair<int, ScoreType>;
   auto reset() -> void;
   auto cref() const noexcept -> const Counter<int> &;
 };
