@@ -30,7 +30,11 @@ set(SOURCE_FILES
   src/game/ui-layout.cpp
 )
 
-add_executable(${EXEC_NAME} ${SOURCE_FILES})
+if(WIN32)
+  add_executable(${EXEC_NAME} WIN32 ${SOURCE_FILES})
+else()
+  add_executable(${EXEC_NAME} ${SOURCE_FILES})
+endif()
 
 target_compile_options(${EXEC_NAME} PRIVATE
   -Wall
@@ -72,5 +76,10 @@ target_include_directories(${EXEC_NAME} PRIVATE
   ${LUA_PKG_INCLUDE_DIRS}
   ${SDL3_TTF_PKG_INCLUDE_DIRS}
 )
+
+if(MINGW)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -static-libgcc")
+endif()
 
 install(TARGETS ${EXEC_NAME} RUNTIME DESTINATION bin)
