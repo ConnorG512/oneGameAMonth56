@@ -33,18 +33,24 @@
 
 auto main() -> int
 {
-  const auto total_files {File::validateFiles(File::lua_files)};
-  
+  const auto total_files{File::validateFiles(File::lua_files)};
+
   LuaInstance lua_instance{};
-  lua_instance.execFiles(File::lua_files);
+  const auto lua_file_exec_result {lua_instance.execFiles(File::lua_files)};
 
   File::Logger log{"debug.log",
                    CastGetVar<bool>(lua_instance.GetLuaValue(std::array{"AppConfiguration", "Logger", "enable"}))};
-  log.writeToLog(File::Logger::LogType::debug, std::format("Total files scanned: {0}", total_files));
+  log.writeToLog(File::Logger::LogType::debug, std::format("Total Lua files found: {0}", total_files));
+  
+  if(!lua_file_exec_result.has_value())
+  {
+    log.writeToLog(File::Logger::LogType::error, std::format("Failed to exec Lua file: {0}", lua_file_exec_result.error()));
+    return -1;
+  }
 
   File::Binary save_file{"game.sav"};
   Game::Serialize file_data{save_file.readSerialDataFromFile<Game::Serialize>()};
-
+  
   SDL::Init init{};
 
   SDL::EventHandler event_handler{log};
@@ -143,8 +149,8 @@ auto main() -> int
           return notes.at(rng_result);
         };
         audio.playAudio<Audio::Modes::BasicSine<float>>(calcNote(), 48000.0f, 48000 / 2, 0.05f);
-        const auto [score, type] {game_rules.score.increase(rng.generate(300, 450), rng.generate(1, 5))};
-        if(type == Game::Score::ScoreType::bonus)
+        const auto [score, type]{game_rules.score.increase(rng.generate(300, 450), rng.generate(1, 5))};
+        if (type == Game::Score::ScoreType::bonus)
         {
           audio.playAudio<Audio::Modes::BasicSine<float>>(440.0f, 48000.0f, 48000 / 2, 0.05f);
           audio.resumeStream();
@@ -158,7 +164,7 @@ auto main() -> int
     // Reset player score once it hits end of time.
     game_rules.time.decrease(1);
     game_rules.restartGame(audio, game_ui);
-    
+
     // Rendering
     display.game_renderer.clearScreen();
     display.game_renderer.drawColorFloat(0, 0, 0);
