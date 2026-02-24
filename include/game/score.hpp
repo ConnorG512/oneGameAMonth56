@@ -25,7 +25,7 @@ public:
     bonus,
     standard,
   };
-  auto increase(int amount) noexcept -> std::pair<int, ScoreType>;
+  auto increase(int amount, int multiplier = 1) noexcept -> std::pair<int, ScoreType>;
   auto reset() -> void;
   auto cref() const noexcept -> const Counter<int> &;
 };
