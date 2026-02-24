@@ -10,7 +10,7 @@ Game::Score::Score(int max_score) : count_{0, max_score} {}
 /*
   For every time the score goes past the 10,000 mark. Play a brighter beep tone.
 */
-auto Game::Score::increase(int amount, Audio::Instance &audio) noexcept -> int
+auto Game::Score::increase(int amount, Audio::Instance &audio) noexcept -> std::pair<int, ScoreType>
 {
   constexpr int threshold{10000};
 
@@ -21,9 +21,10 @@ auto Game::Score::increase(int amount, Audio::Instance &audio) noexcept -> int
   {
     audio.playAudio<Audio::Modes::BasicSine<float>>(440.0f, 48000.0f, 48000 / 2, 0.05f);
     audio.resumeStream();
+    return {new_score, Game::Score::ScoreType::bonus};
   }
 
-  return new_score;
+  return {new_score, Game::Score::ScoreType::standard};
 }
 
 auto Game::Score::reset() -> void
