@@ -25,7 +25,7 @@ public:
     bonus,
     standard,
   };
-  auto increase(int amount, Audio::Instance &audio) noexcept -> std::pair<int, ScoreType>;
+  auto increase(int amount) noexcept -> std::pair<int, ScoreType>;
   auto reset() -> void;
   auto cref() const noexcept -> const Counter<int> &;
 };

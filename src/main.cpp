@@ -141,8 +141,13 @@ auto main() -> int
           return notes.at(rng_result);
         };
         audio.playAudio<Audio::Modes::BasicSine<float>>(calcNote(), 48000.0f, 48000 / 2, 0.05f);
+        const auto [score, type] {game_rules.score.increase(rng.generate(300, 450))};
+        if(type == Game::Score::ScoreType::bonus)
+        {
+          audio.playAudio<Audio::Modes::BasicSine<float>>(440.0f, 48000.0f, 48000 / 2, 0.05f);
+          audio.resumeStream();
+        }
 
-        game_rules.score.increase(rng.generate(300, 450), audio);
         game_ui.setText(Game::GUI::Layout::Text::score, std::to_string(game_rules.score.cref().getCurrent()));
         audio.resumeStream();
       }
