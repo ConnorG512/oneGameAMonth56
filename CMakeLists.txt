@@ -73,4 +73,9 @@ target_include_directories(${EXEC_NAME} PRIVATE
   ${SDL3_TTF_PKG_INCLUDE_DIRS}
 )
 
+if(MINGW)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -static-libgcc")
+endif()
+
 install(TARGETS ${EXEC_NAME} RUNTIME DESTINATION bin)
