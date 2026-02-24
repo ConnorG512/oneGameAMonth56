@@ -1,9 +1,11 @@
 #pragma once
 
+#include <expected>
 #include <lua.hpp>
 #include <memory>
 #include <span>
 #include <variant>
+#include <string>
 
 namespace File
 {
@@ -19,7 +21,7 @@ class LuaInstance
 public:
   LuaInstance();
 
-  auto execFiles(const std::span<const char *const> file_list) -> void;
+  auto execFiles(const std::span<const char *const> file_list) noexcept -> std::expected<void, std::string>;
 
   auto cref() const noexcept -> const lua_State &;
   auto ref() noexcept -> lua_State &;
