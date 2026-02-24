@@ -63,14 +63,23 @@ pkg_check_modules(SDL3_TTF_PKG REQUIRED
   sdl3-ttf
 )
 
+if(WIN32)
 target_link_libraries(${EXEC_NAME} PRIVATE
   SDL3::SDL3
   SDL3_image::SDL3_image
   ${LUA_PKG_LIBRARIES}
   ${SDL3_TTF_PKG_LIBRARIES}
   stdc++exp
+  opengl32
 )
-
+else()
+target_link_libraries(${EXEC_NAME} PRIVATE
+  SDL3::SDL3
+  SDL3_image::SDL3_image
+  ${LUA_PKG_LIBRARIES}
+  ${SDL3_TTF_PKG_LIBRARIES}
+)
+endif()
 target_include_directories(${EXEC_NAME} PRIVATE 
   "${CMAKE_SOURCE_DIR}/include"
   ${LUA_PKG_INCLUDE_DIRS}
