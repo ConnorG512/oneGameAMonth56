@@ -173,6 +173,8 @@
       installPhase = ''
         mkdir -p $out/bin/
         cp oneGameAMonth.exe $out/bin/
+        cp -r $src/assets $out/bin
+        cp -r $src/gamescript $out/bin
         find . -name "*.dll" -exec cp {} $out/bin/ \;
      '';
     });
