@@ -10,7 +10,7 @@ namespace SDL
 class Window
 {
   std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> window_{
-      SDL_CreateWindow("Game Window", 1024, 1024), &SDL_DestroyWindow};
+      SDL_CreateWindow("Game Window", 1024, 1024, 0), &SDL_DestroyWindow};
 
 public:
   Window() = default;

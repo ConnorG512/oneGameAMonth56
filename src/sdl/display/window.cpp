@@ -22,7 +22,7 @@ auto SDL::Window::WindowSize() const noexcept -> std::expected<std::pair<int, in
 }
 
 SDL::Window::Window(const char *title, const std::pair<int, int> &xy)
-    : window_{SDL_CreateWindow(title, xy.first, xy.second), &SDL_DestroyWindow}
+    : window_{SDL_CreateWindow(title, xy.first, xy.second, 0), &SDL_DestroyWindow}
 {
   if (window_ == nullptr)
     throw std::runtime_error(std::format("Window cannot be null! SDL Error: {}", SDL_GetError()));
