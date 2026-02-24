@@ -30,7 +30,11 @@ set(SOURCE_FILES
   src/game/ui-layout.cpp
 )
 
-add_executable(${EXEC_NAME} ${SOURCE_FILES})
+if(WIN32)
+  add_executable(${EXEC_NAME} WIN32 ${SOURCE_FILES})
+else()
+  add_executable(${EXEC_NAME} ${SOURCE_FILES})
+endif()
 
 target_compile_options(${EXEC_NAME} PRIVATE
   -Wall
