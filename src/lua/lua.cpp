@@ -1,9 +1,9 @@
 #include "lua/lua.hpp"
 
 #include <cassert>
+#include <expected>
 #include <format>
 #include <ranges>
-#include <stdexcept>
 
 LuaInstance::LuaInstance() { luaL_openlibs(lua_.get()); }
 
@@ -19,14 +19,15 @@ auto LuaInstance::ref() noexcept -> lua_State &
   return *lua_;
 }
 
-auto LuaInstance::execFiles(const std::span<const char *const> file_list) -> void
+auto LuaInstance::execFiles(const std::span<const char *const> file_list) noexcept -> std::expected<void, std::string>
 {
   for (const auto &path : file_list)
   {
     const auto result{luaL_dofile(lua_.get(), path)};
     if (result != LUA_OK)
-      throw std::runtime_error(std::format("Failed to execute Lua file! {}", path));
+      return std::unexpected<std::string>(std::format("Failed to execute Lua file! {}", path));
   }
+  return {};
 }
 
 auto LuaInstance::GetLuaValue(const std::span<const char *const> key_path) noexcept

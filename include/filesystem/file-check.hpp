@@ -9,5 +9,5 @@ namespace File
     std::to_array<const char *>({"config.lua", "gamescript/enemy.lua", "gamescript/player.lua",
                                  "gamescript/projectile.lua", "gamescript/rules.lua", "gamescript/ui.lua"});
 
-auto validateFiles(const std::span<const char *const> required_files) -> void;
+auto validateFiles(const std::span<const char *const> required_files) -> int;
 } // namespace File
