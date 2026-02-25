@@ -4,5 +4,5 @@ GameRules = {
   },
   -- max score should be up to 9 digits.
   max_score = 999999999,
-  max_time = 60,
+  max_time = 4800,
 }
