@@ -1,27 +1,25 @@
 #include "file-out/binary.hpp"
 
+#include <cstdint>
 #include <cstring>
-#include <string_view>
 
-namespace 
+File::Binary::Binary()
 {
-  auto createNewFile(std::fstream& file, std::span<uint8_t, 8> magic, std::string_view file_name)
+  
+  // file will not be created if it does not already exist.
+  file_.open("game.sav", std::ios::in | std::ios::out | std::ios::binary);
+  
+  // Workaround to create file.
+  if(!file_.is_open())
   {
-    if (!file.is_open())
-    {
-      file.open(file_name.data(), std::ios::out | std::ios::binary);
+    file_.clear();
 
-      file.write(reinterpret_cast<const char *>(magic.data()), magic.size());
-
-      file.close();
-      file.open(file_name.data(), std::ios::in | std::ios::out | std::ios::binary);
-    }
+    std::ofstream new_file("game.sav");
+    new_file.close();
+    
+    file_.open("game.sav", std::ios::in | std::ios::out | std::ios::binary);
+    file_.write(reinterpret_cast<const char*>(magic_.data()), magic_.size());
   }
-}
-
-File::Binary::Binary(const std::string& file_name) : file_{file_name, std::ios::in | std::ios::out | std::ios::binary}
-{
-  createNewFile(file_, magic_, file_name);
 }
 
 auto File::Binary::isValidBinary() noexcept -> bool

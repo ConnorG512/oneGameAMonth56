@@ -28,6 +28,7 @@
 #include <SDL3_ttf/SDL_ttf.h>
 #include <array>
 #include <format>
+#include <span>
 #include <string>
 #include <utility>
 
@@ -49,7 +50,7 @@ auto main() -> int
     return -1;
   }
 
-  File::Binary save_file{"game.sav"};
+  File::Binary save_file{};
   Game::Serialize file_data{save_file.readSerialDataFromFile<Game::Serialize>()};
 
   SDL::Init init{};
@@ -99,7 +100,8 @@ auto main() -> int
 
   Game::Rules game_rules{CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_time"})) * refresh_rate,
                          CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_time"})) * refresh_rate,
-                         CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_score"}))};
+                         CastGetVar<int>(lua_instance.GetLuaValue(std::array{"GameRules", "max_score"})),
+                         file_data.high_score};
 
   Game::Player player{lua_instance, display.game_renderer.ref()};
   Game::Spawner<Game::Projectile> proj_spawner{[&lua_instance]()
@@ -156,8 +158,8 @@ auto main() -> int
           audio.playAudio<Audio::Modes::BasicSine<float>>(440.0f, 48000.0f, 48000 / 2, 0.05f);
           audio.resumeStream();
         }
-
         game_ui.setText(Game::GUI::Layout::Text::score, std::to_string(game_rules.score.cref().getCurrent()));
+        game_ui.setText(Game::GUI::Layout::Text::high_score, std::to_string(game_rules.score.getHighScore()));
         audio.resumeStream();
       }
     }
@@ -187,11 +189,9 @@ auto main() -> int
     display.game_renderer.present();
   }
 
-  file_data.high_score = (game_rules.score.cref().getCurrent() > file_data.high_score)
-                             ? game_rules.score.cref().getCurrent()
-                             : file_data.high_score;
-  file_data.times_played += 1;
-  save_file.writeSerialDataToFile(file_data);
+  const auto times_played{file_data.times_played += 1};
+  save_file.writeSerialDataToFile(
+      Game::Serialize{.high_score = game_rules.score.getHighScore(), .times_played = times_played});
 
   return 0;
 }

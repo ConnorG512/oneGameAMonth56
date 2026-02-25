@@ -3,25 +3,30 @@
 #include <array>
 #include <cstdint>
 #include <fstream>
-#include <string>
+#include <print>
 
 namespace File
 {
 class Binary
 {
-  std::fstream file_{"./default.bin", std::ios::out | std::ios::binary};
+  std::fstream file_;
   std::array<std::uint8_t, 8> magic_{'C', 'G', 'E', 'B', 'I', 'N', 0x00, 0x00};
 
 public:
-  Binary(const std::string&);
-
+  Binary();
   auto isValidBinary() noexcept -> bool;
 
-  template <typename T> auto writeSerialDataToFile(const T &serial_struct) noexcept -> void
+  template <typename T> auto writeSerialDataToFile(const T& data) noexcept -> void
   {
-    file_.seekp(magic_.size(), std::ios::beg);
+    file_.clear();
 
-    file_.write(reinterpret_cast<const char *>(&serial_struct), sizeof(serial_struct));
+    file_.seekp(magic_.size(), std::ios::beg);
+    if(!file_)
+      std::println("Failed to seek in file!");
+
+    file_.write(reinterpret_cast<const char *>(&data ), sizeof(data));
+    if(!file_)
+      std::println("Failed to write in file!");
   }
 
   template <typename T> auto readSerialDataFromFile() -> T
