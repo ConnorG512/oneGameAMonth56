@@ -49,7 +49,7 @@ auto main() -> int
     return -1;
   }
 
-  File::Binary save_file{"game.sav"};
+  File::Binary save_file{};
   Game::Serialize file_data{save_file.readSerialDataFromFile<Game::Serialize>()};
 
   SDL::Init init{};
@@ -156,7 +156,6 @@ auto main() -> int
           audio.playAudio<Audio::Modes::BasicSine<float>>(440.0f, 48000.0f, 48000 / 2, 0.05f);
           audio.resumeStream();
         }
-
         game_ui.setText(Game::GUI::Layout::Text::score, std::to_string(game_rules.score.cref().getCurrent()));
         audio.resumeStream();
       }
@@ -187,10 +186,8 @@ auto main() -> int
     display.game_renderer.present();
   }
 
-  file_data.high_score = (game_rules.score.cref().getCurrent() > file_data.high_score)
-                             ? game_rules.score.cref().getCurrent()
-                             : file_data.high_score;
-  file_data.times_played += 1;
+  file_data.high_score = 1000;
+  file_data.times_played = 1000;
   save_file.writeSerialDataToFile(file_data);
 
   return 0;

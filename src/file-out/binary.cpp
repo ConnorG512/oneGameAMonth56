@@ -1,13 +1,14 @@
 #include "file-out/binary.hpp"
 
+#include <cstdint>
 #include <cstring>
 #include <print>
 
-File::Binary::Binary(const std::string& file_name) : file_{file_name, std::ios::in | std::ios::out | std::ios::binary}
+File::Binary::Binary()
 {
-  file_.write(reinterpret_cast<const char *>(magic_.data()), magic_.size());
   if(!file_.is_open())
-    std::println(stderr, "Binary file has failed to open!");
+    std::println(stderr, "Failed to open game save!");
+  file_.write(reinterpret_cast<const char*>(magic_.data()), magic_.size());
 }
 
 auto File::Binary::isValidBinary() noexcept -> bool

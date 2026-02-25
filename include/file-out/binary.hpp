@@ -3,18 +3,17 @@
 #include <array>
 #include <cstdint>
 #include <fstream>
-#include <string>
 
 namespace File
 {
 class Binary
 {
-  std::fstream file_{"./default.bin", std::ios::out | std::ios::binary};
+  std::fstream file_{"game.sav", std::ios::out | std::ios::in | std::ios::binary};
   std::array<std::uint8_t, 8> magic_{'C', 'G', 'E', 'B', 'I', 'N', 0x00, 0x00};
 
-public:
-  Binary(const std::string&);
 
+public:
+  Binary();
   auto isValidBinary() noexcept -> bool;
 
   template <typename T> auto writeSerialDataToFile(const T &serial_struct) noexcept -> void
