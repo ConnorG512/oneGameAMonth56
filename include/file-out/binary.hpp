@@ -3,6 +3,7 @@
 #include <array>
 #include <cstdint>
 #include <fstream>
+#include <print>
 
 namespace File
 {
@@ -15,11 +16,17 @@ public:
   Binary();
   auto isValidBinary() noexcept -> bool;
 
-  template <typename T> auto writeSerialDataToFile(std::span<const T> data) noexcept -> void
+  template <typename T> auto writeSerialDataToFile(const T& data) noexcept -> void
   {
-    file_.seekp(magic_.size(), std::ios::beg);
+    file_.clear();
 
-    file_.write(reinterpret_cast<const char *>(data.data()), data.size());
+    file_.seekp(magic_.size(), std::ios::beg);
+    if(!file_)
+      std::println("Failed to seek in file!");
+
+    file_.write(reinterpret_cast<const char *>(&data ), sizeof(data));
+    if(!file_)
+      std::println("Failed to write in file!");
   }
 
   template <typename T> auto readSerialDataFromFile() -> T
