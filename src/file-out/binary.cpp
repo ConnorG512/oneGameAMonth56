@@ -1,10 +1,13 @@
 #include "file-out/binary.hpp"
 
 #include <cstring>
+#include <print>
 
 File::Binary::Binary(const std::string& file_name) : file_{file_name, std::ios::in | std::ios::out | std::ios::binary}
 {
   file_.write(reinterpret_cast<const char *>(magic_.data()), magic_.size());
+  if(!file_.is_open())
+    std::println(stderr, "Binary file has failed to open!");
 }
 
 auto File::Binary::isValidBinary() noexcept -> bool
