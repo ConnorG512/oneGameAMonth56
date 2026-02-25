@@ -4,7 +4,10 @@
 #include "sdl/audio/modes.hpp"
 #include <string>
 
-Game::Rules::Rules(int time_start, int time_end, int score_max) : score{score_max}, time{time_start, time_end} {}
+Game::Rules::Rules(int time_start, int time_end, int score_max, int high_score)
+    : score{score_max, high_score}, time{time_start, time_end}
+{
+}
 
 auto Game::Rules::restartGame(Audio::Instance &audio, Game::GUI::Layout &game_ui) -> void
 {

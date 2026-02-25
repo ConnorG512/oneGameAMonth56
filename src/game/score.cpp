@@ -1,9 +1,9 @@
-#include "game/score.hpp"
 #include "game/counter.hpp"
+#include "game/score.hpp"
 
 #include <cassert>
 
-Game::Score::Score(int max_score) : count_{0, max_score} {}
+Game::Score::Score(int max_score, int high_score) : count_{0, max_score}, high_score_{high_score} {}
 
 /*
   For every time the score goes past the 10,000 mark. Play a brighter beep tone.
@@ -14,6 +14,9 @@ auto Game::Score::increase(int amount, int multiplier) noexcept -> std::pair<int
 
   const auto prev_score{count_.getCurrent()};
   const auto new_score{count_.increase(amount) * multiplier};
+  
+  if(count_.getCurrent() >= high_score_)
+    high_score_ = count_.getCurrent();
 
   if ((new_score / threshold) > (prev_score / threshold))
   {
@@ -23,9 +26,8 @@ auto Game::Score::increase(int amount, int multiplier) noexcept -> std::pair<int
   return {new_score, Game::Score::ScoreType::standard};
 }
 
-auto Game::Score::reset() -> void
-{
-  count_.reset(Counter<int>::ResetFrom::zero);  
-}
+auto Game::Score::reset() -> void { count_.reset(Counter<int>::ResetFrom::zero); }
 
 auto Game::Score::cref() const noexcept -> const Counter<int> & { return count_; }
+
+auto Game::Score::getHighScore() const noexcept -> int { return high_score_; }
