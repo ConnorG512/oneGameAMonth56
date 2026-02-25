@@ -2,13 +2,24 @@
 
 #include <cstdint>
 #include <cstring>
-#include <print>
 
 File::Binary::Binary()
 {
+  
+  // file will not be created if it does not already exist.
+  file_.open("game.sav", std::ios::in | std::ios::out | std::ios::binary);
+  
+  // Workaround to create file.
   if(!file_.is_open())
-    std::println(stderr, "Failed to open game save!");
-  file_.write(reinterpret_cast<const char*>(magic_.data()), magic_.size());
+  {
+    file_.clear();
+
+    std::ofstream new_file("game.sav");
+    new_file.close();
+    
+    file_.open("game.sav", std::ios::in | std::ios::out | std::ios::binary);
+    file_.write(reinterpret_cast<const char*>(magic_.data()), magic_.size());
+  }
 }
 
 auto File::Binary::isValidBinary() noexcept -> bool
